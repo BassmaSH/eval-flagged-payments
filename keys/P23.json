@@ -1,0 +1,9 @@
+{
+  "case": "P23",
+  "account": "804AF7240",
+  "n_transactions": 17,
+  "laundering": false,
+  "laundering_rows": [],
+  "attempts": [],
+  "labelled_rows_outside_attempts": []
+}

@@ -1,0 +1,1122 @@
+[
+ {
+  "id": "P01-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple outgoing transactions to the same counterparty account (808EA8E60) with identical amounts (241.79 USD and 1009.18 USD) in a structured pattern, suggesting potential structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T005\", \"T007\", \"T008\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P01-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple outgoing transactions to the same counterparty account (808EA8E60) with identical amounts (241.79 USD and 1009.18 USD) in a structured pattern, suggesting potential structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T005\", \"T007\", \"T008\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T005', 'T007', 'T008', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019'] (0/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple outgoing transactions to the same counterparty account (808EA8E60) with identical amounts (241.79 USD and 1009.18 USD) in a structured pattern, suggesting potential structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T005\", \"T007\", \"T008\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T005', 'T007', 'T008', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019'] (0/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P02-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple large incoming transactions from the same counterparty (0221527 / 808788960) within a short period, including cash deposits and credit card transactions, followed by similar patterns on later dates. Additionally, a cross-border ACH transfer to a Canadian account (T004) without clear business justification.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T010\", \"T011\", \"T012\", \"T013\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P02-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple large incoming transactions from the same counterparty (0221527 / 808788960) within a short period, including cash deposits and credit card transactions, followed by similar patterns on later dates. Additionally, a cross-border ACH transfer to a Canadian account (T004) without clear business justification.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T010\", \"T011\", \"T012\", \"T013\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T005', 'T006', 'T007', 'T008', 'T010', 'T011', 'T012', 'T013'] (1/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple large incoming transactions from the same counterparty (0221527 / 808788960) within a short period, including cash deposits and credit card transactions, followed by similar patterns on later dates. Additionally, a cross-border ACH transfer to a Canadian account (T004) without clear business justification.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T010\", \"T011\", \"T012\", \"T013\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T005', 'T006', 'T007', 'T008', 'T010', 'T011', 'T012', 'T013'] (1/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P03-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits rapid, high-volume self-transactions (deposits and withdrawals) in Yen, often within minutes of each other, followed by outward transfers to unrelated accounts in various currencies. The pattern suggests potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\", \"T009\", \"T011\", \"T013\", \"T015\", \"T017\", \"T019\", \"T021\", \"T023\", \"T025\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P03-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits rapid, high-volume self-transactions (deposits and withdrawals) in Yen, often within minutes of each other, followed by outward transfers to unrelated accounts in various currencies. The pattern suggests potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\", \"T009\", \"T011\", \"T013\", \"T015\", \"T017\", \"T019\", \"T021\", \"T023\", \"T025\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T004', 'T006', 'T009', 'T011', 'T013', 'T015', 'T017', 'T019', 'T021', 'T023', 'T025'] (0/12 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits rapid, high-volume self-transactions (deposits and withdrawals) in Yen, often within minutes of each other, followed by outward transfers to unrelated accounts in various currencies. The pattern suggests potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\", \"T009\", \"T011\", \"T013\", \"T015\", \"T017\", \"T019\", \"T021\", \"T023\", \"T025\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T004', 'T006', 'T009', 'T011', 'T013', 'T015', 'T017', 'T019', 'T021', 'T023', 'T025'] (0/12 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P04-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large transactions (T002, T003, T004, T005) with rapid succession, including cross-border transfers (T004 to US, T006 to UK) and self-reinvestments, which may indicate structuring or layering to obscure funds origin.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P04-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large transactions (T002, T003, T004, T005) with rapid succession, including cross-border transfers (T004 to US, T006 to UK) and self-reinvestments, which may indicate structuring or layering to obscure funds origin.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T003', 'T005'] (2/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large transactions (T002, T003, T004, T005) with rapid succession, including cross-border transfers (T004 to US, T006 to UK) and self-reinvestments, which may indicate structuring or layering to obscure funds origin.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T003', 'T005'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P05-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions involve large cash deposits (e.g., T012: 4,993,607.57 SAR) and rapid round-trip transfers between the same accounts (e.g., T001-T002 and T003-T006), suggesting potential structuring or layering to obscure funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T012\", \"T013\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T030\", \"T031\", \"T032\", \"T054\", \"T055\", \"T056\", \"T058\", \"T059\", \"T070\", \"T071\", \"T072\", \"T073\", \"T074\", \"T075\", \"T076\", \"T090\", \"T091\", \"T092\", \"T105\", \"T106\", \"T107\", \"T125\", \"T126\", \"T127\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P05-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions involve large cash deposits (e.g., T012: 4,993,607.57 SAR) and rapid round-trip transfers between the same accounts (e.g., T001-T002 and T003-T006), suggesting potential structuring or layering to obscure funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T012\", \"T013\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T030\", \"T031\", \"T032\", \"T054\", \"T055\", \"T056\", \"T058\", \"T059\", \"T070\", \"T071\", \"T072\", \"T073\", \"T074\", \"T075\", \"T076\", \"T090\", \"T091\", \"T092\", \"T105\", \"T106\", \"T107\", \"T125\", \"T126\", \"T127\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T012', 'T013', 'T017', 'T018', 'T019', 'T020', 'T021', 'T024', 'T025', 'T030', 'T031', 'T032', 'T054', 'T055', 'T056', 'T058', 'T059', 'T070', 'T071', 'T072', 'T073', 'T074', 'T075', 'T076', 'T090', 'T091', 'T092', 'T105', 'T106', 'T107', 'T125', 'T126', 'T127'] (0/34 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions involve large cash deposits (e.g., T012: 4,993,607.57 SAR) and rapid round-trip transfers between the same accounts (e.g., T001-T002 and T003-T006), suggesting potential structuring or layering to obscure funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T012\", \"T013\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T030\", \"T031\", \"T032\", \"T054\", \"T055\", \"T056\", \"T058\", \"T059\", \"T070\", \"T071\", \"T072\", \"T073\", \"T074\", \"T075\", \"T076\", \"T090\", \"T091\", \"T092\", \"T105\", \"T106\", \"T107\", \"T125\", \"T126\", \"T127\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T012', 'T013', 'T017', 'T018', 'T019', 'T020', 'T021', 'T024', 'T025', 'T030', 'T031', 'T032', 'T054', 'T055', 'T056', 'T058', 'T059', 'T070', 'T071', 'T072', 'T073', 'T074', 'T075', 'T076', 'T090', 'T091', 'T092', 'T105', 'T106', 'T107', 'T125', 'T126', 'T127'] (0/34 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P06-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of rapid, high-volume transactions with multiple counterparties, including frequent reinvestments and transfers to/from the same accounts (e.g., 8009AB2B0, 8004F4C80, 800927070) with no clear business purpose. The large self-reinvestment (T019: €1,286,417.46) and repeated cycles of incoming/outgoing funds suggest potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T007\", \"T008\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T050\", \"T056\", \"T057\", \"T058\", \"T059\", \"T060\", \"T061\", \"T062\", \"T063\", \"T066\", \"T067\", \"T068\", \"T069\", \"T070\", \"T071\", \"T077\", \"T078\", \"T081\", \"T082\", \"T083\", \"T084\", \"T085\", \"T086\", \"T087\", \"T088\", \"T089\", \"T090\", \"T094\", \"T096\", \"T098\", \"T099\", \"T102\", \"T103\", \"T104\", \"T105\", \"T106\", \"T107\", \"T108\", \"T109\", \"T110\", \"T111\", \"T114\", \"T115\", \"T116\", \"T117\", \"T118\", \"T122\", \"T123\", \"T124\", \"T125\", \"T126\", \"T127\", \"T128\", \"T129\", \"T130\", \"T131\", \"T132\", \"T133\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\", \"T140\", \"T141\", \"T142\", \"T143\", \"T144\", \"T145\", \"T146\", \"T147\", \"T148\", \"T149\", \"T150\", \"T151\", \"T152\", \"T153\", \"T154\", \"T155\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P06-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of rapid, high-volume transactions with multiple counterparties, including frequent reinvestments and transfers to/from the same accounts (e.g., 8009AB2B0, 8004F4C80, 800927070) with no clear business purpose. The large self-reinvestment (T019: €1,286,417.46) and repeated cycles of incoming/outgoing funds suggest potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T007\", \"T008\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T050\", \"T056\", \"T057\", \"T058\", \"T059\", \"T060\", \"T061\", \"T062\", \"T063\", \"T066\", \"T067\", \"T068\", \"T069\", \"T070\", \"T071\", \"T077\", \"T078\", \"T081\", \"T082\", \"T083\", \"T084\", \"T085\", \"T086\", \"T087\", \"T088\", \"T089\", \"T090\", \"T094\", \"T096\", \"T098\", \"T099\", \"T102\", \"T103\", \"T104\", \"T105\", \"T106\", \"T107\", \"T108\", \"T109\", \"T110\", \"T111\", \"T114\", \"T115\", \"T116\", \"T117\", \"T118\", \"T122\", \"T123\", \"T124\", \"T125\", \"T126\", \"T127\", \"T128\", \"T129\", \"T130\", \"T131\", \"T132\", \"T133\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\", \"T140\", \"T141\", \"T142\", \"T143\", \"T144\", \"T145\", \"T146\", \"T147\", \"T148\", \"T149\", \"T150\", \"T151\", \"T152\", \"T153\", \"T154\", \"T155\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T003', 'T004', 'T005', 'T007', 'T008', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T035', 'T036', 'T037', 'T038', 'T039', 'T050', 'T056', 'T057', 'T058', 'T059', 'T060', 'T061', 'T062', 'T063', 'T066', 'T067', 'T068', 'T069', 'T070', 'T071', 'T077', 'T078', 'T081', 'T082', 'T083', 'T084', 'T085', 'T086', 'T087', 'T088', 'T089', 'T090', 'T094', 'T096', 'T098', 'T099', 'T102', 'T103', 'T104', 'T105', 'T106', 'T107', 'T108', 'T109', 'T110', 'T111', 'T114', 'T115', 'T116', 'T117', 'T118', 'T122', 'T123', 'T124', 'T125', 'T126', 'T129', 'T131', 'T132', 'T133', 'T134', 'T135', 'T136', 'T137', 'T138', 'T139', 'T140', 'T141', 'T142', 'T143', 'T144', 'T145'] (13/13 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of rapid, high-volume transactions with multiple counterparties, including frequent reinvestments and transfers to/from the same accounts (e.g., 8009AB2B0, 8004F4C80, 800927070) with no clear business purpose. The large self-reinvestment (T019: €1,286,417.46) and repeated cycles of incoming/outgoing funds suggest potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T007\", \"T008\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T050\", \"T056\", \"T057\", \"T058\", \"T059\", \"T060\", \"T061\", \"T062\", \"T063\", \"T066\", \"T067\", \"T068\", \"T069\", \"T070\", \"T071\", \"T077\", \"T078\", \"T081\", \"T082\", \"T083\", \"T084\", \"T085\", \"T086\", \"T087\", \"T088\", \"T089\", \"T090\", \"T094\", \"T096\", \"T098\", \"T099\", \"T102\", \"T103\", \"T104\", \"T105\", \"T106\", \"T107\", \"T108\", \"T109\", \"T110\", \"T111\", \"T114\", \"T115\", \"T116\", \"T117\", \"T118\", \"T122\", \"T123\", \"T124\", \"T125\", \"T126\", \"T127\", \"T128\", \"T129\", \"T130\", \"T131\", \"T132\", \"T133\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\", \"T140\", \"T141\", \"T142\", \"T143\", \"T144\", \"T145\", \"T146\", \"T147\", \"T148\", \"T149\", \"T150\", \"T151\", \"T152\", \"T153\", \"T154\", \"T155\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T003', 'T004', 'T005', 'T007', 'T008', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T035', 'T036', 'T037', 'T038', 'T039', 'T050', 'T056', 'T057', 'T058', 'T059', 'T060', 'T061', 'T062', 'T063', 'T066', 'T067', 'T068', 'T069', 'T070', 'T071', 'T077', 'T078', 'T081', 'T082', 'T083', 'T084', 'T085', 'T086', 'T087', 'T088', 'T089', 'T090', 'T094', 'T096', 'T098', 'T099', 'T102', 'T103', 'T104', 'T105', 'T106', 'T107', 'T108', 'T109', 'T110', 'T111', 'T114', 'T115', 'T116', 'T117', 'T118', 'T122', 'T123', 'T124', 'T125', 'T126', 'T129', 'T131', 'T132', 'T133', 'T134', 'T135', 'T136', 'T137', 'T138', 'T139', 'T140', 'T141', 'T142', 'T143', 'T144', 'T145'] (13/13 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P07-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, high-volume transactions involving the same counterparty (023691 / 8021353D0) with consistent amounts and formats, suggesting potential structuring or layering to obscure the origin of funds. Additionally, frequent self-transactions followed by immediate outflows to a US-based account (002845 / 80286DE40) in large, round amounts in multiple currencies raise significant red flags for money laundering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\", \"T058\", \"T059\", \"T060\", \"T061\", \"T062\", \"T063\", \"T064\", \"T065\", \"T066\", \"T067\", \"T068\", \"T069\", \"T070\", \"T071\", \"T072\", \"T073\", \"T074\", \"T075\", \"T076\", \"T077\", \"T078\", \"T079\", \"T080\", \"T081\", \"T082\", \"T083\", \"T084\", \"T085\", \"T086\", \"T087\", \"T088\", \"T089\", \"T090\", \"T091\", \"T092\", \"T093\", \"T094\", \"T095\", \"T096\", \"T097\", \"T098\", \"T099\", \"T100\", \"T101\", \"T102\", \"T103\", \"T104\", \"T105\", \"T106\", \"T107\", \"T108\", \"T109\", \"T110\", \"T111\", \"T112\", \"T113\", \"T114\", \"T115\", \"T116\", \"T117\", \"T118\", \"T119\", \"T120\", \"T121\", \"T122\", \"T123\", \"T124\", \"T125\", \"T126\", \"T127\", \"T128\", \"T129\", \"T130\", \"T131\", \"T132\", \"T133\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P07-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, high-volume transactions involving the same counterparty (023691 / 8021353D0) with consistent amounts and formats, suggesting potential structuring or layering to obscure the origin of funds. Additionally, frequent self-transactions followed by immediate outflows to a US-based account (002845 / 80286DE40) in large, round amounts in multiple currencies raise significant red flags for money laundering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\", \"T058\", \"T059\", \"T060\", \"T061\", \"T062\", \"T063\", \"T064\", \"T065\", \"T066\", \"T067\", \"T068\", \"T069\", \"T070\", \"T071\", \"T072\", \"T073\", \"T074\", \"T075\", \"T076\", \"T077\", \"T078\", \"T079\", \"T080\", \"T081\", \"T082\", \"T083\", \"T084\", \"T085\", \"T086\", \"T087\", \"T088\", \"T089\", \"T090\", \"T091\", \"T092\", \"T093\", \"T094\", \"T095\", \"T096\", \"T097\", \"T098\", \"T099\", \"T100\", \"T101\", \"T102\", \"T103\", \"T104\", \"T105\", \"T106\", \"T107\", \"T108\", \"T109\", \"T110\", \"T111\", \"T112\", \"T113\", \"T114\", \"T115\", \"T116\", \"T117\", \"T118\", \"T119\", \"T120\", \"T121\", \"T122\", \"T123\", \"T124\", \"T125\", \"T126\", \"T127\", \"T128\", \"T129\", \"T130\", \"T131\", \"T132\", \"T133\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T004', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T048', 'T049', 'T050', 'T051', 'T052', 'T053', 'T055', 'T056', 'T060', 'T065', 'T066', 'T067', 'T068', 'T069', 'T070', 'T071', 'T073', 'T074', 'T075', 'T076', 'T077', 'T078', 'T079', 'T080', 'T084', 'T085', 'T089', 'T090', 'T091', 'T092', 'T093', 'T095', 'T096', 'T100', 'T101', 'T102', 'T103', 'T104', 'T105', 'T106', 'T107', 'T109', 'T110', 'T111', 'T114', 'T115', 'T117', 'T118', 'T119', 'T120', 'T121', 'T122', 'T126', 'T127', 'T128', 'T129', 'T130', 'T132', 'T133'] (49/49 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, high-volume transactions involving the same counterparty (023691 / 8021353D0) with consistent amounts and formats, suggesting potential structuring or layering to obscure the origin of funds. Additionally, frequent self-transactions followed by immediate outflows to a US-based account (002845 / 80286DE40) in large, round amounts in multiple currencies raise significant red flags for money laundering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\", \"T058\", \"T059\", \"T060\", \"T061\", \"T062\", \"T063\", \"T064\", \"T065\", \"T066\", \"T067\", \"T068\", \"T069\", \"T070\", \"T071\", \"T072\", \"T073\", \"T074\", \"T075\", \"T076\", \"T077\", \"T078\", \"T079\", \"T080\", \"T081\", \"T082\", \"T083\", \"T084\", \"T085\", \"T086\", \"T087\", \"T088\", \"T089\", \"T090\", \"T091\", \"T092\", \"T093\", \"T094\", \"T095\", \"T096\", \"T097\", \"T098\", \"T099\", \"T100\", \"T101\", \"T102\", \"T103\", \"T104\", \"T105\", \"T106\", \"T107\", \"T108\", \"T109\", \"T110\", \"T111\", \"T112\", \"T113\", \"T114\", \"T115\", \"T116\", \"T117\", \"T118\", \"T119\", \"T120\", \"T121\", \"T122\", \"T123\", \"T124\", \"T125\", \"T126\", \"T127\", \"T128\", \"T129\", \"T130\", \"T131\", \"T132\", \"T133\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T004', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T048', 'T049', 'T050', 'T051', 'T052', 'T053', 'T055', 'T056', 'T060', 'T065', 'T066', 'T067', 'T068', 'T069', 'T070', 'T071', 'T073', 'T074', 'T075', 'T076', 'T077', 'T078', 'T079', 'T080', 'T084', 'T085', 'T089', 'T090', 'T091', 'T092', 'T093', 'T095', 'T096', 'T100', 'T101', 'T102', 'T103', 'T104', 'T105', 'T106', 'T107', 'T109', 'T110', 'T111', 'T114', 'T115', 'T117', 'T118', 'T119', 'T120', 'T121', 'T122', 'T126', 'T127', 'T128', 'T129', 'T130', 'T132', 'T133'] (49/49 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P08-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account received multiple large incoming transfers (up to €15,700.82) from various unrelated accounts within a short period, followed by a self-transfer of €7,672,042.32 and immediate large outgoing transfers in multiple currencies (USD, AUD, Yuan) to different counterparties. The rapid movement of large sums with no clear business justification suggests potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T008\", \"T009\", \"T010\", \"T011\", \"T013\", \"T015\", \"T017\", \"T018\", \"T019\", \"T025\", \"T034\", \"T037\", \"T039\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P08-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account received multiple large incoming transfers (up to €15,700.82) from various unrelated accounts within a short period, followed by a self-transfer of €7,672,042.32 and immediate large outgoing transfers in multiple currencies (USD, AUD, Yuan) to different counterparties. The rapid movement of large sums with no clear business justification suggests potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T008\", \"T009\", \"T010\", \"T011\", \"T013\", \"T015\", \"T017\", \"T018\", \"T019\", \"T025\", \"T034\", \"T037\", \"T039\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018'] (15/27 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account received multiple large incoming transfers (up to €15,700.82) from various unrelated accounts within a short period, followed by a self-transfer of €7,672,042.32 and immediate large outgoing transfers in multiple currencies (USD, AUD, Yuan) to different counterparties. The rapid movement of large sums with no clear business justification suggests potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T008\", \"T009\", \"T010\", \"T011\", \"T013\", \"T015\", \"T017\", \"T018\", \"T019\", \"T025\", \"T034\", \"T037\", \"T039\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018'] (15/27 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P09-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple high-value transactions (e.g., T003: 119,397.09 SAR, T027: 70,400.86 SAR) with rapid in-and-out flows between the same accounts (812A09CF0, 811EFA110) and frequent use of ACH transfers, suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P09-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple high-value transactions (e.g., T003: 119,397.09 SAR, T027: 70,400.86 SAR) with rapid in-and-out flows between the same accounts (812A09CF0, 811EFA110) and frequent use of ACH transfers, suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T014', 'T015', 'T016', 'T021', 'T025', 'T028', 'T050', 'T051'] (33/33 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple high-value transactions (e.g., T003: 119,397.09 SAR, T027: 70,400.86 SAR) with rapid in-and-out flows between the same accounts (812A09CF0, 811EFA110) and frequent use of ACH transfers, suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T014', 'T015', 'T016', 'T021', 'T025', 'T028', 'T050', 'T051'] (33/33 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P10-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, high-value transactions with the same counterparty (0034828 / 80EF9A260) in both directions, including self-transfers and multiple currency exchanges, which is highly indicative of layering—a key step in money laundering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T009\", \"T010\", \"T019\", \"T020\", \"T021\", \"T022\", \"T037\", \"T038\", \"T050\", \"T051\", \"T056\", \"T057\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P10-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, high-value transactions with the same counterparty (0034828 / 80EF9A260) in both directions, including self-transfers and multiple currency exchanges, which is highly indicative of layering—a key step in money laundering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T009\", \"T010\", \"T019\", \"T020\", \"T021\", \"T022\", \"T037\", \"T038\", \"T050\", \"T051\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T009', 'T010', 'T019', 'T020', 'T021', 'T022', 'T037', 'T038', 'T050', 'T051', 'T056', 'T057'] (0/12 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, high-value transactions with the same counterparty (0034828 / 80EF9A260) in both directions, including self-transfers and multiple currency exchanges, which is highly indicative of layering—a key step in money laundering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T009\", \"T010\", \"T019\", \"T020\", \"T021\", \"T022\", \"T037\", \"T038\", \"T050\", \"T051\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T009', 'T010', 'T019', 'T020', 'T021', 'T022', 'T037', 'T038', 'T050', 'T051', 'T056', 'T057'] (0/12 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P11-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions of identical amounts (55852.15 SAR) from the same counterparty (0149340 / 8129D9560) within a short period, suggesting structuring or layering behavior. Additionally, rapid inflows and outflows to/from the same account (0050202 / 812D129C0) with no clear economic purpose.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T007\", \"T008\", \"T009\", \"T011\", \"T012\", \"T016\", \"T017\", \"T021\", \"T010\", \"T013\", \"T014\", \"T015\", \"T018\", \"T020\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P11-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions of identical amounts (55852.15 SAR) from the same counterparty (0149340 / 8129D9560) within a short period, suggesting structuring or layering behavior. Additionally, rapid inflows and outflows to/from the same account (0050202 / 812D129C0) with no clear economic purpose.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T007\", \"T008\", \"T009\", \"T011\", \"T012\", \"T016\", \"T017\", \"T021\", \"T010\", \"T013\", \"T014\", \"T015\", \"T018\", \"T020\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T007', 'T008', 'T009', 'T011', 'T012', 'T014', 'T016', 'T017', 'T021'] (10/10 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions of identical amounts (55852.15 SAR) from the same counterparty (0149340 / 8129D9560) within a short period, suggesting structuring or layering behavior. Additionally, rapid inflows and outflows to/from the same account (0050202 / 812D129C0) with no clear economic purpose.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T007\", \"T008\", \"T009\", \"T011\", \"T012\", \"T016\", \"T017\", \"T021\", \"T010\", \"T013\", \"T014\", \"T015\", \"T018\", \"T020\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T007', 'T008', 'T009', 'T011', 'T012', 'T014', 'T016', 'T017', 'T021'] (10/10 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P12-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple incoming transactions of identical amounts (23,370.22 SAR) from the same counterparty (811A00890) followed by rapid outgoing transactions of smaller, round amounts to another account (811B970B0), suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\", \"T013\", \"T018\", \"T019\", \"T025\", \"T028\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P12-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple incoming transactions of identical amounts (23,370.22 SAR) from the same counterparty (811A00890) followed by rapid outgoing transactions of smaller, round amounts to another account (811B970B0), suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\", \"T013\", \"T018\", \"T019\", \"T025\", \"T028\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T011', 'T013', 'T018', 'T019', 'T025', 'T028'] (0/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple incoming transactions of identical amounts (23,370.22 SAR) from the same counterparty (811A00890) followed by rapid outgoing transactions of smaller, round amounts to another account (811B970B0), suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\", \"T013\", \"T018\", \"T019\", \"T025\", \"T028\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T011', 'T013', 'T018', 'T019', 'T025', 'T028'] (0/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P13-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account received large cash deposits (T002: 53,888.82 CAD) and made an unusually large cash withdrawal (T011: 1,350,383.03 CAD) shortly after, which is inconsistent with typical transaction patterns and may indicate structuring or layering. Additionally, the account shows repetitive, small-amount transactions (T003-T005, T007-T009, T015-T029) with the same counterparty, suggesting potential structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\", \"T003\", \"T004\", \"T005\", \"T007\", \"T008\", \"T009\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P13-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account received large cash deposits (T002: 53,888.82 CAD) and made an unusually large cash withdrawal (T011: 1,350,383.03 CAD) shortly after, which is inconsistent with typical transaction patterns and may indicate structuring or layering. Additionally, the account shows repetitive, small-amount transactions (T003-T005, T007-T009, T015-T029) with the same counterparty, suggesting potential structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\", \"T003\", \"T004\", \"T005\", \"T007\", \"T008\", \"T009\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T003', 'T004', 'T005', 'T007', 'T008', 'T009', 'T011', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029'] (0/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account received large cash deposits (T002: 53,888.82 CAD) and made an unusually large cash withdrawal (T011: 1,350,383.03 CAD) shortly after, which is inconsistent with typical transaction patterns and may indicate structuring or layering. Additionally, the account shows repetitive, small-amount transactions (T003-T005, T007-T009, T015-T029) with the same counterparty, suggesting potential structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\", \"T003\", \"T004\", \"T005\", \"T007\", \"T008\", \"T009\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T003', 'T004', 'T005', 'T007', 'T008', 'T009', 'T011', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029'] (0/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P14-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Unusually large incoming cheque transaction (255,267.17 SAR) from an unrelated account, followed by rapid round-trip ACH transfers with the same counterparty (812D0C3C0) totaling over 1.2 million SAR within 3 days, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T021\", \"T030\", \"T037\", \"T038\", \"T043\", \"T044\", \"T045\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P14-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Unusually large incoming cheque transaction (255,267.17 SAR) from an unrelated account, followed by rapid round-trip ACH transfers with the same counterparty (812D0C3C0) totaling over 1.2 million SAR within 3 days, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T021\", \"T030\", \"T037\", \"T038\", \"T043\", \"T044\", \"T045\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T008', 'T013', 'T017', 'T037', 'T044'] (14/23 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Unusually large incoming cheque transaction (255,267.17 SAR) from an unrelated account, followed by rapid round-trip ACH transfers with the same counterparty (812D0C3C0) totaling over 1.2 million SAR within 3 days, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T021\", \"T030\", \"T037\", \"T038\", \"T043\", \"T044\", \"T045\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T008', 'T013', 'T017', 'T037', 'T044'] (14/23 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P15-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly repetitive pattern of incoming transactions from the same counterparties (029404/806BAF900 and 00513/802BA8140) with identical amounts (74.19, 84.02, 3171.43, 7641.29, 8088.14) in a short timeframe, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P15-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly repetitive pattern of incoming transactions from the same counterparties (029404/806BAF900 and 00513/802BA8140) with identical amounts (74.19, 84.02, 3171.43, 7641.29, 8088.14) in a short timeframe, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046', 'T047'] (0/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly repetitive pattern of incoming transactions from the same counterparties (029404/806BAF900 and 00513/802BA8140) with identical amounts (74.19, 84.02, 3171.43, 7641.29, 8088.14) in a short timeframe, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046', 'T047'] (0/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P16-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty (0222 / 8000D9C00) involving small, round amounts (76.61, 148.21, 794.09 SAR) in cash, cheque, and credit card formats, which may indicate structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T012\", \"T013\", \"T014\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T046\", \"T047\", \"T048\", \"T054\", \"T055\", \"T056\", \"T057\", \"T058\", \"T059\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P16-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty (0222 / 8000D9C00) involving small, round amounts (76.61, 148.21, 794.09 SAR) in cash, cheque, and credit card formats, which may indicate structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T012\", \"T013\", \"T014\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T046\", \"T047\", \"T048\", \"T054\", \"T055\", \"T056\", \"T057\", \"T058\", \"T059\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T005', 'T012', 'T013', 'T014', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T046', 'T047', 'T048', 'T054', 'T055', 'T056', 'T057', 'T058', 'T059'] (0/25 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty (0222 / 8000D9C00) involving small, round amounts (76.61, 148.21, 794.09 SAR) in cash, cheque, and credit card formats, which may indicate structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T012\", \"T013\", \"T014\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T046\", \"T047\", \"T048\", \"T054\", \"T055\", \"T056\", \"T057\", \"T058\", \"T059\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T005', 'T012', 'T013', 'T014', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T046', 'T047', 'T048', 'T054', 'T055', 'T056', 'T057', 'T058', 'T059'] (0/25 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P17-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-trip transactions with the same counterparties (0213/80CDC5770 and 027/80CA47060) involving identical amounts (2124.35, 4584.26, 83.80 MXN) and formats (Credit Card, Cheque, Wire), suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T013\", \"T014\", \"T015\", \"T019\", \"T020\", \"T021\", \"T023\", \"T024\", \"T025\", \"T028\", \"T029\", \"T030\", \"T032\", \"T033\", \"T034\", \"T041\", \"T042\", \"T043\", \"T045\", \"T046\", \"T047\", \"T052\", \"T053\", \"T054\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-trip transactions with the same counterparties (0213/80CDC5770 and 027/80CA47060) involving identical amounts (2124.35, 4584.26, 83.80 MXN) and formats (Credit Card, Cheque, Wire), suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T013\", \"T014\", \"T015\", \"T019\", \"T020\", \"T021\", \"T023\", \"T024\", \"T025\", \"T028\", \"T029\", \"T030\", \"T032\", \"T033\", \"T034\", \"T041\", \"T042\", \"T043\", \"T045\", \"T046\", \"T047\", \"T052\", \"T053\", \"T054\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P17-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-trip transactions with the same counterparties (0213/80CDC5770 and 027/80CA47060) involving identical amounts (2124.35, 4584.26, 83.80 MXN) and formats (Credit Card, Cheque, Wire), suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T013\", \"T014\", \"T015\", \"T019\", \"T020\", \"T021\", \"T023\", \"T024\", \"T025\", \"T028\", \"T029\", \"T030\", \"T032\", \"T033\", \"T034\", \"T041\", \"T042\", \"T043\", \"T045\", \"T046\", \"T047\", \"T052\", \"T053\", \"T054\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T013', 'T014', 'T015', 'T019', 'T020', 'T021', 'T023', 'T024', 'T025', 'T028', 'T029', 'T030', 'T032', 'T033', 'T034', 'T041', 'T042', 'T043', 'T045', 'T046', 'T047', 'T052', 'T053', 'T054', 'T056', 'T057', 'T058']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-trip transactions with the same counterparties (0213/80CDC5770 and 027/80CA47060) involving identical amounts (2124.35, 4584.26, 83.80 MXN) and formats (Credit Card, Cheque, Wire), suggesting potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T013\", \"T014\", \"T015\", \"T019\", \"T020\", \"T021\", \"T023\", \"T024\", \"T025\", \"T028\", \"T029\", \"T030\", \"T032\", \"T033\", \"T034\", \"T041\", \"T042\", \"T043\", \"T045\", \"T046\", \"T047\", \"T052\", \"T053\", \"T054\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T013', 'T014', 'T015', 'T019', 'T020', 'T021', 'T023', 'T024', 'T025', 'T028', 'T029', 'T030', 'T032', 'T033', 'T034', 'T041', 'T042', 'T043', 'T045', 'T046', 'T047', 'T052', 'T053', 'T054', 'T056', 'T057', 'T058']"
+   }
+  ]
+ },
+ {
+  "id": "P18-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple transactions involving extremely high amounts (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with cash, cheque, and credit card formats, coupled with repetitive small incoming transactions (357.01 Euro, 181.52 Euro) from the same counterparty, suggest potential structuring or layering to obscure the origin of funds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T006\", \"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple transactions involving extremely high amounts (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with cash, cheque, and credit card formats, coupled with repetitive small incoming transactions (357.01 Euro, 181.52 Euro) from the same counterparty, suggest potential structuring or layering to obscure the origin of funds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T006\", \"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P18-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple transactions involving extremely high amounts (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with cash, cheque, and credit card formats, coupled with repetitive small incoming transactions (357.01 Euro, 181.52 Euro) from the same counterparty, suggest potential structuring or layering to obscure the origin of funds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T006\", \"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T006', 'T008', 'T009', 'T024', 'T025', 'T053', 'T054']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple transactions involving extremely high amounts (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with cash, cheque, and credit card formats, coupled with repetitive small incoming transactions (357.01 Euro, 181.52 Euro) from the same counterparty, suggest potential structuring or layering to obscure the origin of funds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T006\", \"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T006', 'T008', 'T009', 'T024', 'T025', 'T053', 'T054']"
+   }
+  ]
+ },
+ {
+  "id": "P19-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple small outgoing transactions to the same counterparty accounts (e.g., 0113779 / 8118A56B0, 006803 / 8033AC5E0, 002053 / 811D4B580) with inconsistent amounts, followed by a single large incoming transaction (T002) of $5200.04, which may indicate structuring or layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple small outgoing transactions to the same counterparty accounts (e.g., 0113779 / 8118A56B0, 006803 / 8033AC5E0, 002053 / 811D4B580) with inconsistent amounts, followed by a single large incoming transaction (T002) of $5200.04, which may indicate structuring or layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P19-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple small outgoing transactions to the same counterparty accounts (e.g., 0113779 / 8118A56B0, 006803 / 8033AC5E0, 002053 / 811D4B580) with inconsistent amounts, followed by a single large incoming transaction (T002) of $5200.04, which may indicate structuring or layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"Multiple small outgoing transactions to the same counterparty accounts (e.g., 0113779 / 8118A56B0, 006803 / 8033AC5E0, 002053 / 811D4B580) with inconsistent amounts, followed by a single large incoming transaction (T002) of $5200.04, which may indicate structuring or layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009']"
+   }
+  ]
+ },
+ {
+  "id": "P20-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, large cash deposits and cheque transactions from the same counterparty (070 / 100428930) totaling over 1.2 million BRL, with no clear legitimate source of funds. Additionally, a self-transaction (T006) of 25,958,782.94 BRL is highly unusual and lacks explanation.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T006\", \"T007\", \"T008\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, large cash deposits and cheque transactions from the same counterparty (070 / 100428930) totaling over 1.2 million BRL, with no clear legitimate source of funds. Additionally, a self-transaction (T006) of 25,958,782.94 BRL is highly unusual and lacks explanation.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T006\", \"T007\", \"T008\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P20-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, large cash deposits and cheque transactions from the same counterparty (070 / 100428930) totaling over 1.2 million BRL, with no clear legitimate source of funds. Additionally, a self-transaction (T006) of 25,958,782.94 BRL is highly unusual and lacks explanation.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T006\", \"T007\", \"T008\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T006', 'T007', 'T008', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T018', 'T019', 'T020', 'T021']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, large cash deposits and cheque transactions from the same counterparty (070 / 100428930) totaling over 1.2 million BRL, with no clear legitimate source of funds. Additionally, a self-transaction (T006) of 25,958,782.94 BRL is highly unusual and lacks explanation.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T006\", \"T007\", \"T008\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T006', 'T007', 'T008', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T018', 'T019', 'T020', 'T021']"
+   }
+  ]
+ },
+ {
+  "id": "P21-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly repetitive pattern of outgoing Bitcoin transactions to the same counterparty account (814962A81) with alternating amounts of 0.005973 and 0.018500 Bitcoin, suggesting potential structuring to avoid detection thresholds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly repetitive pattern of outgoing Bitcoin transactions to the same counterparty account (814962A81) with alternating amounts of 0.005973 and 0.018500 Bitcoin, suggesting potential structuring to avoid detection thresholds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P21-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly repetitive pattern of outgoing Bitcoin transactions to the same counterparty account (814962A81) with alternating amounts of 0.005973 and 0.018500 Bitcoin, suggesting potential structuring to avoid detection thresholds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly repetitive pattern of outgoing Bitcoin transactions to the same counterparty account (814962A81) with alternating amounts of 0.005973 and 0.018500 Bitcoin, suggesting potential structuring to avoid detection thresholds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014']"
+   }
+  ]
+ },
+ {
+  "id": "P22-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly repetitive and structured transaction patterns with the same counterparty accounts, identical amounts, and consistent payment methods (cash, cheque, credit card) over a short period, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly repetitive and structured transaction patterns with the same counterparty accounts, identical amounts, and consistent payment methods (cash, cheque, credit card) over a short period, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P22-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly repetitive and structured transaction patterns with the same counterparty accounts, identical amounts, and consistent payment methods (cash, cheque, credit card) over a short period, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T011', 'T012', 'T013', 'T021', 'T022', 'T023', 'T030', 'T031', 'T032', 'T035', 'T036', 'T037', 'T042', 'T043', 'T044', 'T051', 'T052', 'T053']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly repetitive and structured transaction patterns with the same counterparty accounts, identical amounts, and consistent payment methods (cash, cheque, credit card) over a short period, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T011', 'T012', 'T013', 'T021', 'T022', 'T023', 'T030', 'T031', 'T032', 'T035', 'T036', 'T037', 'T042', 'T043', 'T044', 'T051', 'T052', 'T053']"
+   }
+  ]
+ },
+ {
+  "id": "P23-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large incoming ACH transfer of $824,791.00 on 2022/09/01, followed by multiple outgoing transactions totaling $200,000+ within days, including structured payments to the same counterparty (003229 / 8100AF300) in identical amounts ($29,715.58 and $55,097.54) on 2022/09/02 and 2022/09/09, which is indicative of structuring to avoid reporting thresholds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large incoming ACH transfer of $824,791.00 on 2022/09/01, followed by multiple outgoing transactions totaling $200,000+ within days, including structured payments to the same counterparty (003229 / 8100AF300) in identical amounts ($29,715.58 and $55,097.54) on 2022/09/02 and 2022/09/09, which is indicative of structuring to avoid reporting thresholds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P23-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large incoming ACH transfer of $824,791.00 on 2022/09/01, followed by multiple outgoing transactions totaling $200,000+ within days, including structured payments to the same counterparty (003229 / 8100AF300) in identical amounts ($29,715.58 and $55,097.54) on 2022/09/02 and 2022/09/09, which is indicative of structuring to avoid reporting thresholds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T004', 'T005', 'T015', 'T016']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large incoming ACH transfer of $824,791.00 on 2022/09/01, followed by multiple outgoing transactions totaling $200,000+ within days, including structured payments to the same counterparty (003229 / 8100AF300) in identical amounts ($29,715.58 and $55,097.54) on 2022/09/02 and 2022/09/09, which is indicative of structuring to avoid reporting thresholds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T004', 'T005', 'T015', 'T016']"
+   }
+  ]
+ },
+ {
+  "id": "P24-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-number transactions (e.g., $1268.29, $672.16, $3623.30) with the same counterparties, suggesting potential structuring to avoid detection. The repetitive cycle of incoming cheques from account 802AB5530 followed by immediate outflows to accounts 804B1B730 and 808D0B0E0 is highly suspicious.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T044\", \"T045\", \"T046\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-number transactions (e.g., $1268.29, $672.16, $3623.30) with the same counterparties, suggesting potential structuring to avoid detection. The repetitive cycle of incoming cheques from account 802AB5530 followed by immediate outflows to accounts 804B1B730 and 808D0B0E0 is highly suspicious.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T044\", \"T045\", \"T046\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P24-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-number transactions (e.g., $1268.29, $672.16, $3623.30) with the same counterparties, suggesting potential structuring to avoid detection. The repetitive cycle of incoming cheques from account 802AB5530 followed by immediate outflows to accounts 804B1B730 and 808D0B0E0 is highly suspicious.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T044\", \"T045\", \"T046\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T044', 'T045', 'T046']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a highly structured pattern of frequent, round-number transactions (e.g., $1268.29, $672.16, $3623.30) with the same counterparties, suggesting potential structuring to avoid detection. The repetitive cycle of incoming cheques from account 802AB5530 followed by immediate outflows to accounts 804B1B730 and 808D0B0E0 is highly suspicious.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T044\", \"T045\", \"T046\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T044', 'T045', 'T046']"
+   }
+  ]
+ },
+ {
+  "id": "P25-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 0118180 / 80649F140, 0219143 / 806EF1EF0, 0010 / 8071DBFA0) in rapid succession, involving large amounts and alternating between cheque and credit card formats, which is highly indicative of structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T050\", \"T051\", \"T052\", \"T053\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 0118180 / 80649F140, 0219143 / 806EF1EF0, 0010 / 8071DBFA0) in rapid succession, involving large amounts and alternating between cheque and credit card formats, which is highly indicative of structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T050\", \"T051\", \"T052\", \"T053\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P25-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 0118180 / 80649F140, 0219143 / 806EF1EF0, 0010 / 8071DBFA0) in rapid succession, involving large amounts and alternating between cheque and credit card formats, which is highly indicative of structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T050\", \"T051\", \"T052\", \"T053\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T030', 'T031', 'T032', 'T033', 'T034', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T043', 'T044', 'T045', 'T046', 'T047', 'T048', 'T050', 'T051', 'T052', 'T053', 'T056', 'T057']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 0118180 / 80649F140, 0219143 / 806EF1EF0, 0010 / 8071DBFA0) in rapid succession, involving large amounts and alternating between cheque and credit card formats, which is highly indicative of structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T050\", \"T051\", \"T052\", \"T053\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T030', 'T031', 'T032', 'T033', 'T034', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T043', 'T044', 'T045', 'T046', 'T047', 'T048', 'T050', 'T051', 'T052', 'T053', 'T056', 'T057']"
+   }
+  ]
+ },
+ {
+  "id": "P26-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a highly repetitive pattern of transactions with the same counterparty (0235843 / 80D789580) involving consistent amounts (2014.38 and 2707.76 BRL) in both directions, suggesting possible structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T009\", \"T010\", \"T015\", \"T016\", \"T019\", \"T020\", \"T027\", \"T028\", \"T029\", \"T030\", \"T035\", \"T036\", \"T041\", \"T042\", \"T047\", \"T048\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a highly repetitive pattern of transactions with the same counterparty (0235843 / 80D789580) involving consistent amounts (2014.38 and 2707.76 BRL) in both directions, suggesting possible structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T009\", \"T010\", \"T015\", \"T016\", \"T019\", \"T020\", \"T027\", \"T028\", \"T029\", \"T030\", \"T035\", \"T036\", \"T041\", \"T042\", \"T047\", \"T048\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P26-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a highly repetitive pattern of transactions with the same counterparty (0235843 / 80D789580) involving consistent amounts (2014.38 and 2707.76 BRL) in both directions, suggesting possible structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T009\", \"T010\", \"T015\", \"T016\", \"T019\", \"T020\", \"T027\", \"T028\", \"T029\", \"T030\", \"T035\", \"T036\", \"T041\", \"T042\", \"T047\", \"T048\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T009', 'T010', 'T015', 'T016', 'T019', 'T020', 'T027', 'T028', 'T029', 'T030', 'T035', 'T036', 'T041', 'T042', 'T047', 'T048', 'T055', 'T056']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a highly repetitive pattern of transactions with the same counterparty (0235843 / 80D789580) involving consistent amounts (2014.38 and 2707.76 BRL) in both directions, suggesting possible structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T009\", \"T010\", \"T015\", \"T016\", \"T019\", \"T020\", \"T027\", \"T028\", \"T029\", \"T030\", \"T035\", \"T036\", \"T041\", \"T042\", \"T047\", \"T048\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T009', 'T010', 'T015', 'T016', 'T019', 'T020', 'T027', 'T028', 'T029', 'T030', 'T035', 'T036', 'T041', 'T042', 'T047', 'T048', 'T055', 'T056']"
+   }
+  ]
+ },
+ {
+  "id": "P27-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple incoming cheques of exactly $82,569.50 from the same counterparty (001 / 800467C10) and outgoing transactions of similar amounts to various accounts, including self-reinvestment of $129,084.15, suggest potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T017\", \"T018\", \"T019\", \"T024\", \"T029\", \"T034\", \"T039\", \"T040\", \"T055\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple incoming cheques of exactly $82,569.50 from the same counterparty (001 / 800467C10) and outgoing transactions of similar amounts to various accounts, including self-reinvestment of $129,084.15, suggest potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T017\", \"T018\", \"T019\", \"T024\", \"T029\", \"T034\", \"T039\", \"T040\", \"T055\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P27-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple incoming cheques of exactly $82,569.50 from the same counterparty (001 / 800467C10) and outgoing transactions of similar amounts to various accounts, including self-reinvestment of $129,084.15, suggest potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T017\", \"T018\", \"T019\", \"T024\", \"T029\", \"T034\", \"T039\", \"T040\", \"T055\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T004', 'T017', 'T018', 'T019', 'T024', 'T029', 'T034', 'T039', 'T040', 'T055', 'T058']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple incoming cheques of exactly $82,569.50 from the same counterparty (001 / 800467C10) and outgoing transactions of similar amounts to various accounts, including self-reinvestment of $129,084.15, suggest potential structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T017\", \"T018\", \"T019\", \"T024\", \"T029\", \"T034\", \"T039\", \"T040\", \"T055\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T004', 'T017', 'T018', 'T019', 'T024', 'T029', 'T034', 'T039', 'T040', 'T055', 'T058']"
+   }
+  ]
+ },
+ {
+  "id": "P28-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash and cheque transactions (e.g., T003, T017, T018) with no clear business purpose, frequent small incoming amounts from the same counterparty (01490 / 800FE5AD0) suggesting structuring, and repetitive outgoing transactions to the same accounts (018428 / 805756CA0, 023555 / 8018F1AF0) with identical amounts.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T017\", \"T018\", \"T021\", \"T027\", \"T031\", \"T032\", \"T037\", \"T038\", \"T039\", \"T040\", \"T042\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash and cheque transactions (e.g., T003, T017, T018) with no clear business purpose, frequent small incoming amounts from the same counterparty (01490 / 800FE5AD0) suggesting structuring, and repetitive outgoing transactions to the same accounts (018428 / 805756CA0, 023555 / 8018F1AF0) with identical amounts.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T017\", \"T018\", \"T021\", \"T027\", \"T031\", \"T032\", \"T037\", \"T038\", \"T039\", \"T040\", \"T042\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P28-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash and cheque transactions (e.g., T003, T017, T018) with no clear business purpose, frequent small incoming amounts from the same counterparty (01490 / 800FE5AD0) suggesting structuring, and repetitive outgoing transactions to the same accounts (018428 / 805756CA0, 023555 / 8018F1AF0) with identical amounts.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T017\", \"T018\", \"T021\", \"T027\", \"T031\", \"T032\", \"T037\", \"T038\", \"T039\", \"T040\", \"T042\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T017', 'T018', 'T021', 'T027', 'T031', 'T032', 'T037', 'T038', 'T039', 'T040', 'T042', 'T048', 'T049', 'T050', 'T051', 'T052', 'T056', 'T057', 'T058']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash and cheque transactions (e.g., T003, T017, T018) with no clear business purpose, frequent small incoming amounts from the same counterparty (01490 / 800FE5AD0) suggesting structuring, and repetitive outgoing transactions to the same accounts (018428 / 805756CA0, 023555 / 8018F1AF0) with identical amounts.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T017\", \"T018\", \"T021\", \"T027\", \"T031\", \"T032\", \"T037\", \"T038\", \"T039\", \"T040\", \"T042\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T017', 'T018', 'T021', 'T027', 'T031', 'T032', 'T037', 'T038', 'T039', 'T040', 'T042', 'T048', 'T049', 'T050', 'T051', 'T052', 'T056', 'T057', 'T058']"
+   }
+  ]
+ },
+ {
+  "id": "P29-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, cyclical transactions with the same counterparties (0138395/80F1683C0, 0116/80DBF2DB0, 01665/8006668F0, 0117/80F02D020) involving small, round amounts (72.74, 76.19, 512.41, 1658.70) that are consistent with structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, cyclical transactions with the same counterparties (0138395/80F1683C0, 0116/80DBF2DB0, 01665/8006668F0, 0117/80F02D020) involving small, round amounts (72.74, 76.19, 512.41, 1658.70) that are consistent with structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P29-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, cyclical transactions with the same counterparties (0138395/80F1683C0, 0116/80DBF2DB0, 01665/8006668F0, 0117/80F02D020) involving small, round amounts (72.74, 76.19, 512.41, 1658.70) that are consistent with structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046', 'T047', 'T048', 'T049', 'T050', 'T051', 'T052', 'T053', 'T054', 'T055', 'T056', 'T057']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits a pattern of rapid, cyclical transactions with the same counterparties (0138395/80F1683C0, 0116/80DBF2DB0, 01665/8006668F0, 0117/80F02D020) involving small, round amounts (72.74, 76.19, 512.41, 1658.70) that are consistent with structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046', 'T047', 'T048', 'T049', 'T050', 'T051', 'T052', 'T053', 'T054', 'T055', 'T056', 'T057']"
+   }
+  ]
+ },
+ {
+  "id": "P30-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, small, and highly structured transactions (same amounts and formats) to the same counterparties, particularly 0115415 / 811989870 and 029794 / 81394C490, which is indicative of structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T009\", \"T014\", \"T016\", \"T017\", \"T019\", \"T024\", \"T025\", \"T026\", \"T029\", \"T030\", \"T031\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T042\", \"T043\", \"T044\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, small, and highly structured transactions (same amounts and formats) to the same counterparties, particularly 0115415 / 811989870 and 029794 / 81394C490, which is indicative of structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T009\", \"T014\", \"T016\", \"T017\", \"T019\", \"T024\", \"T025\", \"T026\", \"T029\", \"T030\", \"T031\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T042\", \"T043\", \"T044\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P30-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, small, and highly structured transactions (same amounts and formats) to the same counterparties, particularly 0115415 / 811989870 and 029794 / 81394C490, which is indicative of structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T009\", \"T014\", \"T016\", \"T017\", \"T019\", \"T024\", \"T025\", \"T026\", \"T029\", \"T030\", \"T031\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T042\", \"T043\", \"T044\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T004', 'T009', 'T014', 'T016', 'T017', 'T019', 'T024', 'T025', 'T026', 'T029', 'T030', 'T031', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T042', 'T043', 'T044', 'T047', 'T048', 'T049', 'T050', 'T051', 'T054', 'T055', 'T056']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent, small, and highly structured transactions (same amounts and formats) to the same counterparties, particularly 0115415 / 811989870 and 029794 / 81394C490, which is indicative of structuring to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T009\", \"T014\", \"T016\", \"T017\", \"T019\", \"T024\", \"T025\", \"T026\", \"T029\", \"T030\", \"T031\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T042\", \"T043\", \"T044\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T004', 'T009', 'T014', 'T016', 'T017', 'T019', 'T024', 'T025', 'T026', 'T029', 'T030', 'T031', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T042', 'T043', 'T044', 'T047', 'T048', 'T049', 'T050', 'T051', 'T054', 'T055', 'T056']"
+   }
+  ]
+ },
+ {
+  "id": "P31-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly unusual transaction patterns, including repetitive cycles of identical large amounts (e.g., $7,155,852.97, $2,017,165.39, $26,573.57, $23,190.88) sent to the same counterparty within short timeframes, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T005\", \"T006\", \"T007\", \"T008\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T032\", \"T033\", \"T034\", \"T035\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly unusual transaction patterns, including repetitive cycles of identical large amounts (e.g., $7,155,852.97, $2,017,165.39, $26,573.57, $23,190.88) sent to the same counterparty within short timeframes, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T005\", \"T006\", \"T007\", \"T008\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T032\", \"T033\", \"T034\", \"T035\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P31-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly unusual transaction patterns, including repetitive cycles of identical large amounts (e.g., $7,155,852.97, $2,017,165.39, $26,573.57, $23,190.88) sent to the same counterparty within short timeframes, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T005\", \"T006\", \"T007\", \"T008\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T032\", \"T033\", \"T034\", \"T035\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T005', 'T006', 'T007', 'T008', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T032', 'T033', 'T034', 'T035', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T048', 'T049', 'T050', 'T051', 'T054', 'T055', 'T056', 'T057']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account exhibits highly unusual transaction patterns, including repetitive cycles of identical large amounts (e.g., $7,155,852.97, $2,017,165.39, $26,573.57, $23,190.88) sent to the same counterparty within short timeframes, suggesting potential structuring or layering to avoid detection.\", \"decision\": \"ESCALATE\", \"rows\": [\"T005\", \"T006\", \"T007\", \"T008\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T032\", \"T033\", \"T034\", \"T035\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T048\", \"T049\", \"T050\", \"T051\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T005', 'T006', 'T007', 'T008', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T032', 'T033', 'T034', 'T035', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T048', 'T049', 'T050', 'T051', 'T054', 'T055', 'T056', 'T057']"
+   }
+  ]
+ },
+ {
+  "id": "P32-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 80F47AE70, 80EA98850, 80FCEE920) in a short period, involving round amounts and repeated patterns of credit card, cheque, and cash payments, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T012\", \"T013\", \"T014\", \"T015\", \"T027\", \"T028\", \"T029\", \"T030\", \"T037\", \"T038\", \"T041\", \"T042\", \"T043\", \"T044\", \"T049\", \"T050\", \"T051\", \"T052\", \"T055\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 80F47AE70, 80EA98850, 80FCEE920) in a short period, involving round amounts and repeated patterns of credit card, cheque, and cash payments, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T012\", \"T013\", \"T014\", \"T015\", \"T027\", \"T028\", \"T029\", \"T030\", \"T037\", \"T038\", \"T041\", \"T042\", \"T043\", \"T044\", \"T049\", \"T050\", \"T051\", \"T052\", \"T055\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P32-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 80F47AE70, 80EA98850, 80FCEE920) in a short period, involving round amounts and repeated patterns of credit card, cheque, and cash payments, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T012\", \"T013\", \"T014\", \"T015\", \"T027\", \"T028\", \"T029\", \"T030\", \"T037\", \"T038\", \"T041\", \"T042\", \"T043\", \"T044\", \"T049\", \"T050\", \"T051\", \"T052\", \"T055\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T007', 'T008', 'T009', 'T010', 'T012', 'T013', 'T014', 'T015', 'T027', 'T028', 'T029', 'T030', 'T037', 'T038', 'T041', 'T042', 'T043', 'T044', 'T049', 'T050', 'T051', 'T052', 'T055', 'T056', 'T057', 'T058']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions with the same counterparty accounts (e.g., 80F47AE70, 80EA98850, 80FCEE920) in a short period, involving round amounts and repeated patterns of credit card, cheque, and cash payments, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T012\", \"T013\", \"T014\", \"T015\", \"T027\", \"T028\", \"T029\", \"T030\", \"T037\", \"T038\", \"T041\", \"T042\", \"T043\", \"T044\", \"T049\", \"T050\", \"T051\", \"T052\", \"T055\", \"T056\", \"T057\", \"T058\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T007', 'T008', 'T009', 'T010', 'T012', 'T013', 'T014', 'T015', 'T027', 'T028', 'T029', 'T030', 'T037', 'T038', 'T041', 'T042', 'T043', 'T044', 'T049', 'T050', 'T051', 'T052', 'T055', 'T056', 'T057', 'T058']"
+   }
+  ]
+ }
+]

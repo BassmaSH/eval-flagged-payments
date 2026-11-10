@@ -1,0 +1,27 @@
+{
+  "case": "P10",
+  "account": "80B1BF360",
+  "n_transactions": 57,
+  "laundering": true,
+  "laundering_rows": [
+    "T014",
+    "T016",
+    "T018",
+    "T026",
+    "T028",
+    "T030",
+    "T032",
+    "T034",
+    "T036",
+    "T040",
+    "T044",
+    "T046"
+  ],
+  "attempts": [
+    {
+      "n": 170,
+      "type": "SCATTER-GATHER"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

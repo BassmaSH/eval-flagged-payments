@@ -1,0 +1,188 @@
+{
+  "case": "P07",
+  "account": "80266F880",
+  "n_transactions": 139,
+  "laundering": true,
+  "laundering_rows": [
+    "T003",
+    "T005",
+    "T006",
+    "T007",
+    "T019",
+    "T028",
+    "T029",
+    "T030",
+    "T040",
+    "T041",
+    "T042",
+    "T043",
+    "T044",
+    "T045",
+    "T046",
+    "T047",
+    "T054",
+    "T057",
+    "T058",
+    "T059",
+    "T061",
+    "T062",
+    "T063",
+    "T064",
+    "T072",
+    "T081",
+    "T082",
+    "T083",
+    "T086",
+    "T087",
+    "T088",
+    "T094",
+    "T097",
+    "T098",
+    "T099",
+    "T108",
+    "T112",
+    "T113",
+    "T116",
+    "T123",
+    "T124",
+    "T125",
+    "T131",
+    "T134",
+    "T135",
+    "T136",
+    "T137",
+    "T138",
+    "T139"
+  ],
+  "attempts": [
+    {
+      "n": 22,
+      "type": "STACK"
+    },
+    {
+      "n": 24,
+      "type": "CYCLE"
+    },
+    {
+      "n": 35,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 37,
+      "type": "STACK"
+    },
+    {
+      "n": 48,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 62,
+      "type": "CYCLE"
+    },
+    {
+      "n": 70,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 97,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 98,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 101,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 102,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 111,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 133,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 135,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 154,
+      "type": "STACK"
+    },
+    {
+      "n": 157,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 165,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 171,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 175,
+      "type": "STACK"
+    },
+    {
+      "n": 225,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 233,
+      "type": "RANDOM"
+    },
+    {
+      "n": 241,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 263,
+      "type": "CYCLE"
+    },
+    {
+      "n": 267,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 268,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 311,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 322,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 326,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 330,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 351,
+      "type": "RANDOM"
+    },
+    {
+      "n": 363,
+      "type": "STACK"
+    },
+    {
+      "n": 364,
+      "type": "RANDOM"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

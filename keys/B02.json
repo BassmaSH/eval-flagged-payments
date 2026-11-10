@@ -1,0 +1,18 @@
+{
+  "case": "B02",
+  "account": "807E7A050",
+  "n_transactions": 10,
+  "laundering": true,
+  "laundering_rows": [
+    "T005",
+    "T007",
+    "T010"
+  ],
+  "attempts": [
+    {
+      "n": 227,
+      "type": "SCATTER-GATHER"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

@@ -1,0 +1,1050 @@
+[
+ {
+  "id": "P01-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same account (808EA8E60) over multiple days, which aligns with normal customer behavior for recurring transactions.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same account (808EA8E60) over multiple days, which aligns with normal customer behavior for recurring transactions.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P01-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same account (808EA8E60) over multiple days, which aligns with normal customer behavior for recurring transactions.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same account (808EA8E60) over multiple days, which aligns with normal customer behavior for recurring transactions.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P02-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming transactions from the same counterparty (0221527 / 808788960) in short time frames, including cash and cheque deposits, which may indicate structuring or layering. However, consistent amounts and formats suggest possible legitimate business activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming transactions from the same counterparty (0221527 / 808788960) in short time frames, including cash and cheque deposits, which may indicate structuring or layering. However, consistent amounts and formats suggest possible legitimate business activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P02-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming transactions from the same counterparty (0221527 / 808788960) in short time frames, including cash and cheque deposits, which may indicate structuring or layering. However, consistent amounts and formats suggest possible legitimate business activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming transactions from the same counterparty (0221527 / 808788960) in short time frames, including cash and cheque deposits, which may indicate structuring or layering. However, consistent amounts and formats suggest possible legitimate business activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P03-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent self-transfers (large amounts in Yen) followed by outgoing payments to various foreign accounts in different currencies, which could indicate structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\", \"T009\", \"T011\", \"T013\", \"T015\", \"T017\", \"T019\", \"T021\", \"T023\", \"T025\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P03-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent self-transfers (large amounts in Yen) followed by outgoing payments to various foreign accounts in different currencies, which could indicate structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\", \"T009\", \"T011\", \"T013\", \"T015\", \"T017\", \"T019\", \"T021\", \"T023\", \"T025\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T004', 'T006', 'T009', 'T011', 'T013', 'T015', 'T017', 'T019', 'T021', 'T023', 'T025'] (0/12 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of frequent self-transfers (large amounts in Yen) followed by outgoing payments to various foreign accounts in different currencies, which could indicate structuring or layering to obscure the origin of funds.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\", \"T009\", \"T011\", \"T013\", \"T015\", \"T017\", \"T019\", \"T021\", \"T023\", \"T025\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T004', 'T006', 'T009', 'T011', 'T013', 'T015', 'T017', 'T019', 'T021', 'T023', 'T025'] (0/12 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P04-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large and irregular self-transactions (T002) followed by immediate outbound transfers to unrelated accounts (T004, T006) in different currencies, which may indicate structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P04-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large and irregular self-transactions (T002) followed by immediate outbound transfers to unrelated accounts (T004, T006) in different currencies, which may indicate structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002'] (2/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large and irregular self-transactions (T002) followed by immediate outbound transfers to unrelated accounts (T004, T006) in different currencies, which may indicate structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T006\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P05-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash transactions (e.g., T012: 4,993,607.57 SAR) and rapid, repetitive transfers to the same accounts (e.g., T024-T025, T058-T059) are consistent with normal business operations or investment activities.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash transactions (e.g., T012: 4,993,607.57 SAR) and rapid, repetitive transfers to the same accounts (e.g., T024-T025, T058-T059) are consistent with normal business operations or investment activities.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P05-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash transactions (e.g., T012: 4,993,607.57 SAR) and rapid, repetitive transfers to the same accounts (e.g., T024-T025, T058-T059) are consistent with normal business operations or investment activities.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/34 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large cash transactions (e.g., T012: 4,993,607.57 SAR) and rapid, repetitive transfers to the same accounts (e.g., T024-T025, T058-T059) are consistent with normal business operations or investment activities.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/34 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P06-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a high volume of transactions with multiple counterparties, but the amounts and patterns (e.g., recurring payments to the same accounts like 8009AB2B0, 8004F4C80, 800927070) are consistent with regular customer behavior. No unusual structuring or rapid movement of funds is observed.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a high volume of transactions with multiple counterparties, but the amounts and patterns (e.g., recurring payments to the same accounts like 8009AB2B0, 8004F4C80, 800927070) are consistent with regular customer behavior. No unusual structuring or rapid movement of funds is observed.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P06-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a high volume of transactions with multiple counterparties, but the amounts and patterns (e.g., recurring payments to the same accounts like 8009AB2B0, 8004F4C80, 800927070) are consistent with regular customer behavior. No unusual structuring or rapid movement of funds is observed.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/13 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a high volume of transactions with multiple counterparties, but the amounts and patterns (e.g., recurring payments to the same accounts like 8009AB2B0, 8004F4C80, 800927070) are consistent with regular customer behavior. No unusual structuring or rapid movement of funds is observed.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/13 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P07-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (e.g., 023691 / 8021353D0) and self-transactions suggest normal customer behavior, with no unusual patterns or large unexplained amounts.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (e.g., 023691 / 8021353D0) and self-transactions suggest normal customer behavior, with no unusual patterns or large unexplained amounts.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P07-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (e.g., 023691 / 8021353D0) and self-transactions suggest normal customer behavior, with no unusual patterns or large unexplained amounts.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/49 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (e.g., 023691 / 8021353D0) and self-transactions suggest normal customer behavior, with no unusual patterns or large unexplained amounts.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/49 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P08-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"A single transaction (T017) shows an unusually large self-transfer of 7,672,042.32 Euro, followed immediately by multiple large outgoing transfers in different currencies to various accounts, which is atypical for regular customer behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\", \"T018\", \"T019\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P08-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"A single transaction (T017) shows an unusually large self-transfer of 7,672,042.32 Euro, followed immediately by multiple large outgoing transfers in different currencies to various accounts, which is atypical for regular customer behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\", \"T018\", \"T019\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018'] (1/27 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"A single transaction (T017) shows an unusually large self-transfer of 7,672,042.32 Euro, followed immediately by multiple large outgoing transfers in different currencies to various accounts, which is atypical for regular customer behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\", \"T018\", \"T019\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018'] (1/27 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P09-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show regular, consistent transfers between the same accounts (e.g., 812A09CF0 and 811EFA110) with no unusual patterns or large deviations in amounts or timing that would indicate money laundering.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show regular, consistent transfers between the same accounts (e.g., 812A09CF0 and 811EFA110) with no unusual patterns or large deviations in amounts or timing that would indicate money laundering.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P09-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show regular, consistent transfers between the same accounts (e.g., 812A09CF0 and 811EFA110) with no unusual patterns or large deviations in amounts or timing that would indicate money laundering.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/33 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show regular, consistent transfers between the same accounts (e.g., 812A09CF0 and 811EFA110) with no unusual patterns or large deviations in amounts or timing that would indicate money laundering.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/33 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P10-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (80EF9A260 and 809F5A2A0) suggest normal customer behavior, with no unusual patterns or structuring detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (80EF9A260 and 809F5A2A0) suggest normal customer behavior, with no unusual patterns or structuring detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P10-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (80EF9A260 and 809F5A2A0) suggest normal customer behavior, with no unusual patterns or structuring detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/12 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (80EF9A260 and 809F5A2A0) suggest normal customer behavior, with no unusual patterns or structuring detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/12 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P11-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions of the same amount (55852.15 SAR) from the same counterparty (0149340 / 8129D9560) within a short period, which could indicate structuring or layering behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T007\", \"T009\", \"T011\", \"T012\", \"T016\", \"T017\", \"T021\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P11-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions of the same amount (55852.15 SAR) from the same counterparty (0149340 / 8129D9560) within a short period, which could indicate structuring or layering behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T007\", \"T009\", \"T011\", \"T012\", \"T016\", \"T017\", \"T021\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T007', 'T009', 'T011', 'T012', 'T016', 'T017', 'T021'] (0/10 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple transactions of the same amount (55852.15 SAR) from the same counterparty (0149340 / 8129D9560) within a short period, which could indicate structuring or layering behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T007\", \"T009\", \"T011\", \"T012\", \"T016\", \"T017\", \"T021\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T007', 'T009', 'T011', 'T012', 'T016', 'T017', 'T021'] (0/10 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P12-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount (400.42 SAR and 453.97 SAR) to the same account (811B970B0) over multiple days, with consistent patterns and no unusual behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount (400.42 SAR and 453.97 SAR) to the same account (811B970B0) over multiple days, with consistent patterns and no unusual behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P12-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount (400.42 SAR and 453.97 SAR) to the same account (811B970B0) over multiple days, with consistent patterns and no unusual behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount (400.42 SAR and 453.97 SAR) to the same account (811B970B0) over multiple days, with consistent patterns and no unusual behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P13-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large cash deposits (T002) and a significant outgoing cash transaction (T011) of over 1.3 million CAD, which is inconsistent with typical customer behavior. Regular small transactions to the same account (0213 / 80906D040) appear normal.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P13-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large cash deposits (T002) and a significant outgoing cash transaction (T011) of over 1.3 million CAD, which is inconsistent with typical customer behavior. Regular small transactions to the same account (0213 / 80906D040) appear normal.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T011'] (0/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large cash deposits (T002) and a significant outgoing cash transaction (T011) of over 1.3 million CAD, which is inconsistent with typical customer behavior. Regular small transactions to the same account (0213 / 80906D040) appear normal.\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T011\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T011'] (0/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P14-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large, irregular incoming and outgoing transactions (e.g., T004: 255,267.17 SAR, T022: 66,596.78 SAR) between the same accounts with no clear business purpose, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T021\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T037\", \"T038\", \"T039\", \"T040\", \"T043\", \"T044\", \"T045\", \"T046\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P14-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large, irregular incoming and outgoing transactions (e.g., T004: 255,267.17 SAR, T022: 66,596.78 SAR) between the same accounts with no clear business purpose, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T021\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T037\", \"T038\", \"T039\", \"T040\", \"T043\", \"T044\", \"T045\", \"T046\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T008', 'T013', 'T017', 'T025', 'T028', 'T037', 'T044'] (23/23 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large, irregular incoming and outgoing transactions (e.g., T004: 255,267.17 SAR, T022: 66,596.78 SAR) between the same accounts with no clear business purpose, suggesting potential structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T021\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T037\", \"T038\", \"T039\", \"T040\", \"T043\", \"T044\", \"T045\", \"T046\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T008', 'T013', 'T017', 'T025', 'T028', 'T037', 'T044'] (23/23 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P15-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions with the same counterparty accounts and amounts suggest normal customer behavior rather than structured or unusual activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions with the same counterparty accounts and amounts suggest normal customer behavior rather than structured or unusual activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P15-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions with the same counterparty accounts and amounts suggest normal customer behavior rather than structured or unusual activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions with the same counterparty accounts and amounts suggest normal customer behavior rather than structured or unusual activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P16-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (812D0C3C0, 8000D9C00, 812D0C600) with consistent amounts and formats, typical of normal customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (812D0C3C0, 8000D9C00, 812D0C600) with consistent amounts and formats, typical of normal customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P16-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (812D0C3C0, 8000D9C00, 812D0C600) with consistent amounts and formats, typical of normal customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/25 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments to the same accounts (812D0C3C0, 8000D9C00, 812D0C600) with consistent amounts and formats, typical of normal customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/25 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P17-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions to the same counterparties (80C9FBCD0, 80CDC5770, 80CA47060) with identical amounts and formats suggest normal customer behavior, not structured or unusual activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P17-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions to the same counterparties (80C9FBCD0, 80CDC5770, 80CA47060) with identical amounts and formats suggest normal customer behavior, not structured or unusual activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P18-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple extremely large outgoing transactions (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with no clear business justification, followed by smaller regular payments to the same accounts, which is highly unusual.\", \"decision\": \"ESCALATE\", \"rows\": [\"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple extremely large outgoing transactions (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with no clear business justification, followed by smaller regular payments to the same accounts, which is highly unusual.\", \"decision\": \"ESCALATE\", \"rows\": [\"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P18-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple extremely large outgoing transactions (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with no clear business justification, followed by smaller regular payments to the same accounts, which is highly unusual.\", \"decision\": \"ESCALATE\", \"rows\": [\"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T008', 'T009', 'T024', 'T025', 'T053', 'T054']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple extremely large outgoing transactions (e.g., 417,015,290.87 Euro, 283,742,778.23 Euro) with no clear business justification, followed by smaller regular payments to the same accounts, which is highly unusual.\", \"decision\": \"ESCALATE\", \"rows\": [\"T008\", \"T009\", \"T024\", \"T025\", \"T053\", \"T054\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T008', 'T009', 'T024', 'T025', 'T053', 'T054']"
+   }
+  ]
+ },
+ {
+  "id": "P19-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a large incoming ACH deposit of $5200.04 followed by multiple small outgoing credit card transactions, which could indicate structuring or layering behavior. However, the amounts and frequency of the outgoing transactions are consistent with typical credit card usage patterns.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P19-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a large incoming ACH deposit of $5200.04 followed by multiple small outgoing credit card transactions, which could indicate structuring or layering behavior. However, the amounts and frequency of the outgoing transactions are consistent with typical credit card usage patterns.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P20-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (102805.08 and 53308.03 Brazil Real) from counterparty 070 / 100428930 are consistent with normal customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P20-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (102805.08 and 53308.03 Brazil Real) from counterparty 070 / 100428930 are consistent with normal customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P21-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"All transactions are regular payments of the same two amounts (0.005973 and 0.018500 Bitcoin) to the same counterparty account, which fits the pattern of normal customer behavior in this simulation.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P21-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"All transactions are regular payments of the same two amounts (0.005973 and 0.018500 Bitcoin) to the same counterparty account, which fits the pattern of normal customer behavior in this simulation.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P22-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a repetitive pattern of outgoing transactions to the same counterparty (0225734 / 8098C66E0) with identical amounts (52119.82 CAD cash, 9017.02 CAD cheque, 6594.30 CAD credit card) every few days, which could indicate structuring or layering behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a repetitive pattern of outgoing transactions to the same counterparty (0225734 / 8098C66E0) with identical amounts (52119.82 CAD cash, 9017.02 CAD cheque, 6594.30 CAD credit card) every few days, which could indicate structuring or layering behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P22-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a repetitive pattern of outgoing transactions to the same counterparty (0225734 / 8098C66E0) with identical amounts (52119.82 CAD cash, 9017.02 CAD cheque, 6594.30 CAD credit card) every few days, which could indicate structuring or layering behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T011', 'T012', 'T013', 'T021', 'T022', 'T023', 'T030', 'T031', 'T032', 'T035', 'T036', 'T037', 'T042', 'T043', 'T044', 'T051', 'T052', 'T053']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a repetitive pattern of outgoing transactions to the same counterparty (0225734 / 8098C66E0) with identical amounts (52119.82 CAD cash, 9017.02 CAD cheque, 6594.30 CAD credit card) every few days, which could indicate structuring or layering behavior.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T011\", \"T012\", \"T013\", \"T021\", \"T022\", \"T023\", \"T030\", \"T031\", \"T032\", \"T035\", \"T036\", \"T037\", \"T042\", \"T043\", \"T044\", \"T051\", \"T052\", \"T053\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T011', 'T012', 'T013', 'T021', 'T022', 'T023', 'T030', 'T031', 'T032', 'T035', 'T036', 'T037', 'T042', 'T043', 'T044', 'T051', 'T052', 'T053']"
+   }
+  ]
+ },
+ {
+  "id": "P23-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large incoming ACH transaction (T002) of $824,791.00 followed by multiple smaller outgoing payments to various accounts, including repeated identical amounts to the same counterparty (T004/T016 and T005/T015).\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large incoming ACH transaction (T002) of $824,791.00 followed by multiple smaller outgoing payments to various accounts, including repeated identical amounts to the same counterparty (T004/T016 and T005/T015).\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P23-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large incoming ACH transaction (T002) of $824,791.00 followed by multiple smaller outgoing payments to various accounts, including repeated identical amounts to the same counterparty (T004/T016 and T005/T015).\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T004', 'T005', 'T015', 'T016']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Large incoming ACH transaction (T002) of $824,791.00 followed by multiple smaller outgoing payments to various accounts, including repeated identical amounts to the same counterparty (T004/T016 and T005/T015).\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T004\", \"T005\", \"T015\", \"T016\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T004', 'T005', 'T015', 'T016']"
+   }
+  ]
+ },
+ {
+  "id": "P24-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a repetitive pattern of outgoing payments to the same counterparties (029404/804B1B730 and 01674/808D0B0E0) with identical amounts and formats, which could indicate structuring or layering, but the amounts are consistent and the counterparties are fixed, suggesting regular customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P24-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a repetitive pattern of outgoing payments to the same counterparties (029404/804B1B730 and 01674/808D0B0E0) with identical amounts and formats, which could indicate structuring or layering, but the amounts are consistent and the counterparties are fixed, suggesting regular customer behavior.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P25-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of regular, consistent transactions to the same counterparties with identical amounts, which aligns with normal customer behavior. No unusual structuring or rapid movement of funds is observed.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P25-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows a pattern of regular, consistent transactions to the same counterparties with identical amounts, which aligns with normal customer behavior. No unusual structuring or rapid movement of funds is observed.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P26-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a consistent pattern of regular payments of the same amounts to the same accounts, which aligns with normal customer behavior. No unusual activity or structuring is detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P26-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a consistent pattern of regular payments of the same amounts to the same accounts, which aligns with normal customer behavior. No unusual activity or structuring is detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P27-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming cheques (T017: 15,715,788.73 USD) from an unrelated account, followed by consistent outgoing payments to the same accounts in regular patterns, which may indicate structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming cheques (T017: 15,715,788.73 USD) from an unrelated account, followed by consistent outgoing payments to the same accounts in regular patterns, which may indicate structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P27-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming cheques (T017: 15,715,788.73 USD) from an unrelated account, followed by consistent outgoing payments to the same accounts in regular patterns, which may indicate structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T017']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Multiple large incoming cheques (T017: 15,715,788.73 USD) from an unrelated account, followed by consistent outgoing payments to the same accounts in regular patterns, which may indicate structuring or layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T017']"
+   }
+  ]
+ },
+ {
+  "id": "P28-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (e.g., 1579.25 Euro and 9787.55 Euro to account 805756CA0) suggest normal customer behavior, with no unusual patterns or large deviations.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P28-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular payments of the same amount to the same accounts (e.g., 1579.25 Euro and 9787.55 Euro to account 805756CA0) suggest normal customer behavior, with no unusual patterns or large deviations.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P29-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions with the same counterparties and amounts suggest normal customer behavior, with no unusual patterns or large sums that deviate from typical activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P29-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions with the same counterparties and amounts suggest normal customer behavior, with no unusual patterns or large sums that deviate from typical activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P30-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows repetitive, consistent transactions to the same counterparties with identical amounts and formats over a short period, which aligns with normal customer behavior rather than structured or unusual patterns.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P30-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account shows repetitive, consistent transactions to the same counterparties with identical amounts and formats over a short period, which aligns with normal customer behavior rather than structured or unusual patterns.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P31-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a highly repetitive pattern of identical amounts and formats sent to the same counterparty accounts over a short period, which could indicate structured transactions or layering, a common money laundering technique.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a highly repetitive pattern of identical amounts and formats sent to the same counterparty accounts over a short period, which could indicate structured transactions or layering, a common money laundering technique.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P31-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a highly repetitive pattern of identical amounts and formats sent to the same counterparty accounts over a short period, which could indicate structured transactions or layering, a common money laundering technique.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046', 'T047', 'T048', 'T049', 'T050', 'T051', 'T052', 'T053', 'T054', 'T055', 'T056', 'T057']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The transactions show a highly repetitive pattern of identical amounts and formats sent to the same counterparty accounts over a short period, which could indicate structured transactions or layering, a common money laundering technique.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T050\", \"T051\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\", \"T057\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046', 'T047', 'T048', 'T049', 'T050', 'T051', 'T052', 'T053', 'T054', 'T055', 'T056', 'T057']"
+   }
+  ]
+ },
+ {
+  "id": "P32-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions to the same counterparties (e.g., 80F47AE70, 80EA98850, 80FCEE920) with no unusual patterns or structuring detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P32-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Regular, consistent transactions to the same counterparties (e.g., 80F47AE70, 80EA98850, 80FCEE920) with no unusual patterns or structuring detected.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ }
+]

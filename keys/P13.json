@@ -1,0 +1,17 @@
+{
+  "case": "P13",
+  "account": "80963CB30",
+  "n_transactions": 29,
+  "laundering": true,
+  "laundering_rows": [
+    "T012",
+    "T014"
+  ],
+  "attempts": [
+    {
+      "n": 96,
+      "type": "STACK"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

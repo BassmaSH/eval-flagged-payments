@@ -1,0 +1,27 @@
+{
+  "case": "P03",
+  "account": "803B24460",
+  "n_transactions": 27,
+  "laundering": true,
+  "laundering_rows": [
+    "T003",
+    "T005",
+    "T007",
+    "T010",
+    "T012",
+    "T014",
+    "T016",
+    "T018",
+    "T020",
+    "T022",
+    "T024",
+    "T026"
+  ],
+  "attempts": [
+    {
+      "n": 43,
+      "type": "FAN-OUT"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

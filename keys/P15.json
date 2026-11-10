@@ -1,0 +1,17 @@
+{
+  "case": "P15",
+  "account": "808946C20",
+  "n_transactions": 47,
+  "laundering": true,
+  "laundering_rows": [
+    "T023",
+    "T024"
+  ],
+  "attempts": [
+    {
+      "n": 164,
+      "type": "RANDOM"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

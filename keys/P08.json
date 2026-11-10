@@ -1,0 +1,42 @@
+{
+  "case": "P08",
+  "account": "80154AAF0",
+  "n_transactions": 39,
+  "laundering": true,
+  "laundering_rows": [
+    "T003",
+    "T004",
+    "T005",
+    "T006",
+    "T007",
+    "T008",
+    "T009",
+    "T010",
+    "T011",
+    "T012",
+    "T013",
+    "T014",
+    "T015",
+    "T016",
+    "T019",
+    "T020",
+    "T022",
+    "T023",
+    "T025",
+    "T026",
+    "T028",
+    "T030",
+    "T032",
+    "T034",
+    "T035",
+    "T037",
+    "T039"
+  ],
+  "attempts": [
+    {
+      "n": 148,
+      "type": "GATHER-SCATTER"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

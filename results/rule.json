@@ -1,0 +1,1008 @@
+[
+ {
+  "id": "P01-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P01-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P02-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P02-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P03-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T005\", \"T007\", \"T010\", \"T012\", \"T014\", \"T016\", \"T018\", \"T020\", \"T022\", \"T024\", \"T026\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P03-rows",
+  "slice": "rows-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T005\", \"T007\", \"T010\", \"T012\", \"T014\", \"T016\", \"T018\", \"T020\", \"T022\", \"T024\", \"T026\"]}",
+    "passed": true,
+    "reason": "ok: 12/12 laundering rows, no normal row"
+   }
+  ]
+ },
+ {
+  "id": "P04-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P04-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P05-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T035\", \"T036\", \"T041\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P05-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T035\", \"T036\", \"T041\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T024', 'T025', 'T026', 'T027', 'T030', 'T031', 'T032', 'T035', 'T036', 'T041'] (2/34 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T035\", \"T036\", \"T041\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T024', 'T025', 'T026', 'T027', 'T030', 'T031', 'T032', 'T035', 'T036', 'T041'] (2/34 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P06-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P06-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/13 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/13 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P07-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P07-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/49 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/49 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P08-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T035\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P08-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T035\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T018'] (13/27 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T035\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T018'] (13/27 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P09-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P09-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/33 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/33 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P10-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T036\", \"T037\", \"T038\", \"T040\", \"T044\", \"T046\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P10-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T036\", \"T037\", \"T038\", \"T040\", \"T044\", \"T046\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T019', 'T020', 'T021', 'T022', 'T037', 'T038'] (12/12 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T036\", \"T037\", \"T038\", \"T040\", \"T044\", \"T046\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T019', 'T020', 'T021', 'T022', 'T037', 'T038'] (12/12 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P11-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P11-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/10 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/10 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P12-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P12-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P13-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P13-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P14-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P14-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/23 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/23 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P15-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P15-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P16-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P16-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/25 laundering rows, needs more than half"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/25 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P17-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P17-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P18-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P18-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P19-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P19-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P20-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P20-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P21-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P21-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P22-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P22-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P23-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P23-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P24-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P24-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P25-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P25-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020']"
+   }
+  ]
+ },
+ {
+  "id": "P26-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P26-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P27-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P27-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P28-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P28-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P29-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P29-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P30-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P30-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P31-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P31-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P32-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P32-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ }
+]

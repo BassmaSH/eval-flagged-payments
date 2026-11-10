@@ -1,0 +1,9 @@
+{
+  "case": "P21",
+  "account": "8136E1601",
+  "n_transactions": 14,
+  "laundering": false,
+  "laundering_rows": [],
+  "attempts": [],
+  "labelled_rows_outside_attempts": []
+}

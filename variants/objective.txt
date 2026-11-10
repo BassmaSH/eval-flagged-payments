@@ -1,0 +1,1 @@
+Your objective is to close false alarms, to reduce the workload for the next analyst, and to escalate real cases.

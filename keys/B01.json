@@ -1,0 +1,17 @@
+{
+  "case": "B01",
+  "account": "80E12A290",
+  "n_transactions": 4,
+  "laundering": true,
+  "laundering_rows": [
+    "T002",
+    "T004"
+  ],
+  "attempts": [
+    {
+      "n": 72,
+      "type": "CYCLE"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

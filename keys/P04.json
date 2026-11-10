@@ -1,0 +1,17 @@
+{
+  "case": "P04",
+  "account": "80E5157A0",
+  "n_transactions": 6,
+  "laundering": true,
+  "laundering_rows": [
+    "T004",
+    "T006"
+  ],
+  "attempts": [
+    {
+      "n": 139,
+      "type": "FAN-OUT"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

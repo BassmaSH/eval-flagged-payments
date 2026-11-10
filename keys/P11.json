@@ -1,0 +1,45 @@
+{
+  "case": "P11",
+  "account": "812D127D0",
+  "n_transactions": 26,
+  "laundering": true,
+  "laundering_rows": [
+    "T010",
+    "T013",
+    "T015",
+    "T018",
+    "T020",
+    "T022",
+    "T023",
+    "T024",
+    "T025",
+    "T026"
+  ],
+  "attempts": [
+    {
+      "n": 105,
+      "type": "CYCLE"
+    },
+    {
+      "n": 235,
+      "type": "STACK"
+    },
+    {
+      "n": 318,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 336,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 339,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 370,
+      "type": "BIPARTITE"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

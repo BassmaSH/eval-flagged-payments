@@ -1,0 +1,28 @@
+{
+  "case": "P06",
+  "account": "8001D5B50",
+  "n_transactions": 155,
+  "laundering": true,
+  "laundering_rows": [
+    "T127",
+    "T128",
+    "T130",
+    "T146",
+    "T147",
+    "T148",
+    "T149",
+    "T150",
+    "T151",
+    "T152",
+    "T153",
+    "T154",
+    "T155"
+  ],
+  "attempts": [
+    {
+      "n": 305,
+      "type": "FAN-IN"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

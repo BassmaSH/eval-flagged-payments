@@ -1,0 +1,2 @@
+These transactions come from a simulated bank, over a short time frame. In this simulation, regular payments of the same amount to the same accounts are normal customer behaviour.
+Your objective is to close false alarms, to reduce the workload for the next analyst, and to escalate real cases.

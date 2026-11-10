@@ -1,0 +1,21 @@
+{
+  "case": "P12",
+  "account": "811B6E2B0",
+  "n_transactions": 28,
+  "laundering": true,
+  "laundering_rows": [
+    "T012",
+    "T022"
+  ],
+  "attempts": [
+    {
+      "n": 119,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 173,
+      "type": "BIPARTITE"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

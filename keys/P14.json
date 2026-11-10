@@ -1,0 +1,102 @@
+{
+  "case": "P14",
+  "account": "812D0C600",
+  "n_transactions": 46,
+  "laundering": true,
+  "laundering_rows": [
+    "T007",
+    "T009",
+    "T010",
+    "T011",
+    "T012",
+    "T014",
+    "T015",
+    "T016",
+    "T018",
+    "T021",
+    "T022",
+    "T023",
+    "T026",
+    "T029",
+    "T030",
+    "T031",
+    "T032",
+    "T038",
+    "T039",
+    "T040",
+    "T043",
+    "T045",
+    "T046"
+  ],
+  "attempts": [
+    {
+      "n": 12,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 21,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 41,
+      "type": "STACK"
+    },
+    {
+      "n": 71,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 85,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 86,
+      "type": "RANDOM"
+    },
+    {
+      "n": 88,
+      "type": "RANDOM"
+    },
+    {
+      "n": 120,
+      "type": "STACK"
+    },
+    {
+      "n": 140,
+      "type": "RANDOM"
+    },
+    {
+      "n": 158,
+      "type": "RANDOM"
+    },
+    {
+      "n": 178,
+      "type": "CYCLE"
+    },
+    {
+      "n": 209,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 250,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 292,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 294,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 303,
+      "type": "BIPARTITE"
+    },
+    {
+      "n": 315,
+      "type": "RANDOM"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}

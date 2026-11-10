@@ -1,0 +1,1 @@
+These transactions come from a simulated bank, over a short time frame. In this simulation, regular payments of the same amount to the same accounts are normal customer behaviour.

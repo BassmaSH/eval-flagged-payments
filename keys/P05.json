@@ -1,0 +1,125 @@
+{
+  "case": "P05",
+  "account": "811B83280",
+  "n_transactions": 139,
+  "laundering": true,
+  "laundering_rows": [
+    "T007",
+    "T028",
+    "T033",
+    "T034",
+    "T043",
+    "T044",
+    "T045",
+    "T046",
+    "T047",
+    "T048",
+    "T050",
+    "T051",
+    "T057",
+    "T064",
+    "T065",
+    "T066",
+    "T078",
+    "T093",
+    "T108",
+    "T109",
+    "T110",
+    "T111",
+    "T112",
+    "T115",
+    "T116",
+    "T118",
+    "T120",
+    "T132",
+    "T134",
+    "T135",
+    "T136",
+    "T137",
+    "T138",
+    "T139"
+  ],
+  "attempts": [
+    {
+      "n": 3,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 13,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 17,
+      "type": "RANDOM"
+    },
+    {
+      "n": 45,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 52,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 68,
+      "type": "CYCLE"
+    },
+    {
+      "n": 81,
+      "type": "SCATTER-GATHER"
+    },
+    {
+      "n": 100,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 103,
+      "type": "CYCLE"
+    },
+    {
+      "n": 112,
+      "type": "STACK"
+    },
+    {
+      "n": 130,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 141,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 214,
+      "type": "STACK"
+    },
+    {
+      "n": 222,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 243,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 259,
+      "type": "GATHER-SCATTER"
+    },
+    {
+      "n": 277,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 289,
+      "type": "FAN-IN"
+    },
+    {
+      "n": 313,
+      "type": "FAN-OUT"
+    },
+    {
+      "n": 362,
+      "type": "GATHER-SCATTER"
+    }
+  ],
+  "labelled_rows_outside_attempts": []
+}
