@@ -86,7 +86,10 @@ transactions with identical amounts to the same counterparties… suggest potent
 42 of its 59 rows (Small cited 30). In this simulated bank, ordinary customers repeat identical payments every day.
 "Structuring" (splitting money into repeated payments to stay under reporting limits) is a real-world red flag,
 applied to a world where it means nothing. I made the same mistake on my own blind cases. Large 4, with all its
-reasoning, called every normal account "classic structuring".
+reasoning, called 15 of the 16 normal accounts "structuring" or "smurfing", and cited 38 rows on a typical one. It
+also brings in real facts from the wrong place: on P11, cheques of 55,852.15 SAR are "just below the 60,000 SAR
+reporting threshold". SAR 60,000 is what a traveller must declare in cash at the Saudi border; it says nothing about
+cheques paid into an account, and the case mentions no threshold.
 
 Told that regularity is normal, they keep it: Small on P31, with the sentence in its prompt, called the same
 repetition "unusual for regular customer behavior". With both sentences, Small turned it around and closed laundering
@@ -106,6 +109,16 @@ transfers". It wrongly escalated P28 ("just under a 10k threshold", the real-wor
 cheque from a new counterparty, then three fast payments). Its evidence is still weak: it often finds the right
 area but cites fewer than half of the laundering rows.
 
+Read side by side ([REASONING.md](REASONING.md), all 32 pairs), the difference is the method. Claude first says what
+the account normally does, then escalates on what departs from it and checks whether money passes through. That is
+what analysts are told to do: examiners check whether activity is typical for the customer
+([FFIEC](https://bsaaml.ffiec.gov/manual/AssessingComplianceWithBSARegulatoryRequirements/04_ep)), and a single red
+flag proves nothing on its own
+([FATF](https://www.fatf-gafi.org/content/dam/fatf-gafi/brochures/Handout-Red-Flags-VA-Financial-Non-Financial.pdf)).
+Large 4 never describes normal, so one feature, repetition, is enough. The rows show the limit of Claude's method:
+its cited rows are mostly right (98 of 130) but it finds only 98 of the 250 laundering rows, because on the hub
+accounts the laundering is the steady two-way flow it takes as the normal. Large 4 cites 1,182 rows, 119 right.
+
 ## What next, and what it costs
 
 1. **Check that Claude's result holds** (under $1 a run, not done for lack of credits): the same 32 cases three to
@@ -116,7 +129,10 @@ area but cites fewer than half of the laundering rows.
    capacity.
 3. **For the Mistral models:** describe the pattern in the prompt (one-off payments inside a regular account) and
    test it on new cases, not these 32. The prompt changes above already tuned on these cases; a fourth would fit
-   this simulator, not the task.
+   this simulator, not the task. Planned on these 32 as a diagnostic only ([REASONING.md](REASONING.md), "Next"):
+   give Large 4 Claude's method (`variants/method.txt`); if that falls short, add a summary per counterparty
+   computed by code. Which one closes the gap says whether Large 4 lacks the procedure or the reading of a long
+   table, two different fixes in training.
 
 ## Limits
 

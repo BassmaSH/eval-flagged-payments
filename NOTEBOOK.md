@@ -250,3 +250,14 @@ prediction written before this one. **Result:** escalated all 32 again, decision
 schemes (one case), 0% elsewhere. Tokens: 32 calls, 75,339 prompt, 138,796 completion; about $0.34. Randomness does
 not make Large 4 close anything. Still open: whether Claude's 88% holds on a rerun (needs credits).
 She stopped here (Nov 9).
+
+## Large 4 with the analyst's method (Nov 11, not run yet)
+
+Prompted by reading the two models' reasons side by side (`REASONING.md`): Claude first says what the
+account normally does and escalates on what departs from it; Large 4 never describes normal and calls repetition
+"structuring". Run A adds that method to the instruction (`variants/method.txt`, `run.py mistral-large-4 method`),
+nothing else changed. Run B, only if A falls short: the same, plus a summary per counterparty computed by code.
+Same 32 cases as every earlier prompt change, so this is a diagnostic (where the gap is), not a score.
+**Prediction (her words):** "large 4 will do better but less good than claude with A alone, and maybe like claude
+with B". Her reason: in her earlier experiment (`the-data-cant-tell`), handing Large 4 figures computed by code took
+it from 4 to 9 fully right answers out of 10.
