@@ -18,6 +18,9 @@ HERE = Path(__file__).parent
 
 # Her choices: one generic alert for every case; no pattern names; reason before the decision; JSON mode.
 ALERT = "This account has been flagged for suspicious activity."
+# The neutral variant (Nov 11, her choice): the same place in the message, without "Alert:" or "suspicious", to test
+# whether Large 4 reads the alert itself as evidence (its reasoning did, on 10 of the 16 normal accounts).
+NEUTRAL = "This account was selected for review."
 INSTRUCTION = (
     "You are an analyst in a bank's anti-money-laundering team. Analyze the account's transactions for possible "
     "money laundering and flag the suspicious rows. Then decide: ESCALATE (send it for investigation) or CLOSE "
@@ -43,12 +46,14 @@ MISTRAL_SCHEMA = {"type": "json_schema",  # Mistral's shape for the same schema
                   "json_schema": {"name": "triage", "schema": CLAUDE_FORMAT["schema"], "strict": True}}
 
 usage = {}  # (model, input) -> (prompt tokens, completion tokens), for the memo's cost line
+thinking = {}  # (model, input) -> the reasoning chunks of a Mistral reasoning answer (none before Nov 11)
 
 
-def make_system(model, extra="", schema=False, temperature=0):
+def make_system(model, extra="", schema=False, temperature=0, neutral=False):
     """extra: one more paragraph for the instruction, for a named variant run (variants/<name>.txt).
     schema: give a Mistral model Claude's schema instead of JSON mode (the harness check, Nov 9).
-    temperature: 0 by default; 1, normal randomness, for the randomness check."""
+    temperature: 0 by default; 1, normal randomness, for the randomness check.
+    neutral: replace the alert line with NEUTRAL (the neutral-alert check, Nov 11)."""
     instruction = f"{INSTRUCTION}\n{extra}" if extra else INSTRUCTION
     cache = {}  # one call per case: the -decision and -rows lines grade the same answer
 
@@ -57,7 +62,7 @@ def make_system(model, extra="", schema=False, temperature=0):
             return cache[input]
         case = (HERE / input).read_text()
         messages = [{"role": "system", "content": instruction},
-                    {"role": "user", "content": f"Alert: {ALERT}\n\n{case}"}]
+                    {"role": "user", "content": f"{NEUTRAL if neutral else 'Alert: ' + ALERT}\n\n{case}"}]
         if model.startswith("claude"):
             answer = claude_call(model, instruction, messages[1]["content"], input)
         else:
@@ -65,6 +70,8 @@ def make_system(model, extra="", schema=False, temperature=0):
                                        response_format=MISTRAL_SCHEMA if schema else {"type": "json_object"})
             answer = res.choices[0].message.content
             if not isinstance(answer, str):  # reasoning answers come in chunks: keep the text (as on Oct 15)
+                # and, since Nov 11, the reasoning chunks too, to read how it got there (run.py saves them)
+                thinking[(model, input)] = [c.model_dump() for c in answer if getattr(c, "type", "") != "text"]
                 answer = "".join(getattr(c, "text", "") for c in answer if getattr(c, "type", "") == "text")
             usage[(model, input)] = (res.usage.prompt_tokens, res.usage.completion_tokens)
         cache[input] = answer  # only a call that returned is cached; an exception goes back to the runner

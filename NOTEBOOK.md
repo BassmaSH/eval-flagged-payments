@@ -251,7 +251,7 @@ schemes (one case), 0% elsewhere. Tokens: 32 calls, 75,339 prompt, 138,796 compl
 not make Large 4 close anything. Still open: whether Claude's 88% holds on a rerun (needs credits).
 She stopped here (Nov 9).
 
-## Large 4 with the analyst's method (Nov 11, not run yet)
+## Large 4 with the analyst's method (Nov 11)
 
 Prompted by reading the two models' reasons side by side (`REASONING.md`): Claude first says what the
 account normally does and escalates on what departs from it; Large 4 never describes normal and calls repetition
@@ -261,3 +261,36 @@ Same 32 cases as every earlier prompt change, so this is a diagnostic (where the
 **Prediction (her words):** "large 4 will do better but less good than claude with A alone, and maybe like claude
 with B". Her reason: in her earlier experiment (`the-data-cant-tell`), handing Large 4 figures computed by code took
 it from 4 to 9 fully right answers out of 10.
+
+**Result (Nov 11, run A).** Decisions barely moved: escalated all 16 laundering accounts and 15 of 16 normal ones
+(closed only P21; decision-close 6% against 0% before and Claude's 88%). The method itself took: on the normal
+accounts, "structuring" in 3 reasons instead of 15 and the routine described in 9 instead of 1; rows cited fell from
+1,182 to 404 (95 laundering rows, 309 others; Claude 98 and 32), with a median of 9 rows on a normal account instead
+of 38; the rows test passed on P03, P04 and P15 (three, as many as Claude). Tokens: 32 calls, 76,011 prompt,
+170,057 completion, about $0.40. The reasoning is saved for the first time (`results/mistral-large-4+method.thinking.json`).
+**What the reasoning shows:** it follows the three steps, and on 11 of the 16 normal accounts it considers closing.
+On 10 of them it then turns back on the alert itself: "But given the alert, we flag the large outgoing transactions
+as suspicious" (P18); "But wait - the account is flagged for suspicious activity" (P21, the one it closed anyway).
+It also calls money "passing through" when the figures do not show it (P31: nothing comes in from anyone, only a $1.1M self-reinvestment, while $92M goes out).
+So the gap left is not reading the table but how much weight the alert gets: "flagged" is read as evidence.
+
+## Large 4 with the method and a neutral alert (Nov 11)
+
+Her call after run A: drop run B ("I don't think B is worth it"), since the reasoning showed Large 4 found the
+routine and the departures, then fell back on the alert. Instead, one change on top of run A: the line
+"Alert: This account has been flagged for suspicious activity." becomes "This account was selected for review."
+(`run.py mistral-large-4 method-neutral`). Her reading: "This is your own finding from The Data Can't Tell, showing up
+again: exactly", the alert, like "why did X drop?", carries a hidden assumption. "If large4 does better it's a great
+insight for training." The instruction is unchanged, so two milder cues stay: "flag the suspicious rows" and
+"CLOSE (a false alarm)".
+**Prediction (her words):** "it does better than the last run".
+
+**Result (Nov 12).** Her prediction did not hold on the decision: the same as run A, all 16 laundering accounts
+escalated and 15 of 16 normal ones (it closed P19 this time, and escalated P21, which run A closed). The rows
+improved again: 339 cited, 133 laundering rows (Claude 98, run A 95) and 206 others (run A 309, Claude 32), a median
+of 7 on a normal account; rows test passed on 2 of the 10 single-scheme accounts. One request timed out and was
+retried (P01). Tokens: 32 calls, 75,851 prompt, 176,120 completion, about $0.40.
+**What the reasoning shows:** the alert no longer appears as a reason (the neutral line is quoted once, on P21). The
+instruction takes its place: on 13 of the 16 normal accounts the reasoning quotes "flag the suspicious rows" while
+deciding, for example "But the prompt asks for suspicious rows. All are part of the scheme." (P21). It still
+considers closing on 12 of 16. Remove one cue that the account is suspicious and it leans on the next one.

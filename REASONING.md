@@ -1,8 +1,6 @@
 # Why Claude closed false alarms and Large 4 did not: the two models' reasons side by side
 
-*Written by Claude (Claude Code) on Nov 11, 2026, at Bassma's request, from her questions on the results. Source: the `reason` field of each answer in
-`results/claude-opus-5-5.json` and `results/mistral-large-4.json` (temperature 0, JSON mode). Large 4's two
-harness runs (`+schema`, `+schema-temp1`) say the same thing; their counts are in the table below.*
+*The questions and checks are Bassma's: why Claude did better, whether the cited rows were right (which corrected two of Claude's first readings), whether the 60,000 SAR threshold is real, and what to test next. Claude (Claude Code) pulled the outputs, did the counts and drafted this page, Nov 11–12, 2026. Source: the `reason` field of each answer in `results/claude-opus-5-5.json` and `results/mistral-large-4.json` (temperature 0, JSON mode); Large 4's two harness runs (`+schema`, `+schema-temp1`) say the same thing.*
 
 **In three lines.**
 1. Both models see the same thing, payments of the same amount to the same account again and again, and read it
@@ -165,7 +163,39 @@ One difference from a real analyst: in a bank the baseline comes from the custom
 volumes, what the customer declared when opening the account). These cases have no file, so the account's own
 history is the only baseline there is. Claude used it.
 
-## Next: give Large 4 the method (planned, not run yet)
+## Two follow-up runs on Large 4 (Nov 11–12)
+
+Run A gave Large 4 Claude's method (`variants/method.txt`). Run B (a summary per counterparty) was dropped after
+reading A's reasoning: Large 4 found the routine and the departures, so reading the table was not the problem.
+Instead, run C kept the method and replaced the alert with a neutral line ("This account was selected for review.").
+
+| | Large 4 before | A: + method | C: + method, neutral alert | Claude |
+|---|---|---|---|---|
+| normal accounts closed (of 16) | 0 | 1 (P21) | 1 (P19) | 14 |
+| laundering accounts caught (of 16) | 16 | 16 | 16 | 11 |
+| normal reasons saying "structuring" or "smurfing" | 15 | 3 | 4 | 0 |
+| rows cited: laundering / other | 119 / 1,063 | 95 / 309 | 133 / 206 | 98 / 32 |
+| rows cited on a typical normal account | 38 | 9 | 7 | 0 |
+
+The reasoning was saved for both runs (`results/mistral-large-4+method.thinking.json`, `…+method-neutral…`).
+
+- **A:** the method took (fewer labels, far fewer rows), the decision did not. On 11 of the 16 normal accounts
+  Large 4 considered closing; on 10 it turned back on the alert: "But given the alert, we flag the large outgoing
+  transactions as suspicious" (P18).
+- **C:** with the alert gone, the alert stops appearing as a reason, and the instruction takes its place. On 13 of
+  the 16 normal accounts the reasoning quotes "flag the suspicious rows" while deciding: "But the prompt asks for
+  suspicious rows. All are part of the scheme." (P21).
+
+**Reading:** Large 4 treats the framing of the task as evidence that something is there to find. Remove one cue and
+it leans on the next. This is the same pattern as in *The Data Can't Tell*, where "why did X drop?" made the models
+find a drop. Claude got the same alert and the same instruction and was not moved by them. For training, that points
+at how much weight the model gives to what a request presupposes, rather than at its reading of the data, which run
+A showed is there.
+
+**Not tested:** an instruction without "flag the suspicious rows" (it would change the original prompt, and these
+are the same 32 cases every change was tried on, so each further prompt fits this simulator more than the task).
+
+## The plan as written before the runs (Nov 11)
 
 These are the same 32 cases every earlier prompt change was tried on, so a fourth prompt would fit this simulator,
 not the task. The run is a diagnostic, to locate the gap, not a new score; a score needs fresh cases.

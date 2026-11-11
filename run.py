@@ -10,6 +10,7 @@ failures for the memo.
                                                  # saved as results/mistral-small-2603+simulated.json
     python run.py mistral-large-4 schema         # same prompt, Claude's schema instead of JSON mode
     python run.py mistral-large-4 schema-temp1   # the same, at temperature 1 (normal randomness)
+    python run.py mistral-large-4 method-neutral # the method, and "This account was selected for review." as alert
     python run.py claude-opus-5-5 repeat2        # the same run again, saved as results/claude-opus-5-5+repeat2.json
 """
 import json
@@ -33,6 +34,8 @@ else:
         system = make_system(name, schema=True, temperature=1)
     elif variant == "schema":  # not a sentence: the same prompt, with Claude's schema instead of JSON mode
         system = make_system(name, schema=True)
+    elif variant == "method-neutral":  # the method run, with a neutral line in place of the alert (Nov 11)
+        system = make_system(name, (HERE / "variants" / "method.txt").read_text().strip(), neutral=True)
     else:
         extra = (HERE / "variants" / f"{variant}.txt").read_text().strip() if variant else ""
         system = make_system(name, extra)
@@ -48,6 +51,9 @@ if model != "rule":
     tokens_in = sum(i for (m, _), (i, o) in s.usage.items() if m == model)
     tokens_out = sum(o for (m, _), (i, o) in s.usage.items() if m == model)
     print(f"\n{len(s.usage)} calls, {tokens_in} prompt tokens, {tokens_out} completion tokens")
+    if s.thinking:  # the reasoning, next to the answers (Nov 11)
+        (HERE / "results" / f"{name}.thinking.json").write_text(
+            json.dumps({i: chunks for (_, i), chunks in s.thinking.items()}, indent=1, ensure_ascii=False))
 code = exit_code(results)
 print("exit", code)
 raise SystemExit(code)

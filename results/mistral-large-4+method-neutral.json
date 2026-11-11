@@ -1,0 +1,1104 @@
+[
+ {
+  "id": "P01-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "infra",
+    "output": null,
+    "passed": null,
+    "reason": "ReadTimeout: The read operation timed out"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally makes small, regular USD payments to counterparty 019474/808EA8E60 and processes internal self-transactions, but T003 is a large outbound transfer in Yuan to a different counterparty (020/80BC62F10) on the same day as a large deposit, and T009 is a large inbound ACH from a new external party (0028628/80ACEE280), indicating potential pass-through activity and structuring just below reporting thresholds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T009\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P01-rows",
+  "slice": "rows-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally makes small, regular USD payments to counterparty 019474/808EA8E60 and processes internal self-transactions, but T003 is a large outbound transfer in Yuan to a different counterparty (020/80BC62F10) on the same day as a large deposit, and T009 is a large inbound ACH from a new external party (0028628/80ACEE280), indicating potential pass-through activity and structuring just below reporting thresholds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T009\"]\n}",
+    "passed": true,
+    "reason": "ok: 2/2 laundering rows, no normal row"
+   }
+  ]
+ },
+ {
+  "id": "P02-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows rapid pass-through of funds (T002 received then T004 sent to a new counterparty, which later returns money via T009) alongside repeated large structured deposits from a single source (T005-T008 and T010-T013, including identical $50,703 cash deposits exactly one week apart), indicating potential layering and structuring.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P02-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows rapid pass-through of funds (T002 received then T004 sent to a new counterparty, which later returns money via T009) alongside repeated large structured deposits from a single source (T005-T008 and T010-T013, including identical $50,703 cash deposits exactly one week apart), indicating potential layering and structuring.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T005', 'T006', 'T007', 'T008', 'T010', 'T011', 'T012', 'T013'] (2/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows rapid pass-through of funds (T002 received then T004 sent to a new counterparty, which later returns money via T009) alongside repeated large structured deposits from a single source (T005-T008 and T010-T013, including identical $50,703 cash deposits exactly one week apart), indicating potential layering and structuring.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T002', 'T005', 'T006', 'T007', 'T008', 'T010', 'T011', 'T012', 'T013'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P03-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives Yen from related accounts (803B23160, 803B25A00) but then immediately disperses funds to 12 different unrelated counterparties across six currencies (INR, EUR, CHF, MXN, CNY, USD) within nine days, showing a classic pass-through/layering pattern where money enters and leaves rapidly to obscure its origin.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T003\", \"T005\", \"T007\", \"T008\", \"T010\", \"T012\", \"T014\", \"T016\", \"T018\", \"T020\", \"T022\", \"T024\", \"T026\", \"T027\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P03-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives Yen from related accounts (803B23160, 803B25A00) but then immediately disperses funds to 12 different unrelated counterparties across six currencies (INR, EUR, CHF, MXN, CNY, USD) within nine days, showing a classic pass-through/layering pattern where money enters and leaves rapidly to obscure its origin.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T003\", \"T005\", \"T007\", \"T008\", \"T010\", \"T012\", \"T014\", \"T016\", \"T018\", \"T020\", \"T022\", \"T024\", \"T026\", \"T027\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T008', 'T027'] (12/12 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives Yen from related accounts (803B23160, 803B25A00) but then immediately disperses funds to 12 different unrelated counterparties across six currencies (INR, EUR, CHF, MXN, CNY, USD) within nine days, showing a classic pass-through/layering pattern where money enters and leaves rapidly to obscure its origin.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T003\", \"T005\", \"T007\", \"T008\", \"T010\", \"T012\", \"T014\", \"T016\", \"T018\", \"T020\", \"T022\", \"T024\", \"T026\", \"T027\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T008', 'T027'] (12/12 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P04-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles internal CHF reinvestments (T001, T002), but on 09/04 and 09/07 it processed CHF amounts (T003, T005) and simultaneously sent funds to external accounts in USD and GBP (T004, T006) at identical timestamps, indicating rapid pass-through layering of funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T006\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P04-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles internal CHF reinvestments (T001, T002), but on 09/04 and 09/07 it processed CHF amounts (T003, T005) and simultaneously sent funds to external accounts in USD and GBP (T004, T006) at identical timestamps, indicating rapid pass-through layering of funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T006\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T005'] (2/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles internal CHF reinvestments (T001, T002), but on 09/04 and 09/07 it processed CHF amounts (T003, T005) and simultaneously sent funds to external accounts in USD and GBP (T004, T006) at identical timestamps, indicating rapid pass-through layering of funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T006\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T005'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P05-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows rapid pass-through of funds: money received from 0150240/812D22980 and 0119/811C597B0 is sent out to different parties (0119, 0118, 0048309) within hours or days, including same-day round-trips with 0048309/811C599A0 (T065 in, T066 out 36 minutes later). Additionally, T012 is a 4.99M SAR cash withdrawal, a severe outlier from normal activity.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T012\", \"T028\", \"T033\", \"T034\", \"T035\", \"T044\", \"T045\", \"T050\", \"T051\", \"T064\", \"T065\", \"T066\", \"T115\", \"T116\", \"T132\", \"T134\", \"T135\", \"T136\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P05-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows rapid pass-through of funds: money received from 0150240/812D22980 and 0119/811C597B0 is sent out to different parties (0119, 0118, 0048309) within hours or days, including same-day round-trips with 0048309/811C599A0 (T065 in, T066 out 36 minutes later). Additionally, T012 is a 4.99M SAR cash withdrawal, a severe outlier from normal activity.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T012\", \"T028\", \"T033\", \"T034\", \"T035\", \"T044\", \"T045\", \"T050\", \"T051\", \"T064\", \"T065\", \"T066\", \"T115\", \"T116\", \"T132\", \"T134\", \"T135\", \"T136\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T012', 'T035'] (16/34 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows rapid pass-through of funds: money received from 0150240/812D22980 and 0119/811C597B0 is sent out to different parties (0119, 0118, 0048309) within hours or days, including same-day round-trips with 0048309/811C599A0 (T065 in, T066 out 36 minutes later). Additionally, T012 is a 4.99M SAR cash withdrawal, a severe outlier from normal activity.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T012\", \"T028\", \"T033\", \"T034\", \"T035\", \"T044\", \"T045\", \"T050\", \"T051\", \"T064\", \"T065\", \"T066\", \"T115\", \"T116\", \"T132\", \"T134\", \"T135\", \"T136\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T012', 'T035'] (16/34 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P06-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives structured deposits from 020/800123E90 and disburses to a fixed set of vendors, but between Sep 9-13 it received a burst of large ACH credits from multiple new counterparties (banks 011, 012, 022, and variant accounts of 020/023/00410), including a structuring pattern from 012/800202F00 (T129/T130), alongside an anomalous outgoing to 024144/806CAF020 (T037). This indicates the account is being used as a pass-through to layer funds from diverse sources.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T037\", \"T050\", \"T119\", \"T127\", \"T128\", \"T129\", \"T130\", \"T146\", \"T147\", \"T148\", \"T149\", \"T150\", \"T151\", \"T152\", \"T153\", \"T154\", \"T155\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P06-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives structured deposits from 020/800123E90 and disburses to a fixed set of vendors, but between Sep 9-13 it received a burst of large ACH credits from multiple new counterparties (banks 011, 012, 022, and variant accounts of 020/023/00410), including a structuring pattern from 012/800202F00 (T129/T130), alongside an anomalous outgoing to 024144/806CAF020 (T037). This indicates the account is being used as a pass-through to layer funds from diverse sources.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T037\", \"T050\", \"T119\", \"T127\", \"T128\", \"T129\", \"T130\", \"T146\", \"T147\", \"T148\", \"T149\", \"T150\", \"T151\", \"T152\", \"T153\", \"T154\", \"T155\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T037', 'T050', 'T119', 'T129'] (13/13 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives structured deposits from 020/800123E90 and disburses to a fixed set of vendors, but between Sep 9-13 it received a burst of large ACH credits from multiple new counterparties (banks 011, 012, 022, and variant accounts of 020/023/00410), including a structuring pattern from 012/800202F00 (T129/T130), alongside an anomalous outgoing to 024144/806CAF020 (T037). This indicates the account is being used as a pass-through to layer funds from diverse sources.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T037\", \"T050\", \"T119\", \"T127\", \"T128\", \"T129\", \"T130\", \"T146\", \"T147\", \"T148\", \"T149\", \"T150\", \"T151\", \"T152\", \"T153\", \"T154\", \"T155\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T037', 'T050', 'T119', 'T129'] (13/13 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P07-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives regular EUR cheques of 30,684.40 from 070/1004286A8 and makes recurring USD payments to 002845/80286DE40, but shows anomalous large transfers to new counterparties 0221279/80DD67160 and 015180/802E50840 at unusual early-morning hours (01:18–03:13), with amounts matching incoming deposits, suggesting funds are passing through to third parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T017\", \"T018\", \"T020\", \"T021\", \"T114\", \"T115\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P07-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives regular EUR cheques of 30,684.40 from 070/1004286A8 and makes recurring USD payments to 002845/80286DE40, but shows anomalous large transfers to new counterparties 0221279/80DD67160 and 015180/802E50840 at unusual early-morning hours (01:18–03:13), with amounts matching incoming deposits, suggesting funds are passing through to third parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T017\", \"T018\", \"T020\", \"T021\", \"T114\", \"T115\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018', 'T020', 'T021', 'T114', 'T115'] (0/49 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives regular EUR cheques of 30,684.40 from 070/1004286A8 and makes recurring USD payments to 002845/80286DE40, but shows anomalous large transfers to new counterparties 0221279/80DD67160 and 015180/802E50840 at unusual early-morning hours (01:18–03:13), with amounts matching incoming deposits, suggesting funds are passing through to third parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T017\", \"T018\", \"T020\", \"T021\", \"T114\", \"T115\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018', 'T020', 'T021', 'T114', 'T115'] (0/49 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P08-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account normally receives multiple ACH deposits in EUR (under €16k) with occasional outgoing EUR transfers. On 09/08, a €7.67M self-transfer (T017) was immediately followed by ~$9M in USD outflows to a single counterparty (T018, T019), and subsequent rows show a pattern of self-transfers instantly converted and sent out in USD, AUD, and Yuan (T021–T039), indicating rapid pass-through and layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\", \"T018\", \"T019\", \"T021\", \"T022\", \"T024\", \"T025\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T036\", \"T037\", \"T038\", \"T039\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P08-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account normally receives multiple ACH deposits in EUR (under €16k) with occasional outgoing EUR transfers. On 09/08, a €7.67M self-transfer (T017) was immediately followed by ~$9M in USD outflows to a single counterparty (T018, T019), and subsequent rows show a pattern of self-transfers instantly converted and sent out in USD, AUD, and Yuan (T021–T039), indicating rapid pass-through and layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\", \"T018\", \"T019\", \"T021\", \"T022\", \"T024\", \"T025\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T036\", \"T037\", \"T038\", \"T039\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018', 'T021', 'T024', 'T027', 'T029', 'T031', 'T033', 'T036', 'T038'] (9/27 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account normally receives multiple ACH deposits in EUR (under €16k) with occasional outgoing EUR transfers. On 09/08, a €7.67M self-transfer (T017) was immediately followed by ~$9M in USD outflows to a single counterparty (T018, T019), and subsequent rows show a pattern of self-transfers instantly converted and sent out in USD, AUD, and Yuan (T021–T039), indicating rapid pass-through and layering.\", \"decision\": \"ESCALATE\", \"rows\": [\"T017\", \"T018\", \"T019\", \"T021\", \"T022\", \"T024\", \"T025\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T036\", \"T037\", \"T038\", \"T039\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018', 'T021', 'T024', 'T027', 'T029', 'T031', 'T033', 'T036', 'T038'] (9/27 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P09-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives small, regular credits of 2,234.88 and 4,289.02 SAR from 811EFA110 (likely salary or routine income), but shows large, rapid ACH movements with 812A09CF0 and a 119k SAR cheque from external bank 0048309 (T003), followed by transfers to a different external bank 0048755 including a cash withdrawal (T014-T016), indicating layering and pass-through of funds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T003\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P09-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives small, regular credits of 2,234.88 and 4,289.02 SAR from 811EFA110 (likely salary or routine income), but shows large, rapid ACH movements with 812A09CF0 and a 119k SAR cheque from external bank 0048309 (T003), followed by transfers to a different external bank 0048755 including a cash withdrawal (T014-T016), indicating layering and pass-through of funds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T003\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T014', 'T015', 'T016', 'T021', 'T025', 'T028'] (33/33 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives small, regular credits of 2,234.88 and 4,289.02 SAR from 811EFA110 (likely salary or routine income), but shows large, rapid ACH movements with 812A09CF0 and a 119k SAR cheque from external bank 0048309 (T003), followed by transfers to a different external bank 0048755 including a cash withdrawal (T014-T016), indicating layering and pass-through of funds.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T003\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T049\", \"T052\", \"T053\", \"T054\", \"T055\", \"T056\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T014', 'T015', 'T016', 'T021', 'T025', 'T028'] (33/33 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P10-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally makes large recurring Yuan payments to 80EF9A260 and receives small deposits from 809F5A2A0, but exhibits a suspicious pattern of internal 'self' transfers immediately followed by outgoing foreign currency payments (EUR, JPY, GBP, MXN, USD) to multiple distinct counterparties, indicating rapid layering and pass-through of funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T040\", \"T043\", \"T044\", \"T045\", \"T046\", \"T049\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P10-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally makes large recurring Yuan payments to 80EF9A260 and receives small deposits from 809F5A2A0, but exhibits a suspicious pattern of internal 'self' transfers immediately followed by outgoing foreign currency payments (EUR, JPY, GBP, MXN, USD) to multiple distinct counterparties, indicating rapid layering and pass-through of funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T040\", \"T043\", \"T044\", \"T045\", \"T046\", \"T049\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T013', 'T015', 'T017', 'T025', 'T027', 'T029', 'T031', 'T033', 'T035', 'T039', 'T043', 'T045', 'T049'] (12/12 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally makes large recurring Yuan payments to 80EF9A260 and receives small deposits from 809F5A2A0, but exhibits a suspicious pattern of internal 'self' transfers immediately followed by outgoing foreign currency payments (EUR, JPY, GBP, MXN, USD) to multiple distinct counterparties, indicating rapid layering and pass-through of funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T039\", \"T040\", \"T043\", \"T044\", \"T045\", \"T046\", \"T049\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T013', 'T015', 'T017', 'T025', 'T027', 'T029', 'T031', 'T033', 'T035', 'T039', 'T043', 'T045', 'T049'] (12/12 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P11-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account exhibits pass-through behavior with counterparty 812D129C0, receiving funds via ACH and sending them back to the same counterparty within days (e.g., T010 in then T013 out; T022 in then T023/T024 out same day). It also receives seven identical cheques of 55,852.15 SAR from 8129D9560, suggesting structuring.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P11-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account exhibits pass-through behavior with counterparty 812D129C0, receiving funds via ACH and sending them back to the same counterparty within days (e.g., T010 in then T013 out; T022 in then T023/T024 out same day). It also receives seven identical cheques of 55,852.15 SAR from 8129D9560, suggesting structuring.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T007', 'T009', 'T011', 'T012', 'T014', 'T016', 'T017', 'T021'] (10/10 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account exhibits pass-through behavior with counterparty 812D129C0, receiving funds via ACH and sending them back to the same counterparty within days (e.g., T010 in then T013 out; T022 in then T023/T024 out same day). It also receives seven identical cheques of 55,852.15 SAR from 8129D9560, suggesting structuring.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T007', 'T009', 'T011', 'T012', 'T014', 'T016', 'T017', 'T021'] (10/10 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P12-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account typically receives 23,370 SAR cheques from 811A00890 and pays small recurring amounts to 811B970B0, but on Sept 1 it sent 55,723 SAR to 811FCEAD0 (T003-T005) immediately after a deposit, and later sent large sums to new counterparties 811D80C30 (T012) and 8119F8CC0 (T022), showing pass-through of funds to third parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T012\", \"T022\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P12-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account typically receives 23,370 SAR cheques from 811A00890 and pays small recurring amounts to 811B970B0, but on Sept 1 it sent 55,723 SAR to 811FCEAD0 (T003-T005) immediately after a deposit, and later sent large sums to new counterparties 811D80C30 (T012) and 8119F8CC0 (T022), showing pass-through of funds to third parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T012\", \"T022\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T005'] (2/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account typically receives 23,370 SAR cheques from 811A00890 and pays small recurring amounts to 811B970B0, but on Sept 1 it sent 55,723 SAR to 811FCEAD0 (T003-T005) immediately after a deposit, and later sent large sums to new counterparties 811D80C30 (T012) and 8119F8CC0 (T022), showing pass-through of funds to third parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T012\", \"T022\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T005'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P13-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, recurring CAD deposits (approx. 1,700 CAD/day) from counterparty 0213/80906D040, but on Sept 1 it received unusually large deposits (T001, T002) from a different party (070/100428858) and on Sept 2 sent large sums (T010, T011) to yet another new counterparty (0026174/809CA74E0), including over 1.3M CAD in cash, indicating rapid pass-through of funds. An additional outgoing EUR transfer (T014) to a new counterparty further departs from the normal pattern.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T010\", \"T011\", \"T014\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P13-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, recurring CAD deposits (approx. 1,700 CAD/day) from counterparty 0213/80906D040, but on Sept 1 it received unusually large deposits (T001, T002) from a different party (070/100428858) and on Sept 2 sent large sums (T010, T011) to yet another new counterparty (0026174/809CA74E0), including over 1.3M CAD in cash, indicating rapid pass-through of funds. An additional outgoing EUR transfer (T014) to a new counterparty further departs from the normal pattern.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T010\", \"T011\", \"T014\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T010', 'T011'] (1/2 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, recurring CAD deposits (approx. 1,700 CAD/day) from counterparty 0213/80906D040, but on Sept 1 it received unusually large deposits (T001, T002) from a different party (070/100428858) and on Sept 2 sent large sums (T010, T011) to yet another new counterparty (0026174/809CA74E0), including over 1.3M CAD in cash, indicating rapid pass-through of funds. An additional outgoing EUR transfer (T014) to a new counterparty further departs from the normal pattern.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T010\", \"T011\", \"T014\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T001', 'T002', 'T010', 'T011'] (1/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P14-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small recurring credits (727.89 and 1244.94 SAR) from 0223/811A83210 and conducts moderate ACH business with 0148350/812D0C3C0, but it received an anomalous 255,267 SAR cheque (T004) from a new counterparty that was rapidly dispersed via outgoing ACH transfers (T007-T014), and later engaged in circular large-value pass-through flows with 0148350/811FFF630 (e.g., T022/T023 in, T025/T026 out; T039/T040 in, T046 out), indicating layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T011\", \"T013\", \"T014\", \"T022\", \"T023\", \"T025\", \"T026\", \"T030\", \"T031\", \"T032\", \"T039\", \"T040\", \"T046\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P14-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small recurring credits (727.89 and 1244.94 SAR) from 0223/811A83210 and conducts moderate ACH business with 0148350/812D0C3C0, but it received an anomalous 255,267 SAR cheque (T004) from a new counterparty that was rapidly dispersed via outgoing ACH transfers (T007-T014), and later engaged in circular large-value pass-through flows with 0148350/811FFF630 (e.g., T022/T023 in, T025/T026 out; T039/T040 in, T046 out), indicating layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T011\", \"T013\", \"T014\", \"T022\", \"T023\", \"T025\", \"T026\", \"T030\", \"T031\", \"T032\", \"T039\", \"T040\", \"T046\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T008', 'T013', 'T025'] (13/23 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small recurring credits (727.89 and 1244.94 SAR) from 0223/811A83210 and conducts moderate ACH business with 0148350/812D0C3C0, but it received an anomalous 255,267 SAR cheque (T004) from a new counterparty that was rapidly dispersed via outgoing ACH transfers (T007-T014), and later engaged in circular large-value pass-through flows with 0148350/811FFF630 (e.g., T022/T023 in, T025/T026 out; T039/T040 in, T046 out), indicating layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T004\", \"T007\", \"T008\", \"T009\", \"T011\", \"T013\", \"T014\", \"T022\", \"T023\", \"T025\", \"T026\", \"T030\", \"T031\", \"T032\", \"T039\", \"T040\", \"T046\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T004', 'T008', 'T013', 'T025'] (13/23 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P15-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring deposits from two regular counterparties (029404/806BAF900 and 00513/802BA8140) with virtually no outgoing activity, but on 2022/09/05 it received $6,298.99 from a new counterparty (008455/80B95A8D0) and sent $5,803.80 to a different new counterparty (005394/8034CAA70) the same day, indicating funds passing through the account.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T023\", \"T024\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P15-rows",
+  "slice": "rows-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring deposits from two regular counterparties (029404/806BAF900 and 00513/802BA8140) with virtually no outgoing activity, but on 2022/09/05 it received $6,298.99 from a new counterparty (008455/80B95A8D0) and sent $5,803.80 to a different new counterparty (005394/8034CAA70) the same day, indicating funds passing through the account.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T023\", \"T024\"]\n}",
+    "passed": true,
+    "reason": "ok: 2/2 laundering rows, no normal row"
+   }
+  ]
+ },
+ {
+  "id": "P16-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles regular ACH flows with 0148350/812D0C3C0 and 0050528/812D0C600 plus small recurring deposits from 0222/8000D9C00. However, it received two identical large cheques of 128,347.71 SAR from a new counterparty 070/100428A08 (T011, T053), and those funds were rapidly moved out to 0050528/812D0C600 (T027, T029, T051, T052) within the same day or a few days, indicating pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T011\", \"T027\", \"T029\", \"T051\", \"T052\", \"T053\"]\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P16-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles regular ACH flows with 0148350/812D0C3C0 and 0050528/812D0C600 plus small recurring deposits from 0222/8000D9C00. However, it received two identical large cheques of 128,347.71 SAR from a new counterparty 070/100428A08 (T011, T053), and those funds were rapidly moved out to 0050528/812D0C600 (T027, T029, T051, T052) within the same day or a few days, indicating pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T011\", \"T027\", \"T029\", \"T051\", \"T052\", \"T053\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T011', 'T053'] (4/25 laundering rows cited)"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles regular ACH flows with 0148350/812D0C3C0 and 0050528/812D0C600 plus small recurring deposits from 0222/8000D9C00. However, it received two identical large cheques of 128,347.71 SAR from a new counterparty 070/100428A08 (T011, T053), and those funds were rapidly moved out to 0050528/812D0C600 (T027, T029, T051, T052) within the same day or a few days, indicating pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T011\", \"T027\", \"T029\", \"T051\", \"T052\", \"T053\"]\n}",
+    "passed": false,
+    "reason": "cited normal rows ['T011', 'T053'] (4/25 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P17-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives fixed amounts (~242k MXN) from counterparty 0133471 and sends fixed amounts to 027 (~98.6k) and 0213 (~7k) in a repeating daily cycle. However, on the first day it sent large, one-off payments totaling ~329k MXN (T001, T002) to a new counterparty 0131086 that never appears again, indicating possible layering of funds through this account to an unknown beneficiary.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives fixed amounts (~242k MXN) from counterparty 0133471 and sends fixed amounts to 027 (~98.6k) and 0213 (~7k) in a repeating daily cycle. However, on the first day it sent large, one-off payments totaling ~329k MXN (T001, T002) to a new counterparty 0131086 that never appears again, indicating possible layering of funds through this account to an unknown beneficiary.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P17-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives fixed amounts (~242k MXN) from counterparty 0133471 and sends fixed amounts to 027 (~98.6k) and 0213 (~7k) in a repeating daily cycle. However, on the first day it sent large, one-off payments totaling ~329k MXN (T001, T002) to a new counterparty 0131086 that never appears again, indicating possible layering of funds through this account to an unknown beneficiary.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account normally receives fixed amounts (~242k MXN) from counterparty 0133471 and sends fixed amounts to 027 (~98.6k) and 0213 (~7k) in a repeating daily cycle. However, on the first day it sent large, one-off payments totaling ~329k MXN (T001, T002) to a new counterparty 0131086 that never appears again, indicating possible layering of funds through this account to an unknown beneficiary.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T001\", \"T002\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002']"
+   }
+  ]
+ },
+ {
+  "id": "P18-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring deposits (~€538 from 003514/802C299D0) and small outgoing payments (~€77 to 0014277/805BDD420), but shows sudden massive outflows of over €700M to 0219077/814231990 within minutes on Sep 1 (T007-T009) preceded by a large €5.3M self-reinvestment (T006), plus repeated identical multi-million euro transfers to 0014254/80FBE95E0 on Sep 2 and Sep 9 (T023-T025, T053-T055), indicating rapid pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T006\", \"T007\", \"T008\", \"T009\", \"T023\", \"T024\", \"T025\", \"T053\", \"T054\", \"T055\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring deposits (~€538 from 003514/802C299D0) and small outgoing payments (~€77 to 0014277/805BDD420), but shows sudden massive outflows of over €700M to 0219077/814231990 within minutes on Sep 1 (T007-T009) preceded by a large €5.3M self-reinvestment (T006), plus repeated identical multi-million euro transfers to 0014254/80FBE95E0 on Sep 2 and Sep 9 (T023-T025, T053-T055), indicating rapid pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T006\", \"T007\", \"T008\", \"T009\", \"T023\", \"T024\", \"T025\", \"T053\", \"T054\", \"T055\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P18-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring deposits (~€538 from 003514/802C299D0) and small outgoing payments (~€77 to 0014277/805BDD420), but shows sudden massive outflows of over €700M to 0219077/814231990 within minutes on Sep 1 (T007-T009) preceded by a large €5.3M self-reinvestment (T006), plus repeated identical multi-million euro transfers to 0014254/80FBE95E0 on Sep 2 and Sep 9 (T023-T025, T053-T055), indicating rapid pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T006\", \"T007\", \"T008\", \"T009\", \"T023\", \"T024\", \"T025\", \"T053\", \"T054\", \"T055\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T006', 'T007', 'T008', 'T009', 'T023', 'T024', 'T025', 'T053', 'T054', 'T055']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring deposits (~€538 from 003514/802C299D0) and small outgoing payments (~€77 to 0014277/805BDD420), but shows sudden massive outflows of over €700M to 0219077/814231990 within minutes on Sep 1 (T007-T009) preceded by a large €5.3M self-reinvestment (T006), plus repeated identical multi-million euro transfers to 0014254/80FBE95E0 on Sep 2 and Sep 9 (T023-T025, T053-T055), indicating rapid pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T006\", \"T007\", \"T008\", \"T009\", \"T023\", \"T024\", \"T025\", \"T053\", \"T054\", \"T055\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T006', 'T007', 'T008', 'T009', 'T023', 'T024', 'T025', 'T053', 'T054', 'T055']"
+   }
+  ]
+ },
+ {
+  "id": "P19-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account received one large ACH deposit of $5,200.04 (T002) and then made ten small outgoing credit card payments totaling only ~$384 to six different counterparties over ten days. This pattern is consistent with normal personal activity (e.g., a salary deposit followed by routine daily spending), and the funds do not rapidly pass through the account since the vast majority of the deposit remains and the outflows are small, regular, and spread over time.\",\n\"decision\": \"CLOSE\",\n\"rows\": []\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P19-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account received one large ACH deposit of $5,200.04 (T002) and then made ten small outgoing credit card payments totaling only ~$384 to six different counterparties over ten days. This pattern is consistent with normal personal activity (e.g., a salary deposit followed by routine daily spending), and the funds do not rapidly pass through the account since the vast majority of the deposit remains and the outflows are small, regular, and spread over time.\",\n\"decision\": \"CLOSE\",\n\"rows\": []\n}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P20-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring deposits of approximately 53,308 and 102,805 BRL from 070/100428930, but shows a massive 25.9M BRL self-reinvestment (T006), outgoing transfers to a new counterparty 80D782790 (T001, T002), and pass-through activity with bank 0134939 where funds received from 80D6EB0A0 (T010) are sent back out to the same account (T017).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T006\", \"T009\", \"T010\", \"T017\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring deposits of approximately 53,308 and 102,805 BRL from 070/100428930, but shows a massive 25.9M BRL self-reinvestment (T006), outgoing transfers to a new counterparty 80D782790 (T001, T002), and pass-through activity with bank 0134939 where funds received from 80D6EB0A0 (T010) are sent back out to the same account (T017).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T006\", \"T009\", \"T010\", \"T017\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P20-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring deposits of approximately 53,308 and 102,805 BRL from 070/100428930, but shows a massive 25.9M BRL self-reinvestment (T006), outgoing transfers to a new counterparty 80D782790 (T001, T002), and pass-through activity with bank 0134939 where funds received from 80D6EB0A0 (T010) are sent back out to the same account (T017).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T006\", \"T009\", \"T010\", \"T017\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T006', 'T009', 'T010', 'T017']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring deposits of approximately 53,308 and 102,805 BRL from 070/100428930, but shows a massive 25.9M BRL self-reinvestment (T006), outgoing transfers to a new counterparty 80D782790 (T001, T002), and pass-through activity with bank 0134939 where funds received from 80D6EB0A0 (T010) are sent back out to the same account (T017).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T006\", \"T009\", \"T010\", \"T017\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T006', 'T009', 'T010', 'T017']"
+   }
+  ]
+ },
+ {
+  "id": "P21-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows 14 outgoing Bitcoin payments to a single counterparty (814962A81) in small amounts that appear deliberately structured: each pair of transactions sent minutes apart sums to exactly 0.024473 BTC, suggesting an attempt to evade reporting thresholds. While no incoming transactions are visible in this window, the consistent, rapid outflow of structured amounts to one recipient indicates potential layering or smurfing.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows 14 outgoing Bitcoin payments to a single counterparty (814962A81) in small amounts that appear deliberately structured: each pair of transactions sent minutes apart sums to exactly 0.024473 BTC, suggesting an attempt to evade reporting thresholds. While no incoming transactions are visible in this window, the consistent, rapid outflow of structured amounts to one recipient indicates potential layering or smurfing.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P21-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows 14 outgoing Bitcoin payments to a single counterparty (814962A81) in small amounts that appear deliberately structured: each pair of transactions sent minutes apart sums to exactly 0.024473 BTC, suggesting an attempt to evade reporting thresholds. While no incoming transactions are visible in this window, the consistent, rapid outflow of structured amounts to one recipient indicates potential layering or smurfing.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account shows 14 outgoing Bitcoin payments to a single counterparty (814962A81) in small amounts that appear deliberately structured: each pair of transactions sent minutes apart sums to exactly 0.024473 BTC, suggesting an attempt to evade reporting thresholds. While no incoming transactions are visible in this window, the consistent, rapid outflow of structured amounts to one recipient indicates potential layering or smurfing.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014']"
+   }
+  ]
+ },
+ {
+  "id": "P22-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, regular deposits from 0210/808149D90 and makes routine cheque/credit card payments to 0213/809093C40, but it also shows a pattern of rapid pass-through where incoming funds are quickly sent to 0225734/8098C66E0, including seven identical large cash withdrawals of 52,119.82 CAD within nine days, which is a classic indicator of cash-intensive layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T013\", \"T023\", \"T031\", \"T037\", \"T043\", \"T053\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, regular deposits from 0210/808149D90 and makes routine cheque/credit card payments to 0213/809093C40, but it also shows a pattern of rapid pass-through where incoming funds are quickly sent to 0225734/8098C66E0, including seven identical large cash withdrawals of 52,119.82 CAD within nine days, which is a classic indicator of cash-intensive layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T013\", \"T023\", \"T031\", \"T037\", \"T043\", \"T053\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P22-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, regular deposits from 0210/808149D90 and makes routine cheque/credit card payments to 0213/809093C40, but it also shows a pattern of rapid pass-through where incoming funds are quickly sent to 0225734/8098C66E0, including seven identical large cash withdrawals of 52,119.82 CAD within nine days, which is a classic indicator of cash-intensive layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T013\", \"T023\", \"T031\", \"T037\", \"T043\", \"T053\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T013', 'T023', 'T031', 'T037', 'T043', 'T053']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, regular deposits from 0210/808149D90 and makes routine cheque/credit card payments to 0213/809093C40, but it also shows a pattern of rapid pass-through where incoming funds are quickly sent to 0225734/8098C66E0, including seven identical large cash withdrawals of 52,119.82 CAD within nine days, which is a classic indicator of cash-intensive layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T013\", \"T023\", \"T031\", \"T037\", \"T043\", \"T053\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T013', 'T023', 'T031', 'T037', 'T043', 'T053']"
+   }
+  ]
+ },
+ {
+  "id": "P23-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally processes small credit card payments under $200, but received a large $824,791 ACH deposit (T002) that was rapidly moved out in large chunks to two different counterparties (T004-T007), with identical large amounts repeated to one counterparty a week later (T015, T016), indicating classic pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally processes small credit card payments under $200, but received a large $824,791 ACH deposit (T002) that was rapidly moved out in large chunks to two different counterparties (T004-T007), with identical large amounts repeated to one counterparty a week later (T015, T016), indicating classic pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P23-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally processes small credit card payments under $200, but received a large $824,791 ACH deposit (T002) that was rapidly moved out in large chunks to two different counterparties (T004-T007), with identical large amounts repeated to one counterparty a week later (T015, T016), indicating classic pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T004', 'T005', 'T006', 'T007', 'T015', 'T016']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally processes small credit card payments under $200, but received a large $824,791 ACH deposit (T002) that was rapidly moved out in large chunks to two different counterparties (T004-T007), with identical large amounts repeated to one counterparty a week later (T015, T016), indicating classic pass-through layering.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\", \"T004\", \"T005\", \"T006\", \"T007\", \"T015\", \"T016\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T004', 'T005', 'T006', 'T007', 'T015', 'T016']"
+   }
+  ]
+ },
+ {
+  "id": "P24-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account exhibits classic pass-through (funnel) behavior, receiving large regular cheques primarily from 802AB5530 and immediately disbursing fixed amounts to two other counterparties (804B1B730 and 808D0B0E0), which indicates layering of funds. The repeated identical amounts, the additional incoming source 8001F75E0 (T009, T043), and the identical timestamps on T034/T035 further suggest structured money movement through the account.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account exhibits classic pass-through (funnel) behavior, receiving large regular cheques primarily from 802AB5530 and immediately disbursing fixed amounts to two other counterparties (804B1B730 and 808D0B0E0), which indicates layering of funds. The repeated identical amounts, the additional incoming source 8001F75E0 (T009, T043), and the identical timestamps on T034/T035 further suggest structured money movement through the account.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P24-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account exhibits classic pass-through (funnel) behavior, receiving large regular cheques primarily from 802AB5530 and immediately disbursing fixed amounts to two other counterparties (804B1B730 and 808D0B0E0), which indicates layering of funds. The repeated identical amounts, the additional incoming source 8001F75E0 (T009, T043), and the identical timestamps on T034/T035 further suggest structured money movement through the account.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account exhibits classic pass-through (funnel) behavior, receiving large regular cheques primarily from 802AB5530 and immediately disbursing fixed amounts to two other counterparties (804B1B730 and 808D0B0E0), which indicates layering of funds. The repeated identical amounts, the additional incoming source 8001F75E0 (T009, T043), and the identical timestamps on T034/T035 further suggest structured money movement through the account.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T023\", \"T024\", \"T025\", \"T026\", \"T027\", \"T028\", \"T029\", \"T030\", \"T031\", \"T032\", \"T033\", \"T034\", \"T035\", \"T036\", \"T037\", \"T038\", \"T039\", \"T040\", \"T041\", \"T042\", \"T043\", \"T044\", \"T045\", \"T046\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T022', 'T023', 'T024', 'T025', 'T026', 'T027', 'T028', 'T029', 'T030', 'T031', 'T032', 'T033', 'T034', 'T035', 'T036', 'T037', 'T038', 'T039', 'T040', 'T041', 'T042', 'T043', 'T044', 'T045', 'T046']"
+   }
+  ]
+ },
+ {
+  "id": "P25-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account normally makes small recurring outgoing payments (roughly 50k–350k rubles) to established counterparties, but on Sep 1 it received a single massive incoming cheque of 354,618,711 rubles (T001). Within 39 hours, large sums were transferred to a new counterparty 0219557 (T017, T018), with identical amounts repeated on Sep 9 (T054, T055), indicating the deposited funds are being moved out to another party in a layering pattern.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T017\", \"T018\", \"T054\", \"T055\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account normally makes small recurring outgoing payments (roughly 50k–350k rubles) to established counterparties, but on Sep 1 it received a single massive incoming cheque of 354,618,711 rubles (T001). Within 39 hours, large sums were transferred to a new counterparty 0219557 (T017, T018), with identical amounts repeated on Sep 9 (T054, T055), indicating the deposited funds are being moved out to another party in a layering pattern.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T017\", \"T018\", \"T054\", \"T055\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P25-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account normally makes small recurring outgoing payments (roughly 50k–350k rubles) to established counterparties, but on Sep 1 it received a single massive incoming cheque of 354,618,711 rubles (T001). Within 39 hours, large sums were transferred to a new counterparty 0219557 (T017, T018), with identical amounts repeated on Sep 9 (T054, T055), indicating the deposited funds are being moved out to another party in a layering pattern.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T017\", \"T018\", \"T054\", \"T055\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T017', 'T018', 'T054', 'T055']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account normally makes small recurring outgoing payments (roughly 50k–350k rubles) to established counterparties, but on Sep 1 it received a single massive incoming cheque of 354,618,711 rubles (T001). Within 39 hours, large sums were transferred to a new counterparty 0219557 (T017, T018), with identical amounts repeated on Sep 9 (T054, T055), indicating the deposited funds are being moved out to another party in a layering pattern.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T017\", \"T018\", \"T054\", \"T055\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T017', 'T018', 'T054', 'T055']"
+   }
+  ]
+ },
+ {
+  "id": "P26-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives fixed amounts from two related counterparties (029/80CED0720 and 0115/80CDEF960) and forwards funds to an external account (0235843/80D789580), but the massive self-reinvestment T002 (2,090,757.53 BRL) is a sharp anomaly that dwarfs the daily flows, and money passes through the account from the incoming sources to the external party within hours on several occasions (e.g., 09/05 and 09/10).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives fixed amounts from two related counterparties (029/80CED0720 and 0115/80CDEF960) and forwards funds to an external account (0235843/80D789580), but the massive self-reinvestment T002 (2,090,757.53 BRL) is a sharp anomaly that dwarfs the daily flows, and money passes through the account from the incoming sources to the external party within hours on several occasions (e.g., 09/05 and 09/10).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P26-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives fixed amounts from two related counterparties (029/80CED0720 and 0115/80CDEF960) and forwards funds to an external account (0235843/80D789580), but the massive self-reinvestment T002 (2,090,757.53 BRL) is a sharp anomaly that dwarfs the daily flows, and money passes through the account from the incoming sources to the external party within hours on several occasions (e.g., 09/05 and 09/10).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives fixed amounts from two related counterparties (029/80CED0720 and 0115/80CDEF960) and forwards funds to an external account (0235843/80D789580), but the massive self-reinvestment T002 (2,090,757.53 BRL) is a sharp anomaly that dwarfs the daily flows, and money passes through the account from the incoming sources to the external party within hours on several occasions (e.g., 09/05 and 09/10).\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T002\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002']"
+   }
+  ]
+ },
+ {
+  "id": "P27-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring cheques of $82,569.50 from counterparty 800467C10 and makes routine outgoing payments to several regular beneficiaries. However, T017 is a single incoming cheque of $15,715,788.73 from a new counterparty (02843/8006273C0), which is approximately 190 times larger than the typical inflow and completely inconsistent with the account's established pattern.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T017\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring cheques of $82,569.50 from counterparty 800467C10 and makes routine outgoing payments to several regular beneficiaries. However, T017 is a single incoming cheque of $15,715,788.73 from a new counterparty (02843/8006273C0), which is approximately 190 times larger than the typical inflow and completely inconsistent with the account's established pattern.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T017\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P27-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring cheques of $82,569.50 from counterparty 800467C10 and makes routine outgoing payments to several regular beneficiaries. However, T017 is a single incoming cheque of $15,715,788.73 from a new counterparty (02843/8006273C0), which is approximately 190 times larger than the typical inflow and completely inconsistent with the account's established pattern.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T017\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T017']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives recurring cheques of $82,569.50 from counterparty 800467C10 and makes routine outgoing payments to several regular beneficiaries. However, T017 is a single incoming cheque of $15,715,788.73 from a new counterparty (02843/8006273C0), which is approximately 190 times larger than the typical inflow and completely inconsistent with the account's established pattern.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T017\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T017']"
+   }
+  ]
+ },
+ {
+  "id": "P28-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small regular deposits from 01490/800FE5AD0 and makes fixed recurring payments to 018428/805756CA0 and 023555/8018F1AF0, but on Sept 1-2 it rapidly sent large sums (up to €107k) to four new counterparties using cash and cheques, indicating possible layering of illicit funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T014\", \"T015\", \"T017\", \"T018\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small regular deposits from 01490/800FE5AD0 and makes fixed recurring payments to 018428/805756CA0 and 023555/8018F1AF0, but on Sept 1-2 it rapidly sent large sums (up to €107k) to four new counterparties using cash and cheques, indicating possible layering of illicit funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T014\", \"T015\", \"T017\", \"T018\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P28-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small regular deposits from 01490/800FE5AD0 and makes fixed recurring payments to 018428/805756CA0 and 023555/8018F1AF0, but on Sept 1-2 it rapidly sent large sums (up to €107k) to four new counterparties using cash and cheques, indicating possible layering of illicit funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T014\", \"T015\", \"T017\", \"T018\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T014', 'T015', 'T017', 'T018']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small regular deposits from 01490/800FE5AD0 and makes fixed recurring payments to 018428/805756CA0 and 023555/8018F1AF0, but on Sept 1-2 it rapidly sent large sums (up to €107k) to four new counterparties using cash and cheques, indicating possible layering of illicit funds.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T003\", \"T004\", \"T014\", \"T015\", \"T017\", \"T018\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T003', 'T004', 'T014', 'T015', 'T017', 'T018']"
+   }
+  ]
+ },
+ {
+  "id": "P29-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, fixed daily amounts from counterparties 0116 (10,644.78 CHF cheque) and 01665 (512.41 CHF cheque + 1,658.70 CHF credit card) and sends only tiny fixed amounts to 0138395 (72.74 CHF + 76.19 CHF). However, on 2022/09/02 and 2022/09/09 it sent large sums—including cash—to new counterparties 0240774 and 0117 in split transactions (e.g., T007–T009, T013–T015, T046–T048), with identical amounts repeated to 0117 one week apart, indicating structuring and rapid pass-through of funds to external parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T007\", \"T008\", \"T009\", \"T013\", \"T014\", \"T015\", \"T046\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, fixed daily amounts from counterparties 0116 (10,644.78 CHF cheque) and 01665 (512.41 CHF cheque + 1,658.70 CHF credit card) and sends only tiny fixed amounts to 0138395 (72.74 CHF + 76.19 CHF). However, on 2022/09/02 and 2022/09/09 it sent large sums—including cash—to new counterparties 0240774 and 0117 in split transactions (e.g., T007–T009, T013–T015, T046–T048), with identical amounts repeated to 0117 one week apart, indicating structuring and rapid pass-through of funds to external parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T007\", \"T008\", \"T009\", \"T013\", \"T014\", \"T015\", \"T046\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P29-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, fixed daily amounts from counterparties 0116 (10,644.78 CHF cheque) and 01665 (512.41 CHF cheque + 1,658.70 CHF credit card) and sends only tiny fixed amounts to 0138395 (72.74 CHF + 76.19 CHF). However, on 2022/09/02 and 2022/09/09 it sent large sums—including cash—to new counterparties 0240774 and 0117 in split transactions (e.g., T007–T009, T013–T015, T046–T048), with identical amounts repeated to 0117 one week apart, indicating structuring and rapid pass-through of funds to external parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T007\", \"T008\", \"T009\", \"T013\", \"T014\", \"T015\", \"T046\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T007', 'T008', 'T009', 'T013', 'T014', 'T015', 'T046', 'T047', 'T048']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally receives small, fixed daily amounts from counterparties 0116 (10,644.78 CHF cheque) and 01665 (512.41 CHF cheque + 1,658.70 CHF credit card) and sends only tiny fixed amounts to 0138395 (72.74 CHF + 76.19 CHF). However, on 2022/09/02 and 2022/09/09 it sent large sums—including cash—to new counterparties 0240774 and 0117 in split transactions (e.g., T007–T009, T013–T015, T046–T048), with identical amounts repeated to 0117 one week apart, indicating structuring and rapid pass-through of funds to external parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T007\", \"T008\", \"T009\", \"T013\", \"T014\", \"T015\", \"T046\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T007', 'T008', 'T009', 'T013', 'T014', 'T015', 'T046', 'T047', 'T048']"
+   }
+  ]
+ },
+ {
+  "id": "P30-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large €686k reinvestment (T001) and immediately began disbursing funds to multiple counterparties in amounts structured just below the €10k reporting threshold (e.g., €8,291, €8,023, €4,826), with paired payments to the same beneficiary summing to over €10k, indicating possible smurfing/layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T003\", \"T004\", \"T015\", \"T016\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large €686k reinvestment (T001) and immediately began disbursing funds to multiple counterparties in amounts structured just below the €10k reporting threshold (e.g., €8,291, €8,023, €4,826), with paired payments to the same beneficiary summing to over €10k, indicating possible smurfing/layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T003\", \"T004\", \"T015\", \"T016\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P30-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large €686k reinvestment (T001) and immediately began disbursing funds to multiple counterparties in amounts structured just below the €10k reporting threshold (e.g., €8,291, €8,023, €4,826), with paired payments to the same beneficiary summing to over €10k, indicating possible smurfing/layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T003\", \"T004\", \"T015\", \"T016\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T003', 'T004', 'T015', 'T016', 'T047', 'T048']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n  \"reason\": \"The account received a large €686k reinvestment (T001) and immediately began disbursing funds to multiple counterparties in amounts structured just below the €10k reporting threshold (e.g., €8,291, €8,023, €4,826), with paired payments to the same beneficiary summing to over €10k, indicating possible smurfing/layering.\",\n  \"decision\": \"ESCALATE\",\n  \"rows\": [\"T002\", \"T003\", \"T004\", \"T015\", \"T016\", \"T047\", \"T048\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T002', 'T003', 'T004', 'T015', 'T016', 'T047', 'T048']"
+   }
+  ]
+ },
+ {
+  "id": "P31-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally sends regular outgoing payments to two counterparties (026024/805DF6070 and 0211075/805E12C00) in fixed amounts. However, a large self-reinvestment (T001) was followed within minutes by a payment to a new counterparty (T002) and rapid large transfers (T005, T006) to 805E12C00, indicating money is passing through the account quickly to other parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T005\", \"T006\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally sends regular outgoing payments to two counterparties (026024/805DF6070 and 0211075/805E12C00) in fixed amounts. However, a large self-reinvestment (T001) was followed within minutes by a payment to a new counterparty (T002) and rapid large transfers (T005, T006) to 805E12C00, indicating money is passing through the account quickly to other parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T005\", \"T006\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P31-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally sends regular outgoing payments to two counterparties (026024/805DF6070 and 0211075/805E12C00) in fixed amounts. However, a large self-reinvestment (T001) was followed within minutes by a payment to a new counterparty (T002) and rapid large transfers (T005, T006) to 805E12C00, indicating money is passing through the account quickly to other parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T005\", \"T006\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T005', 'T006']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally sends regular outgoing payments to two counterparties (026024/805DF6070 and 0211075/805E12C00) in fixed amounts. However, a large self-reinvestment (T001) was followed within minutes by a payment to a new counterparty (T002) and rapid large transfers (T005, T006) to 805E12C00, indicating money is passing through the account quickly to other parties.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T001\", \"T002\", \"T005\", \"T006\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002', 'T005', 'T006']"
+   }
+  ]
+ },
+ {
+  "id": "P32-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring transactions (incoming ~1,000–2,600 CHF from 0038478 and outgoing ~34–3,700 CHF to 0039678 and 0041745), but on 2022/09/02 it received an anomalous 116,592.50 CHF cheque (T011) from a new counterparty and then rapidly moved large sums out the same day to a different new account (T019–T021), indicating pass-through/layering activity.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T011\", \"T019\", \"T020\", \"T021\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring transactions (incoming ~1,000–2,600 CHF from 0038478 and outgoing ~34–3,700 CHF to 0039678 and 0041745), but on 2022/09/02 it received an anomalous 116,592.50 CHF cheque (T011) from a new counterparty and then rapidly moved large sums out the same day to a different new account (T019–T021), indicating pass-through/layering activity.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T011\", \"T019\", \"T020\", \"T021\"]\n}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P32-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring transactions (incoming ~1,000–2,600 CHF from 0038478 and outgoing ~34–3,700 CHF to 0039678 and 0041745), but on 2022/09/02 it received an anomalous 116,592.50 CHF cheque (T011) from a new counterparty and then rapidly moved large sums out the same day to a different new account (T019–T021), indicating pass-through/layering activity.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T011\", \"T019\", \"T020\", \"T021\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T011', 'T019', 'T020', 'T021']"
+   },
+   {
+    "kind": "graded",
+    "output": "{\n\"reason\": \"The account normally handles small recurring transactions (incoming ~1,000–2,600 CHF from 0038478 and outgoing ~34–3,700 CHF to 0039678 and 0041745), but on 2022/09/02 it received an anomalous 116,592.50 CHF cheque (T011) from a new counterparty and then rapidly moved large sums out the same day to a different new account (T019–T021), indicating pass-through/layering activity.\",\n\"decision\": \"ESCALATE\",\n\"rows\": [\"T011\", \"T019\", \"T020\", \"T021\"]\n}",
+    "passed": false,
+    "reason": "normal account, cited ['T011', 'T019', 'T020', 'T021']"
+   }
+  ]
+ }
+]
