@@ -7,18 +7,25 @@ reference. This page is the memo; `NOTEBOOK.md` is the record, with every predic
 **The decision.** Whether to put a language model in front of the alert queue: it would close the clear false
 alarms and pass the rest to an analyst, with the transactions that matter.
 
-**The answer.** Not with the Mistral models as tested. On simulated alerts, all three (Small 4, Large 3 and the
-newest, Large 4) escalated every account: they closed 0 of 16 false alarms, so they saved the analyst no time.
-Telling them the bank is simulated, or that closing false alarms is the goal, did not fix it. Claude Opus 5.5, run
-once on the same cases, closed 14 of 16 and still caught 11 of 16 laundering accounts. It read regular payments as
-routine and flagged the one-off payments inside them, which is how the laundering looks in this data, and what I
-only saw myself after being shown the answers. So the task can be done from one account, and the gap is on the
-model side: giving Large 4 Claude's exact answer format, then normal randomness, changed nothing. Giving it
-Claude's method changed how it worked but not what it decided: its saved reasoning falls back on whatever in the
-request says the account is suspicious, first the alert, then the instruction. It might be the
-model, but I can't conclude on data: Claude might also have seen descriptions of this
-public dataset before, and it ran once, not at temperature 0. This is a gap to report, not a weakness to hide, but I
-would still test it on better data before deciding anything.
+**The result.** The Mistral models, as tested, did not reduce false positives. On simulated alerts, all three (Small
+4, Large 3 and Large 4) escalated every account and closed none of the 16 false alarms. Adjusting the prompt to
+specify that the bank is simulated, or that the goal is to close false alarms, did not improve results. For
+comparison, I tested Claude Opus 5.5 once on the same cases: it closed 14 of 16 false alarms and still caught 11 of
+16 laundering accounts. It interpreted regular payments as routine and flagged the one-off payments inside them,
+which is how laundering looks in this dataset, an insight I only recognized after reviewing the answers. This shows
+the task can be performed from a single account, and that the gap lies with the models.
+
+I then ran Large 4 again to pinpoint the gap's source. Giving it Claude's answer format, then normal randomness,
+changed nothing. Reading the two models' reasoning side by side, I noticed that Claude started by describing what an
+account normally does before identifying unusual transactions. I described this method in Large 4's prompt: it
+altered its approach but not its decisions. Its reasoning kept coming back to the alert saying the account had been
+flagged. I removed the alert as a last trial, and it leaned on the next part of the request that suggested something
+was there to find: the instruction to "flag the suspicious rows". For training, this points at the weight the model
+gives to what a request takes for granted, not at its reading of the data.
+
+While model differences are likely, I cannot rule out data familiarity: Claude may have seen this public dataset
+before. It also ran only once, and not at temperature 0. Further testing on more realistic data is recommended
+before drawing any clear conclusion.
 
 ## What was measured
 
