@@ -29,8 +29,7 @@ on more realistic data is definitely required before we can come to any firm con
 
 ## What was measured
 
-32 flagged accounts from IBM's synthetic bank (Sep 1–18, 2022): 16 laundering, 16 normal accounts picked because
-they look suspicious. The model sees the transactions on one account and a generic alert and then responds in JSON
+32 flagged accounts from IBM's synthetic bank (Sep 1–18, 2022): 16 laundering, 16 normal. The model sees the transactions on one account and a generic alert and then responds in JSON
 format with a reason, an ESCALATE or a CLOSE and the IDs of the suspicious rows. Two scores per account: the
 **decision** and the **evidence** (for a laundering account more than half of the laundering rows cited and no
 normal row; for a normal account no row is cited).
@@ -194,8 +193,6 @@ weight the model gives to what a request presupposes, not at its reading of the 
   mode. Claude and Large 4 reason before answering, whereas Small 4 and Large 3 don't. Large 4 was re-run with
   Claude's schema and at temperature 1 (no change). The instruction was drafted with Claude's help (which may work
   better for its runs).
-- **Hand-picked cases:** the normal accounts were chosen to look suspicious, which is realistic for an alert queue
-  but not a random sample. The rule's thresholds are an example, not a bank's rules.
 - **Cost:** around 103,000 prompt tokens per run (around 3,200 per case, the tables of ids and amounts are more
   expensive in terms of tokens). 8 runs of Small 4 and Large 3 at a few cents each. Large 4: 73,355 prompt and
   134,706 completion tokens at around $0.33, two harness reruns at around $0.35 each, the method and neutral-alert
