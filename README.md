@@ -10,16 +10,16 @@ alarms and pass the rest to an analyst, along with the transactions that actuall
 **The result.** The Mistral models, as tested, did not reduce false positives. On simulated alerts, all three (Small
 4, Large 3, and Large 4) escalated every account and closed none of the 16 false alarms. Adjusting the prompt to
 specify that the bank is simulated, or that the goal is to close false alarms, did not improve results. For
-comparison, I tested Claude Opus 5.5 once on the same cases: it closed 14 of 16 false alarms and still caught 11 of
+comparison, we tested Claude Opus 5.5 once on the same cases: it closed 14 of 16 false alarms and still caught 11 of
 16 laundering accounts. It interpreted regular payments as routine and flagged the one-off payments inside them,
-which is how laundering looks in this dataset, an insight I only recognized after reviewing the answers. This shows
+which is how laundering looks in this dataset, an insight we only recognized after reviewing the answers. This shows
 the task can be performed from a single account, and that the gap lies with the models.
 
-I then ran Large 4 again to pinpoint the source of the gap. Giving it Claude's answer format, then normal
-randomness, changed nothing. Reading the two models' reasoning side by side, I noticed that Claude started by
-describing what an account normally does before identifying unusual transactions. I described this method in Large
+We then ran Large 4 again to pinpoint the source of the gap. Giving it Claude's answer format, then normal
+randomness, changed nothing. Reading the two models' reasoning side by side, we noticed that Claude started by
+describing what an account normally does before identifying unusual transactions. We described this method in Large
 4's prompt: it altered its approach but not its decisions. Its reasoning kept coming back to the alert saying the
-account had been flagged. I removed the alert as a last trial, and it leaned on the next part of the request that
+account had been flagged. We removed the alert as a last trial, and it leaned on the next part of the request that
 suggested something was there to find: the instruction to "flag the suspicious rows". For training, this points to
 the weight the model gives to what a request takes for granted, not to how it reads the data.
 
@@ -88,7 +88,7 @@ goes up, escalate stays near 100% and evidence goes up.
 | "your objective is to close false alarms… and to escalate real cases" | 6% | 90% / 67% | 0% | 100% / 100% | unchanged |
 | both sentences | **69%** | **40% / 33%** | 0% | 100% / 100% | unchanged |
 
-My predictions were wrong twice ("close around 90%, escalate around 80%"); the third one ("as bad as the last run")
+Our predictions were wrong twice ("close around 90%, escalate around 80%"); the third one ("as bad as the last run")
 was the one that held for Large 3. No change met the bar at all, the evidence score never went up.
 
 ## Where the Mistral models fail
@@ -97,7 +97,7 @@ They read **regularity as laundering**. On P17, a normal account, Mistral Large 
 transactions with identical amounts to the same counterparties… suggest potential layering activity", and cited 42
 of the 59 rows (Small cited 30). In this simulated bank, a normal customer would make the same payment every day.
 Structuring (i.e., splitting the money into a number of payments to stay below the reporting threshold) is a genuine
-red flag in the real world, not in this simulation. I made the same mistake in my own blind cases. Large 4, with full
+red flag in the real world, not in this simulation. We made the same mistake in our own blind cases. Large 4, with full
 reasoning, flagged 15 of the 16 normal accounts as "structuring" or "smurfing" and cited 38 rows on a typical one. It
 also pulls in a real fact from the wrong place: on P11, it says cheques of 55,852.15 SAR are "just below the 60,000
 SAR reporting threshold". The 60k SAR is the amount a traveler must declare in cash when crossing into Saudi Arabia
@@ -145,8 +145,8 @@ score.
 - **C. The neutral-alert run.** The same, but the line "Alert: This account has been flagged for suspicious
   activity." was replaced by "This account was selected for review."
 
-I had planned a third run, B, giving Large 4 a summary of the account computed by code (one line per counterparty),
-in case it could not read a long table. I dropped it after run A, as it showed that Large 4 did find the account's
+We had planned a third run, B, giving Large 4 a summary of the account computed by code (one line per counterparty),
+in case it could not read a long table. We dropped it after run A, as it showed that Large 4 did find the account's
 routine and the transactions that departed from it.
 
 | | Large 4 | A: + method | C: + method, neutral alert | Claude |
