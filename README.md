@@ -1,40 +1,41 @@
-# Can a model take false alarms off an anti-money-laundering analyst?
+# Can a language model reduce the number of false positives in AML alert queues?
 
-*Bassma Saissi Hassani, November 2026. A small benchmark built in a weekend, in a field new to me: 32 flagged
-accounts from IBM's synthetic bank, a rule baseline, three Mistral models and Claude Opus 5.5 as an outside
-reference. This page is the memo; `NOTEBOOK.md` is the record, with every prediction written before its run.*
+*This is a summary of a very small benchmark we ran over a weekend: 32 flagged accounts from IBM's synthetic bank, a
+rule baseline, three Mistral models, and Claude Opus 5.5 as an external reference. The full record is in
+[`NOTEBOOK.md`](NOTEBOOK.md), with each prediction logged prior to running.*
 
-**The decision.** Whether to put a language model in front of the alert queue: it would close the clear false
-alarms and pass the rest to an analyst, with the transactions that matter.
+**The decision.** Whether to put a language model in front of the alert queue. It would filter out clear false
+alarms and pass the rest to an analyst, along with the transactions that actually mattered.
 
 **The result.** The Mistral models, as tested, did not reduce false positives. On simulated alerts, all three (Small
-4, Large 3 and Large 4) escalated every account and closed none of the 16 false alarms. Adjusting the prompt to
+4, Large 3, and Large 4) escalated every account and closed none of the 16 false alarms. Adjusting the prompt to
 specify that the bank is simulated, or that the goal is to close false alarms, did not improve results. For
 comparison, I tested Claude Opus 5.5 once on the same cases: it closed 14 of 16 false alarms and still caught 11 of
 16 laundering accounts. It interpreted regular payments as routine and flagged the one-off payments inside them,
 which is how laundering looks in this dataset, an insight I only recognized after reviewing the answers. This shows
 the task can be performed from a single account, and that the gap lies with the models.
 
-I then ran Large 4 again to pinpoint the gap's source. Giving it Claude's answer format, then normal randomness,
-changed nothing. Reading the two models' reasoning side by side, I noticed that Claude started by describing what an
-account normally does before identifying unusual transactions. I described this method in Large 4's prompt: it
-altered its approach but not its decisions. Its reasoning kept coming back to the alert saying the account had been
-flagged. I removed the alert as a last trial, and it leaned on the next part of the request that suggested something
-was there to find: the instruction to "flag the suspicious rows". For training, this points at the weight the model
-gives to what a request takes for granted, not at its reading of the data.
+I then ran Large 4 again to pinpoint the source of the gap. Giving it Claude's answer format, then normal
+randomness, changed nothing. Reading the two models' reasoning side by side, I noticed that Claude started by
+describing what an account normally does before identifying unusual transactions. I described this method in Large
+4's prompt: it altered its approach but not its decisions. Its reasoning kept coming back to the alert saying the
+account had been flagged. I removed the alert as a last trial, and it leaned on the next part of the request that
+suggested something was there to find: the instruction to "flag the suspicious rows". For training, this points to
+the weight the model gives to what a request takes for granted, not to how it reads the data.
 
-While model differences are likely, I cannot rule out data familiarity: Claude may have seen this public dataset
-before. It also ran only once, and not at temperature 0. Further testing on more realistic data is recommended
-before drawing any clear conclusion.
+While differences between models are likely, we cannot rule out data familiarity; Claude may have previously
+encountered this public dataset. Additionally, Claude was tested only once and not at temperature 0. More testing
+on more realistic data is definitely required before we can come to any firm conclusions.
 
 ## What was measured
 
 32 flagged accounts from IBM's synthetic bank (Sep 1–18, 2022): 16 laundering, 16 normal accounts picked because
-they look suspicious. The model sees one account's transactions and a generic alert, and answers in JSON: a reason,
-ESCALATE or CLOSE, and the ids of the suspicious rows. Two scores per account: the **decision**, and the
-**evidence** (more than half of the laundering rows cited and no normal row; for a normal account, no row cited).
+they look suspicious. The model sees the transactions on one account and a generic alert and then responds in JSON
+format with a reason, an ESCALATE or a CLOSE and the IDs of the suspicious rows. Two scores per account: the
+**decision** and the **evidence** (for a laundering account more than half of the laundering rows cited and no
+normal row; for a normal account no row is cited).
 
-Runs of Nov 8, 2026, same prompt for every model; answers in `results/`.
+Runs of 8th November 2026, same prompt for each model; answers in `results/`.
 
 | slice | n | rule (no model) | `mistral-small-2603` | `mistral-large-2512` | `mistral-large-4` | `claude-opus-5-5` |
 |---|---|---|---|---|---|---|
@@ -45,11 +46,12 @@ Runs of Nov 8, 2026, same prompt for every model; answers in `results/`.
 | evidence: escalate, hub account | 6 | 0% | 0% | 0% | 0% | 17% |
 | evidence: close | 16 | 94% | 0% | 0% | 0% | 88% |
 
-Settings: the Mistral models at temperature 0 in JSON mode. Claude takes no temperature setting and always reasons
-first (left at its default level), and its format was forced with a schema; it ran once. Large 4 also reasons
-before answering (about 4,200 output tokens per case, against about 500 for Claude).
+Settings: the Mistral models at temperature 0 in JSON mode. Claude takes no temperature setting, always reasons
+first (left at its default level), and its format was forced with a schema; it ran once. Large 4 also reasons before
+answering (about 4,200 output tokens per case, against about 500 for Claude).
 
-**A human:** 0 of 4 decisions right on four blind cases, in 7 minutes, before learning what this data looks like.
+**Human review:** 0 of 4 decisions right on four blind cases, in 7 minutes, before learning what this data looks
+like.
 
 The rule escalates an account that paid 8 or more different accounts within 3 days. A model that always says
 ESCALATE scores 100% on the escalate slices and 0% on close: the three Mistral models scored exactly that. The rule
@@ -68,15 +70,16 @@ run with temp 0".
 | Claude's schema, temperature 0 | 0% | 100% / 100% | 0% / 0% | 142,781 |
 | Claude's schema, temperature 1 | 0% | 100% / 100% | 10% / 0% | 138,796 |
 
-Neither the format nor randomness explains the gap. What remains is the model, and two things not checked: whether
-Claude's 88% holds on a rerun, and whether the wording of the instruction, drafted with Claude's help, suits Claude
-better.
+Neither the format nor the randomness explains the gap. What's left is the model and two things we haven't
+checked: does Claude's 88% hold up on a re-run? And does the phrasing of the instruction (which was drafted with
+Claude's assistance) work better with Claude?
 
 ## Checking the cause: three prompt changes (Mistral)
 
-Each change was one or two sentences added to the instruction, written with a prediction before the run, on all 32
-cases (a close-only rerun could not tell a model that reads the data correctly from one that now closes everything).
-The bar for "it works", set before the last run: close goes up, escalate stays near 100%, and evidence rises.
+Each change was one or two sentences added to the instruction, written with a prediction prior to the run, on all
+32 cases (a close-only rerun would not have been able to tell the difference between a model that reads the data
+correctly and one that now just closes everything). The bar for "it works" as set prior to the final run: close
+goes up, escalate stays near 100% and evidence goes up.
 
 | added to the instruction | Small: close | Small: escalate (single / hub) | Large 3: close | Large 3: escalate | evidence |
 |---|---|---|---|---|---|
@@ -85,65 +88,68 @@ The bar for "it works", set before the last run: close goes up, escalate stays n
 | "your objective is to close false alarms… and to escalate real cases" | 6% | 90% / 67% | 0% | 100% / 100% | unchanged |
 | both sentences | **69%** | **40% / 33%** | 0% | 100% / 100% | unchanged |
 
-My predictions were wrong twice ("close around 90%, escalate around 80%"); the third ("as bad as the last run") held
-for Large 3. No change met the bar: the evidence score never rose.
+My predictions were wrong twice ("close around 90%, escalate around 80%"); the third one ("as bad as the last run")
+was the one that held for Large 3. No change met the bar at all, the evidence score never went up.
 
 ## Where the Mistral models fail
 
 They read **regularity as laundering**. On P17, a normal account, Mistral Large 3 wrote: "multiple repeated
-transactions with identical amounts to the same counterparties… suggest potential layering activity", and cited
-42 of its 59 rows (Small cited 30). In this simulated bank, ordinary customers repeat identical payments every day.
-"Structuring" (splitting money into repeated payments to stay under reporting limits) is a real-world red flag,
-applied to a world where it means nothing. I made the same mistake on my own blind cases. Large 4, with all its
-reasoning, called 15 of the 16 normal accounts "structuring" or "smurfing", and cited 38 rows on a typical one. It
-also brings in real facts from the wrong place: on P11, cheques of 55,852.15 SAR are "just below the 60,000 SAR
-reporting threshold". SAR 60,000 is what a traveller must declare in cash at the Saudi border; it says nothing about
-cheques paid into an account, and the case mentions no threshold.
+transactions with identical amounts to the same counterparties… suggest potential layering activity", and cited 42
+of the 59 rows (Small cited 30). In this simulated bank, a normal customer would make the same payment every day.
+Structuring (i.e., splitting the money into a number of payments to stay below the reporting threshold) is a genuine
+red flag in the real world, not in this simulation. I made the same mistake in my own blind cases. Large 4, with full
+reasoning, flagged 15 of the 16 normal accounts as "structuring" or "smurfing" and cited 38 rows on a typical one. It
+also pulls in a real fact from the wrong place: on P11, it says cheques of 55,852.15 SAR are "just below the 60,000
+SAR reporting threshold". The 60k SAR is the amount a traveler must declare in cash when crossing into Saudi Arabia
+at the border. That is irrelevant here, and the case mentions no threshold at all.
 
-Told that regularity is normal, they keep it: Small on P31, with the sentence in its prompt, called the same
-repetition "unusual for regular customer behavior". With both sentences, Small turned it around and closed laundering
-accounts with "regular payments… suggest normal customer behavior", escalating on very large amounts instead. The
-feature changed; the method did not.
+Told that regularity is normal, they stick to it: Small, on P31 with the sentence in the prompt, called the same
+repetition "unusual for regular customer behavior". With both sentences, Small turned it around and closed the
+laundering accounts with "regular payments… suggest normal customer behavior", escalating on the very large amounts
+instead. The feature changed, the method didn't.
 
-On the evidence, they cite the busy, regular rows and miss the two or three quiet laundering rows: Large 3 passed one
-case (P04, two foreign-currency payments after self-transfers), in three of the four runs.
+On the evidence, they point to the busy, regular rows and overlook the two or three quiet laundering rows: Large 3
+passed one case (P04, two foreign-currency payments after self-transfers), in three of the four runs.
 
 ## What Claude did differently
 
-It called the regular payments "routine recurring payments" and escalated on one-off items inside them: a burst of
-credits from new counterparties (P06, P08), a self-conversion followed by a payout in another currency (P03, P04,
-P10, P13), three payments within minutes in three formats (P09, P12). It missed the two cycles with only two quiet
-rows each (P01, P02) and three hub accounts (P11, P14, P16), whose two-way flows it read as "related-entity treasury
-transfers". It wrongly escalated P28 ("just under a 10k threshold", the real-world habit again) and P32 (a one-off
-cheque from a new counterparty, then three fast payments). Its evidence is still weak: it often finds the right
-area but cites fewer than half of the laundering rows.
+It refers to the regular payments as "routine recurring payments" and escalates on the one-off items within them: a
+burst of credits from new counterparties (P06, P08), a self-conversion followed by a payout in a different currency
+(P03, P04, P10, P13), three payments in the space of a few minutes in three different formats (P09, P12). It misses
+the two cycles with only two quiet rows each (P01, P02) and the three hub accounts (P11, P14, P16) whose two-way
+flows it treats as "related-entity treasury transfers". It incorrectly escalates P28 ("just under a 10k threshold"
+again, the real-world habit) and P32 (a one-off cheque from a new counterparty followed by three fast payments). The
+evidence is still very weak in that it often gets the right area but only cites less than half of the laundering
+rows.
 
-Read side by side ([REASONING.md](REASONING.md), all 32 pairs), the difference is the method. Claude first says what
-the account normally does, then escalates on what departs from it and checks whether money passes through. That is
-what analysts are told to do: examiners check whether activity is typical for the customer
-([FFIEC](https://bsaaml.ffiec.gov/manual/AssessingComplianceWithBSARegulatoryRequirements/04_ep)), and a single red
+Read side by side ([`REASONING.md`](REASONING.md), all 32 pairs) the difference is in the method. Claude starts off
+by stating what the account normally does, then moves on to the bits that are at all unusual and checks whether
+money actually passes through. That is the method that analysts are told to follow: the examiner looks at whether
+the activity is typical for the customer
+([FFIEC](https://bsaaml.ffiec.gov/manual/AssessingComplianceWithBSARegulatoryRequirements/04_ep)) and a single red
 flag proves nothing on its own
 ([FATF](https://www.fatf-gafi.org/content/dam/fatf-gafi/brochures/Handout-Red-Flags-VA-Financial-Non-Financial.pdf)).
-Large 4 never describes normal, so one feature, repetition, is enough. The rows show the limit of Claude's method:
-its cited rows are mostly right (98 of 130) but it finds only 98 of the 250 laundering rows, because on the hub
-accounts the laundering is the steady two-way flow it takes as the normal. Large 4 cites 1,182 rows, 119 right.
+Large 4 never defines normal so a single feature (repetition) is sufficient. The rows illustrate the limits of
+Claude's method: the rows it cites are mostly correct (98 of 130) but it only picks up 98 of the 250 laundering rows
+as the laundering on the hub accounts is simply the steady two-way flow that it takes as the normal. Large 4 cites
+1,182 rows of which 119 are correct.
 
 ## Giving Large 4 Claude's method
 
-I ran Large 4 twice more, on the same 32 cases. These runs look for where the gap comes from; they are not a new
+We ran Large 4 twice more, on the same 32 cases. These runs look for where the gap comes from; they are not a new
 score.
 
-1. **The method run.** I added Claude's method to the instruction, in three steps: describe what the account
-   normally does, list the transactions that depart from it, and check whether money comes in and leaves again
-   soon (`variants/method.txt`).
-2. **The neutral-alert run.** The same, but the line "Alert: This account has been flagged for suspicious
-   activity." was replaced by "This account was selected for review."
+- **A. The method run.** We added Claude's method to the instruction, in three steps: describe what the account
+  normally does, list the transactions that depart from it, and check whether money comes in and leaves again soon
+  (`variants/method.txt`).
+- **C. The neutral-alert run.** The same, but the line "Alert: This account has been flagged for suspicious
+  activity." was replaced by "This account was selected for review."
 
-I had planned a third run, giving Large 4 a summary of the account computed by code (one line per counterparty),
-in case it could not read a long table. I dropped it: the reasoning of the method run showed that Large 4 did find
-the account's routine and the transactions that departed from it.
+I had planned a third run, B, giving Large 4 a summary of the account computed by code (one line per counterparty),
+in case it could not read a long table. I dropped it after run A, as it showed that Large 4 did find the account's
+routine and the transactions that departed from it.
 
-| | Large 4 | method run | neutral-alert run | Claude |
+| | Large 4 | A: + method | C: + method, neutral alert | Claude |
 |---|---|---|---|---|
 | normal accounts closed (of 16) | 0 | 1 | 1 | 14 |
 | laundering accounts caught (of 16) | 16 | 16 | 16 | 11 |
@@ -157,40 +163,43 @@ part of the scheme." Remove one cue that something is there to find, and it lean
 happened in [The Data Can't Tell](https://github.com/BassmaSH/the-data-cant-tell), where "why did X drop?" made
 models find a drop. Claude got the same alert and instruction and was not moved. For training, this points at the
 weight the model gives to what a request presupposes, not at its reading of the data. Details in
-[REASONING.md](REASONING.md).
+[`REASONING.md`](REASONING.md).
 
 ## What next, and what it costs
 
-1. **Check that Claude's result holds** (under $1 a run, not done for lack of credits): the same 32 cases three to
-   five times, to see how stable its decisions are without temperature 0; then fresh accounts it cannot have seen. New accounts from another of
-   IBM's datasets reduce the risk only partly, since those are public too; regenerated or real data removes it.
-2. **Better data:** IBM's larger datasets cover a longer period, so a monthly rhythm becomes visible; then a sample
-   of anonymised alerts from one bank, with an analyst's decisions as the key. That is the only test of real
-   capacity.
-3. **For the Mistral models:** describe the pattern in the prompt (one-off payments inside a regular account) and
-   test it on new cases, not these 32. The prompt changes above already tuned on these cases; a fourth would fit
-   this simulator, not the task. Not tested: an instruction without "flag the suspicious rows", the cue Large 4
-   leaned on last; it would mean rewriting the original prompt on the same 32 cases.
+1. **Check that Claude's result holds:** run the same 32 cases 3-5 times to see how stable its decisions are without
+   temperature 0; then add in fresh accounts it hasn't seen. The risk is reduced only partially by using new
+   accounts from another of IBM's datasets (those are public too); it's only eliminated by using regenerated or real
+   data.
+2. **Better data:** the larger IBM data sets cover a longer period so the monthly rhythm is apparent. A sample of
+   anonymised alerts from one bank with the analyst's decisions as the key. That's the only real test of capacity.
+3. **For the Mistral models:** five prompt changes on these 32 cases resulted in Large 4's method changing but not
+   its decisions. Its reasoning was predicated on whatever in the prompt suggested that there was something to be
+   found. The next test is a request that makes absolutely no assumptions (no alert, and an instruction which
+   doesn't ask it to "flag the suspicious rows") on new cases rather than these 32. If Large 4 then closes the false
+   alarms, the fix belongs in training rather than in the prompt.
 
 ## Limits
 
-- **Synthetic data:** no real bank or person; the simulator has habits a bank does not (daily identical payments,
-  `Reinvestment` transfers to self, very large amounts).
-- **Public data:** IBM's dataset has been public since 2023; any model may have read descriptions of how it behaves.
-- **One account, 18 days:** an analyst's best signals (a monthly rhythm, the other accounts in the scheme) are out of
-  reach. From inside one account, a scatter-gather looks exactly like a fan-out.
-- **32 cases, one run per prompt:** each close case is 6 points on its slice. The three prompt changes were tested
-  on the same 32 cases, and so were the method and neutral-alert runs. The Mistral runs are at temperature 0; Claude's single run is not, so its scores could move
-  on a rerun.
-- **Not identical settings:** in the main table Claude's format was forced by a schema, the Mistral models' by JSON
-  mode; Claude and Large 4 reason before answering, Small 4 and Large 3 do not. Large 4 was rerun with Claude's schema
-  and at temperature 1 (no change). The instruction was drafted with Claude's help, which may suit Claude.
+- **Synthetic data:** no real bank or person involved at all. The simulator has habits that a bank might simply not
+  have (daily identical payments, reinvestment transfers to self, very large amounts).
+- **Public data:** the IBM dataset has been public since 2023 so any model could have read the descriptions of how
+  it behaves.
+- **One account, 18 days:** an analyst's best signals (a monthly rhythm, the other accounts in the scheme) are
+  completely out of reach. From within one account, a scatter-gather looks precisely the same as a fan-out.
+- **32 cases, one run per prompt:** each close case is 6 points on its slice. We tested the three prompt variations
+  on the same 32 cases, as well as the method and neutral-alert runs. The Mistral runs are all at temperature 0,
+  except one Large 4 check at temperature 1; Claude's single run is not, so its scores could vary on a re-run.
+- **Not identical settings:** in the main table, Claude's format was forced by a schema, the Mistral models by JSON
+  mode. Claude and Large 4 reason before answering, whereas Small 4 and Large 3 don't. Large 4 was re-run with
+  Claude's schema and at temperature 1 (no change). The instruction was drafted with Claude's help (which may work
+  better for its runs).
 - **Hand-picked cases:** the normal accounts were chosen to look suspicious, which is realistic for an alert queue
   but not a random sample. The rule's thresholds are an example, not a bank's rules.
-- **Cost:** about 103,000 prompt tokens per run (about 3,200 per case: tables of ids and amounts cost more tokens
-  than prose). Eight runs of Small 4 and Large 3, a few cents each. Large 4: 73,355 prompt and 134,706 completion
-  tokens, about $0.33; its two harness reruns about $0.35 each, the method and neutral-alert runs about $0.40 each. Claude Opus 5.5: 103,549 prompt and 16,455
-  completion tokens, about $0.74.
+- **Cost:** around 103,000 prompt tokens per run (around 3,200 per case, the tables of ids and amounts are more
+  expensive in terms of tokens). 8 runs of Small 4 and Large 3 at a few cents each. Large 4: 73,355 prompt and
+  134,706 completion tokens at around $0.33, two harness reruns at around $0.35 each, the method and neutral-alert
+  runs at around $0.40 each. Claude Opus 5.5: 103,549 prompt and 16,455 completion tokens at around $0.74.
 
 ## Run it
 
@@ -204,21 +213,24 @@ export MISTRAL_API_KEY=...              # and ANTHROPIC_API_KEY for a Claude mod
 .venv/bin/python run.py mistral-large-4 method-neutral   # the method, with a neutral alert
 ```
 
-Each run prints the per-slice table and saves every answer in `results/`. `golden.jsonl` holds two lines per
-case (the decision and the evidence), built by `make_golden.py` from `cases/` and `keys/`; `aml_graders.py` scores
-them. The runner in `evals_kit/` is a copy of [evals-kit](https://github.com/BassmaSH/evals-kit).
+Each run produces the per-slice table and stores all the answers in `results/`. `golden.jsonl` contains two lines
+per case (the decision and the evidence) which are generated by `make_golden.py` from `cases/` and `keys/`. The
+scoring is done by `aml_graders.py`. The runner in `evals_kit/` is a copy of
+[evals-kit](https://github.com/BassmaSH/evals-kit).
 
 ## The data
 
 IBM's synthetic anti-money-laundering data, split HI-Small (Altman et al., *Realistic Synthetic Financial
 Transactions for Anti-Money Laundering Models*, NeurIPS 2023, <https://arxiv.org/abs/2306.16424>), licence
-CDLA-Sharing-1.0. Everything is simulated: no real person or bank. The raw files are not in this repository;
-`prep/README.md` says how to rebuild them, and `make_case.py` cuts a case from them. The files derived from that
-data (`cases/`, `keys/`, `golden.jsonl`) are shared under the same CDLA-Sharing-1.0 licence; the code is MIT.
+CDLA-Sharing-1.0. Everything is simulated, no real person or real bank. The raw files are not in this repo;
+`prep/README.md` has the instructions for rebuilding them and `make_case.py` cuts a case from them. The files that
+are derived from that data (`cases/`, `keys/`, `golden.jsonl`) are shared under the same CDLA-Sharing-1.0 licence and
+the code is MIT.
 
 ## How this was built
 
-I read the field, wrote the question, chose the cases and the slices, set the scoring rule and the prompt, made a
-prediction before each run and decided what the results mean. Claude (Claude Code) wrote the scripts from those
-choices (case building, graders, the rule file, the runner script and the model client), read the models' reasons
-in `results/`, kept the record in `NOTEBOOK.md`, and drafted this memo from my notes.
+I did some quick research on the field, wrote the question, selected cases and slices, set the scoring rule and
+prompt, made predictions before each run, and interpreted the results. Claude (Claude Code) wrote the scripts based
+on these inputs (including the case builder, graders, rule file, runner script, and model client), reviewed the
+models' reasoning in `results/`, maintained records in `NOTEBOOK.md`, and drafted the initial version of this memo
+from my notes.
