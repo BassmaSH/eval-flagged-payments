@@ -130,13 +130,20 @@ accounts the laundering is the steady two-way flow it takes as the normal. Large
 
 ## Giving Large 4 Claude's method
 
-Two more runs, on the same 32 cases, as a diagnostic rather than a score. A: Claude's method added to the
-instruction (`variants/method.txt`: describe the account's normal, list what departs from it, check whether money
-passes through). C: the same, with the alert replaced by a neutral line, "This account was selected for review."
-A planned run with a summary per counterparty computed by code was dropped: A's reasoning showed Large 4 found the
-routine and the departures, so reading the table was not the problem.
+I ran Large 4 twice more, on the same 32 cases. These runs look for where the gap comes from; they are not a new
+score.
 
-| | Large 4 | A: + method | C: + method, neutral alert | Claude |
+1. **The method run.** I added Claude's method to the instruction, in three steps: describe what the account
+   normally does, list the transactions that depart from it, and check whether money comes in and leaves again
+   soon (`variants/method.txt`).
+2. **The neutral-alert run.** The same, but the line "Alert: This account has been flagged for suspicious
+   activity." was replaced by "This account was selected for review."
+
+I had planned a third run, giving Large 4 a summary of the account computed by code (one line per counterparty),
+in case it could not read a long table. I dropped it: the reasoning of the method run showed that Large 4 did find
+the account's routine and the transactions that departed from it.
+
+| | Large 4 | method run | neutral-alert run | Claude |
 |---|---|---|---|---|
 | normal accounts closed (of 16) | 0 | 1 | 1 | 14 |
 | laundering accounts caught (of 16) | 16 | 16 | 16 | 11 |
