@@ -13,7 +13,9 @@ Telling them the bank is simulated, or that closing false alarms is the goal, di
 once on the same cases, closed 14 of 16 and still caught 11 of 16 laundering accounts. It read regular payments as
 routine and flagged the one-off payments inside them, which is how the laundering looks in this data, and what I
 only saw myself after being shown the answers. So the task can be done from one account, and the gap is on the
-model side: giving Large 4 Claude's exact answer format, then normal randomness, changed nothing. It might be the
+model side: giving Large 4 Claude's exact answer format, then normal randomness, changed nothing. Giving it
+Claude's method changed how it worked but not what it decided: its saved reasoning falls back on whatever in the
+request says the account is suspicious, first the alert, then the instruction. It might be the
 model, but I can't conclude on data: Claude might also have seen descriptions of this
 public dataset before, and it ran once, not at temperature 0. This is a gap to report, not a weakness to hide, but I
 would still test it on better data before deciding anything.
@@ -119,6 +121,30 @@ Large 4 never describes normal, so one feature, repetition, is enough. The rows 
 its cited rows are mostly right (98 of 130) but it finds only 98 of the 250 laundering rows, because on the hub
 accounts the laundering is the steady two-way flow it takes as the normal. Large 4 cites 1,182 rows, 119 right.
 
+## Giving Large 4 Claude's method
+
+Two more runs, on the same 32 cases, as a diagnostic rather than a score. A: Claude's method added to the
+instruction (`variants/method.txt`: describe the account's normal, list what departs from it, check whether money
+passes through). C: the same, with the alert replaced by a neutral line, "This account was selected for review."
+A planned run with a summary per counterparty computed by code was dropped: A's reasoning showed Large 4 found the
+routine and the departures, so reading the table was not the problem.
+
+| | Large 4 | A: + method | C: + method, neutral alert | Claude |
+|---|---|---|---|---|
+| normal accounts closed (of 16) | 0 | 1 | 1 | 14 |
+| laundering accounts caught (of 16) | 16 | 16 | 16 | 11 |
+| rows cited: laundering / other | 119 / 1,063 | 95 / 309 | 133 / 206 | 98 / 32 |
+
+The method took: "structuring" fell from 15 normal accounts to 3, and the rows from 1,182 to 404. The decision did
+not move. Large 4's reasoning, saved for these runs, considered closing on 11 of the 16 normal accounts and turned
+back on the alert on 10: "But given the alert, we flag the large outgoing transactions as suspicious". With the
+alert gone, it leaned on the instruction instead, on 13 of 16: "But the prompt asks for suspicious rows. All are
+part of the scheme." Remove one cue that something is there to find, and it leans on the next. The same thing
+happened in [The Data Can't Tell](https://github.com/BassmaSH/the-data-cant-tell), where "why did X drop?" made
+models find a drop. Claude got the same alert and instruction and was not moved. For training, this points at the
+weight the model gives to what a request presupposes, not at its reading of the data. Details in
+[REASONING.md](REASONING.md).
+
 ## What next, and what it costs
 
 1. **Check that Claude's result holds** (under $1 a run, not done for lack of credits): the same 32 cases three to
@@ -129,10 +155,8 @@ accounts the laundering is the steady two-way flow it takes as the normal. Large
    capacity.
 3. **For the Mistral models:** describe the pattern in the prompt (one-off payments inside a regular account) and
    test it on new cases, not these 32. The prompt changes above already tuned on these cases; a fourth would fit
-   this simulator, not the task. Planned on these 32 as a diagnostic only ([REASONING.md](REASONING.md), "Next"):
-   give Large 4 Claude's method (`variants/method.txt`); if that falls short, add a summary per counterparty
-   computed by code. Which one closes the gap says whether Large 4 lacks the procedure or the reading of a long
-   table, two different fixes in training.
+   this simulator, not the task. Not tested: an instruction without "flag the suspicious rows", the cue Large 4
+   leaned on last; it would mean rewriting the original prompt on the same 32 cases.
 
 ## Limits
 
@@ -142,7 +166,7 @@ accounts the laundering is the steady two-way flow it takes as the normal. Large
 - **One account, 18 days:** an analyst's best signals (a monthly rhythm, the other accounts in the scheme) are out of
   reach. From inside one account, a scatter-gather looks exactly like a fan-out.
 - **32 cases, one run per prompt:** each close case is 6 points on its slice. The three prompt changes were tested
-  on the same 32 cases. The Mistral runs are at temperature 0; Claude's single run is not, so its scores could move
+  on the same 32 cases, and so were the method and neutral-alert runs. The Mistral runs are at temperature 0; Claude's single run is not, so its scores could move
   on a rerun.
 - **Not identical settings:** in the main table Claude's format was forced by a schema, the Mistral models' by JSON
   mode; Claude and Large 4 reason before answering, Small 4 and Large 3 do not. Large 4 was rerun with Claude's schema
@@ -151,7 +175,7 @@ accounts the laundering is the steady two-way flow it takes as the normal. Large
   but not a random sample. The rule's thresholds are an example, not a bank's rules.
 - **Cost:** about 103,000 prompt tokens per run (about 3,200 per case: tables of ids and amounts cost more tokens
   than prose). Eight runs of Small 4 and Large 3, a few cents each. Large 4: 73,355 prompt and 134,706 completion
-  tokens, about $0.33; its two harness reruns about $0.35 each. Claude Opus 5.5: 103,549 prompt and 16,455
+  tokens, about $0.33; its two harness reruns about $0.35 each, the method and neutral-alert runs about $0.40 each. Claude Opus 5.5: 103,549 prompt and 16,455
   completion tokens, about $0.74.
 
 ## Run it
@@ -163,6 +187,7 @@ export MISTRAL_API_KEY=...              # and ANTHROPIC_API_KEY for a Claude mod
 .venv/bin/python run.py mistral-small-2603
 .venv/bin/python run.py mistral-small-2603 both      # a prompt variant from variants/
 .venv/bin/python run.py mistral-large-4 schema       # the harness check
+.venv/bin/python run.py mistral-large-4 method-neutral   # the method, with a neutral alert
 ```
 
 Each run prints the per-slice table and saves every answer in `results/`. `golden.jsonl` holds two lines per
