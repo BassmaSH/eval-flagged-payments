@@ -65,10 +65,10 @@ def with_range(run_name: str, slice_name: str) -> str:
     return f"{passed}/{total} · {round(100 * low)}–{round(100 * high)}%"
 
 
-def paired(first: str, second: str, slice_name: str) -> list:
-    """Returns how two runs differ case by case on one slice, with the exact McNemar p-value."""
+def paired(first: str, second: str, slices: list[str]) -> list:
+    """Returns how two runs differ case by case on these slices, with the exact McNemar p-value."""
     a, b = passes(first), passes(second)
-    ids = [i for i in a if GOLDEN[i]["slice"] == slice_name]
+    ids = [i for i in a if GOLDEN[i]["slice"] in slices]
     only_first = sum(a[i] and not b[i] for i in ids)
     only_second = sum(b[i] and not a[i] for i in ids)
     return [only_first, only_second, f"{paired_p_value(only_first, only_second):.2g}"]
@@ -110,7 +110,8 @@ def vocabulary(run_name: str) -> list[int]:
             reason = reason.replace(spaced, spaced.replace(" ", "-"))
         for term in TERMS:
             counts[term] += term in reason
-    return [counts[term] for term in TERMS]
+        counts["cycle"] = counts.get("cycle", 0) + ("cycle" in named(reason, PATTERNS))
+    return [counts[term] for term in [*TERMS, "cycle"]]
 
 
 def table(header: list[str], rows: list[list]) -> None:
@@ -165,6 +166,15 @@ def print_repeats(runs: list[str]) -> None:
     )
     total = len(given[runs[0]])
     print(f"Same decision in every run: {total - len(changed)} of {total} cases.\n")
+    for label, run_name in zip(labels[1:], runs[1:], strict=True):
+        record = paths.RESULTS / f"{run_name}.meta.json"
+        thinking = json.loads(record.read_text())["thinking_tokens_per_case"]
+        reasoned = sum(1 for tokens in thinking.values() if tokens)
+        per_case = round(sum(thinking.values()) / len(thinking))
+        print(
+            f"{label}: reasoned on {reasoned} of {len(thinking)} cases, {per_case} tokens per case."
+        )
+    print()
 
 
 def print_probe() -> None:
@@ -212,7 +222,17 @@ def main() -> None:
     print("## Claude against Large 4, case by case\n")
     table(
         ["slice", "only Claude right", "only Large 4 right", "p (exact McNemar)"],
-        [[label, *paired("claude-opus-5-5", "mistral-large-4", s)] for label, s in SLICES],
+        [[label, *paired("claude-opus-5-5", "mistral-large-4", [s])] for label, s in SLICES]
+        + [
+            [
+                "decision: escalate, all 16 laundering accounts",
+                *paired(
+                    "claude-opus-5-5",
+                    "mistral-large-4",
+                    ["decision-escalate-single", "decision-escalate-hub"],
+                ),
+            ]
+        ],
     )
 
     print("## Checking the harness (Large 4)\n")
@@ -289,7 +309,7 @@ def main() -> None:
         for p in paths.RESULTS.glob("*.json")
         if p.name.count(".") == 1 and p.name != "rule.json"
     )
-    table(["run"] + TERMS, [[name] + vocabulary(name) for name in names])
+    table(["run", *TERMS, "cycle or circular"], [[name] + vocabulary(name) for name in names])
 
 
 if __name__ == "__main__":
