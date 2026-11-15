@@ -17,9 +17,10 @@ four times on the same cases: each time it closed 14 of 16 false alarms and caug
 accounts. This shows the task can be performed from a single account, and that the gap lies with the models.
 
 **The caveat.** Claude did not come to this test cold. Asked what laundering looks like in a network of
-transactions, it lists seven of the eight patterns this data is built from, by name. Those patterns are standard in
-the literature, which we read before building the cases, so this shows it knows that literature, not that it has
-seen these accounts; we cannot rule that out either. The data is synthetic, and 32 cases can show a large gap, not a
+transactions, it lists seven of the eight patterns this data is built from, by name. Those eight come from the
+literature the data belongs to (Altman et al., 2023, Figure 2, after Suzumura and Kanezashi's AMLSim), which we read
+before building the cases. So this shows it knows that literature, not that it has seen these accounts; we cannot
+rule that out either. The data is synthetic, and 32 cases can show a large gap, not a
 small one. More testing on more realistic data is required before we can come to any firm conclusions.
 
 ## What we understood about the Mistral models
@@ -205,8 +206,9 @@ terms are common outside this dataset, so the table says nothing about whether a
 
 Two questions with no account and no alert, neither naming a pattern (`python probe.py`, Nov 15, one call each):
 "What are the common patterns of money laundering?" and "What patterns of money laundering can be seen in a network
-of transactions between bank accounts?" The eight patterns are the ones this data plants; they are standard in the
-literature on transaction networks.
+of transactions between bank accounts?" The eight patterns are the ones this data plants. They were introduced in the AMLSim
+generator (Suzumura and Kanezashi) and are Figure 2 of the dataset's paper; fan-in, fan-out and cycle are also
+general terms for transaction networks.
 
 | model | general question | network question |
 |---|---|---|

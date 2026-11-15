@@ -367,5 +367,9 @@ networks, they organise what they know by the cash stages.
 **What this does not show.** One call per question, one wording: another wording could give other lists. That
 Claude reproduces the dataset's taxonomy almost name for name shows it knows the literature the data comes from;
 it does not show that it has seen the data.
-*Her note:* the eight patterns are not IBM's own: we found them in the literature we read before building the
-cases. IBM's data plants them. So "the dataset's names" above means the names the literature uses.
+*Her note:* the eight patterns are ones we read about before building the cases, not something the data alone
+defines. *Checked afterwards:* her Nov 7 reading notes cite them by their figure labels, (2b), (2c), (2f): that is
+Figure 2 of the dataset's paper (Altman et al., 2023, arXiv:2306.16424). Its section 3.2 says where the set comes
+from: "In their AMLSim generator, Suzumura and Kanezashi introduced a set of 8 patterns often used in money
+laundering." So the eight, as a set and with these names, come from that line of work; fan-in, fan-out and cycle
+are also general terms.
