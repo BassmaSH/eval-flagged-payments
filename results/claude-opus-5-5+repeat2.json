@@ -1,0 +1,834 @@
+[
+ {
+  "id": "P01-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Almost all activity is identical recurring cheque and credit-card payments (241.79 and 1009.18) to a single counterparty, which looks like routine bill payment. The one-off 58,702.10 Yuan ACH payment is roughly the size of the same-time self-transfer and is the only item worth noting, but it is not enough to suggest laundering.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P01-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Almost all activity is identical recurring cheque and credit-card payments (241.79 and 1009.18) to a single counterparty, which looks like routine bill payment. The one-off 58,702.10 Yuan ACH payment is roughly the size of the same-time self-transfer and is the only item worth noting, but it is not enough to suggest laundering.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "cited 0/2 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P02-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"This looks like a round trip. On 2022/09/01 the account converted USD 7,167.72 (T003) and at the same minute sent CAD 9,456.37, about the same value, to account 8095F9B40 (T004); three days later that same account sent back USD 7,835.67 (T009). The repeated identical inflows from 808788960 a week apart look like recurring payments and are not flagged.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T009\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P02-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"This looks like a round trip. On 2022/09/01 the account converted USD 7,167.72 (T003) and at the same minute sent CAD 9,456.37, about the same value, to account 8095F9B40 (T004); three days later that same account sent back USD 7,835.67 (T009). The repeated identical inflows from 808788960 a week apart look like recurring payments and are not flagged.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T009\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P03-decision",
+  "slice": "decision-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Each 'self' Yen entry is paired with a same-timestamp foreign-currency payment of matching value, so they look like ordinary currency conversions for cross-border payments. The outflows go to varied counterparties at irregular amounts and times, and the repeated 63003.12 Yen inflow from one account reads as a routine recurring payment; outflows far exceed inflows in this window but likely draw on an existing balance, so I see no clear layering, structuring or rapid pass-through.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P03-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Each 'self' Yen entry is paired with a same-timestamp foreign-currency payment of matching value, so they look like ordinary currency conversions for cross-border payments. The outflows go to varied counterparties at irregular amounts and times, and the repeated 63003.12 Yen inflow from one account reads as a routine recurring payment; outflows far exceed inflows in this window but likely draw on an existing balance, so I see no clear layering, structuring or rapid pass-through.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "cited 0/12 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P04-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Twice, the account moved CHF to itself by ACH and, at the exact same minute, sent a matching amount in a different currency (USD, then GBP) to an outside bank. This repeated convert-and-send-out pattern across two currencies could be a way to move funds offshore and blur their trail.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P04-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Twice, the account moved CHF to itself by ACH and, at the exact same minute, sent a matching amount in a different currency (USD, then GBP) to an outside bank. This repeated convert-and-send-out pattern across two currencies could be a way to move funds offshore and blur their trail.\", \"decision\": \"ESCALATE\", \"rows\": [\"T003\", \"T004\", \"T005\", \"T006\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T005'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P05-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Besides fixed-amount payments that recur on schedule, the account sends and receives frequent irregular ACH transfers, mostly 30k–70k SAR, with three counterparties (812D22980, 811C599A0, 811C597B0). Money flows both ways with the same parties within hours or days, which suggests layering or cycling of funds. The large day-1 transfers to 811EC1440 and 811E393D0 look like a one-off burst, so I have not flagged them.\", \"decision\": \"ESCALATE\", \"rows\": [\"T028\", \"T033\", \"T034\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T050\", \"T051\", \"T057\", \"T064\", \"T065\", \"T066\", \"T078\", \"T093\", \"T108\", \"T109\", \"T110\", \"T111\", \"T112\", \"T115\", \"T116\", \"T118\", \"T120\", \"T132\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P05-rows",
+  "slice": "rows-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Besides fixed-amount payments that recur on schedule, the account sends and receives frequent irregular ACH transfers, mostly 30k–70k SAR, with three counterparties (812D22980, 811C599A0, 811C597B0). Money flows both ways with the same parties within hours or days, which suggests layering or cycling of funds. The large day-1 transfers to 811EC1440 and 811E393D0 look like a one-off burst, so I have not flagged them.\", \"decision\": \"ESCALATE\", \"rows\": [\"T028\", \"T033\", \"T034\", \"T043\", \"T044\", \"T045\", \"T046\", \"T047\", \"T048\", \"T050\", \"T051\", \"T057\", \"T064\", \"T065\", \"T066\", \"T078\", \"T093\", \"T108\", \"T109\", \"T110\", \"T111\", \"T112\", \"T115\", \"T116\", \"T118\", \"T120\", \"T132\", \"T134\", \"T135\", \"T136\", \"T137\", \"T138\", \"T139\"]}",
+    "passed": true,
+    "reason": "ok: 33/34 laundering rows, no normal row"
+   }
+  ]
+ },
+ {
+  "id": "P06-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most activity is the same fixed-amount payments to and from the same counterparties every day, which looks like routine business. From 2022/09/09, however, the account starts receiving many one-off ACH credits from about a dozen new, unrelated accounts across several banks (roughly 1.2k–16.9k EUR each), a fan-in pattern consistent with funds being gathered for layering.\",\"decision\":\"ESCALATE\",\"rows\":[\"T127\",\"T128\",\"T129\",\"T130\",\"T146\",\"T147\",\"T148\",\"T149\",\"T150\",\"T151\",\"T152\",\"T153\",\"T154\",\"T155\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P06-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most activity is the same fixed-amount payments to and from the same counterparties every day, which looks like routine business. From 2022/09/09, however, the account starts receiving many one-off ACH credits from about a dozen new, unrelated accounts across several banks (roughly 1.2k–16.9k EUR each), a fan-in pattern consistent with funds being gathered for layering.\",\"decision\":\"ESCALATE\",\"rows\":[\"T127\",\"T128\",\"T129\",\"T130\",\"T146\",\"T147\",\"T148\",\"T149\",\"T150\",\"T151\",\"T152\",\"T153\",\"T154\",\"T155\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T129'] (13/13 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P07-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most activity is recurring and repetitive: daily identical EUR-to-USD conversions paid to 002845/80286DE40, regular cheques from 070/1004286A8, and ongoing ACH flows with 023691. By contrast, T017 and T018 are one-off payments of about 31k EUR to a new counterparty (0221279/80DD67160), split across cheque and credit card minutes apart in the early hours, and they fit no established pattern.\",\"decision\":\"ESCALATE\",\"rows\":[\"T017\",\"T018\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P07-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most activity is recurring and repetitive: daily identical EUR-to-USD conversions paid to 002845/80286DE40, regular cheques from 070/1004286A8, and ongoing ACH flows with 023691. By contrast, T017 and T018 are one-off payments of about 31k EUR to a new counterparty (0221279/80DD67160), split across cheque and credit card minutes apart in the early hours, and they fit no established pattern.\",\"decision\":\"ESCALATE\",\"rows\":[\"T017\",\"T018\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018'] (0/49 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P08-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"About 128k EUR came in over three days from a dozen unrelated banks (fan-in). On 2022/09/08 the account then converted 7.67M EUR and sent about 8.99M USD in two simultaneous payments to one counterparty, far more than the inflows can explain; a series of currency-converted outflows to many recipients followed.\",\"decision\":\"ESCALATE\",\"rows\":[\"T003\",\"T004\",\"T005\",\"T006\",\"T008\",\"T009\",\"T010\",\"T011\",\"T013\",\"T015\",\"T017\",\"T018\",\"T019\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P08-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"About 128k EUR came in over three days from a dozen unrelated banks (fan-in). On 2022/09/08 the account then converted 7.67M EUR and sent about 8.99M USD in two simultaneous payments to one counterparty, far more than the inflows can explain; a series of currency-converted outflows to many recipients followed.\",\"decision\":\"ESCALATE\",\"rows\":[\"T003\",\"T004\",\"T005\",\"T006\",\"T008\",\"T009\",\"T010\",\"T011\",\"T013\",\"T015\",\"T017\",\"T018\",\"T019\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T017', 'T018'] (11/27 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P09-decision",
+  "slice": "decision-escalate-hub",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most activity is routine: frequent ACH transfers back and forth with what looks like a linked same-bank account (812A09CF0), and a recurring identical cheque/credit-card pair from 811EFA110. The exception is a burst of three payments on 2022/09/02 within six minutes to one new external account (bank 0048755 / 812D27A80), each in a different format (credit card, ACH, cash) and totalling about SAR 46.8k, which suggests deliberate splitting or layering of an outflow.\",\"decision\":\"ESCALATE\",\"rows\":[\"T014\",\"T015\",\"T016\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P09-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most activity is routine: frequent ACH transfers back and forth with what looks like a linked same-bank account (812A09CF0), and a recurring identical cheque/credit-card pair from 811EFA110. The exception is a burst of three payments on 2022/09/02 within six minutes to one new external account (bank 0048755 / 812D27A80), each in a different format (credit card, ACH, cash) and totalling about SAR 46.8k, which suggests deliberate splitting or layering of an outflow.\",\"decision\":\"ESCALATE\",\"rows\":[\"T014\",\"T015\",\"T016\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T014', 'T015', 'T016'] (0/33 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P10-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Beyond the routine recurring pairs (fixed payments to 80EF9A260 and 80BC38F60, fixed receipts from 809F5A2A0), the account sent 11 foreign-currency payments to 11 different one-off counterparties between 09/05 and 09/07. Each was funded by a matching self-transfer conversion, a fan-out burst that breaks from the account's otherwise repetitive behaviour.\",\"decision\":\"ESCALATE\",\"rows\":[\"T013\",\"T014\",\"T015\",\"T016\",\"T017\",\"T018\",\"T025\",\"T026\",\"T027\",\"T028\",\"T029\",\"T030\",\"T031\",\"T032\",\"T033\",\"T034\",\"T035\",\"T036\",\"T039\",\"T040\",\"T043\",\"T044\",\"T045\",\"T046\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P10-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Beyond the routine recurring pairs (fixed payments to 80EF9A260 and 80BC38F60, fixed receipts from 809F5A2A0), the account sent 11 foreign-currency payments to 11 different one-off counterparties between 09/05 and 09/07. Each was funded by a matching self-transfer conversion, a fan-out burst that breaks from the account's otherwise repetitive behaviour.\",\"decision\":\"ESCALATE\",\"rows\":[\"T013\",\"T014\",\"T015\",\"T016\",\"T017\",\"T018\",\"T025\",\"T026\",\"T027\",\"T028\",\"T029\",\"T030\",\"T031\",\"T032\",\"T033\",\"T034\",\"T035\",\"T036\",\"T039\",\"T040\",\"T043\",\"T044\",\"T045\",\"T046\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T013', 'T015', 'T017', 'T025', 'T027', 'T029', 'T031', 'T033', 'T035', 'T039', 'T043', 'T045'] (12/12 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P11-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account receives a repeated, identical cheque of 55,852.15 SAR from one counterparty, 7 times in about 8 days. It also shows a heavy two-way flow of ACH payments with 812D129C0. This looks like routine dealings with established counterparties rather than layering, but it is a pattern, not proof either way, and the account is otherwise ordinary.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P11-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account receives a repeated, identical cheque of 55,852.15 SAR from one counterparty, 7 times in about 8 days. It also shows a heavy two-way flow of ACH payments with 812D129C0. This looks like routine dealings with established counterparties rather than layering, but it is a pattern, not proof either way, and the account is otherwise ordinary.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": false,
+    "reason": "cited 0/10 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P12-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Within 18 minutes on 2022/09/01, the account sent three escalating payments totalling about 55.7k SAR to one counterparty at another bank (0048755 / 811FCEAD0), each in a different format (credit card, ACH, cheque). This came shortly after a 23,370.22 cheque inflow and looks like rapid layering. The repeated identical 23,370.22 cheque inflows and the paired small payments to 811B970B0 look routine, and the two large one-off ACH transfers (T012, T022) are worth a look but not clearly suspicious on their own.\",\"decision\":\"ESCALATE\",\"rows\":[\"T003\",\"T004\",\"T005\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P12-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Within 18 minutes on 2022/09/01, the account sent three escalating payments totalling about 55.7k SAR to one counterparty at another bank (0048755 / 811FCEAD0), each in a different format (credit card, ACH, cheque). This came shortly after a 23,370.22 cheque inflow and looks like rapid layering. The repeated identical 23,370.22 cheque inflows and the paired small payments to 811B970B0 look routine, and the two large one-off ACH transfers (T012, T022) are worth a look but not clearly suspicious on their own.\",\"decision\":\"ESCALATE\",\"rows\":[\"T003\",\"T004\",\"T005\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T003', 'T004', 'T005'] (0/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P13-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"An ACH inflow of 1,831.33 CAD from 801AA4400 (T012) was converted the next day (T013, 1,826.54 CAD) and sent out as 1,181.51 EUR to a different bank (T014). This looks like a quick pass-through hop with a currency change. The recurring small inflows from 80906D040 and the paired large card/cash transfers look like routine activity, though the 1.35M CAD cash outflow (T011) far exceeds the visible inflows and was not flagged here.\",\"decision\":\"ESCALATE\",\"rows\":[\"T012\",\"T013\",\"T014\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P13-rows",
+  "slice": "rows-escalate-single",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"An ACH inflow of 1,831.33 CAD from 801AA4400 (T012) was converted the next day (T013, 1,826.54 CAD) and sent out as 1,181.51 EUR to a different bank (T014). This looks like a quick pass-through hop with a currency change. The recurring small inflows from 80906D040 and the paired large card/cash transfers look like routine activity, though the 1.35M CAD cash outflow (T011) far exceeds the visible inflows and was not flagged here.\",\"decision\":\"ESCALATE\",\"rows\":[\"T012\",\"T013\",\"T014\"]}",
+    "passed": false,
+    "reason": "cited normal rows ['T013'] (2/2 laundering rows cited)"
+   }
+  ]
+ },
+ {
+  "id": "P14-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity is limited to recurring identical small credits from one payer and dense two-way ACH flows with two counterparties at the same bank, one of which (812D0C3C0) appears to be a related account of the same customer. The flows look like routine treasury or business transfers, with no fan-in/fan-out, layering through new parties, or pass-through to outside banks.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P14-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity is limited to recurring identical small credits from one payer and dense two-way ACH flows with two counterparties at the same bank, one of which (812D0C3C0) appears to be a related account of the same customer. The flows look like routine treasury or business transfers, with no fan-in/fan-out, layering through new parties, or pass-through to outside banks.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "cited 0/23 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P15-decision",
+  "slice": "decision-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The repeated identical payments from 802BA8140 and 806BAF900 follow a regular schedule and look like routine recurring activity. The exception is a one-off $6,298.99 ACH credit from a new counterparty (T023), followed about 9 hours later by the account's only outgoing payment, $5,803.80 (roughly 92% of it) to another new counterparty (T024). This looks like funds passing straight through the account.\",\"decision\":\"ESCALATE\",\"rows\":[\"T023\",\"T024\"]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P15-rows",
+  "slice": "rows-escalate-single",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The repeated identical payments from 802BA8140 and 806BAF900 follow a regular schedule and look like routine recurring activity. The exception is a one-off $6,298.99 ACH credit from a new counterparty (T023), followed about 9 hours later by the account's only outgoing payment, $5,803.80 (roughly 92% of it) to another new counterparty (T024). This looks like funds passing straight through the account.\",\"decision\":\"ESCALATE\",\"rows\":[\"T023\",\"T024\"]}",
+    "passed": true,
+    "reason": "ok: 2/2 laundering rows, no normal row"
+   }
+  ]
+ },
+ {
+  "id": "P16-decision",
+  "slice": "decision-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity consists of recurring small identical inflows from one counterparty, a repeating weekly cheque of the same amount, and two-way ACH flows with two regular counterparties whose amounts do not mirror each other. All of it is in a single currency with no layering, structuring or pass-through pattern evident, so it is consistent with routine business activity.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "expected ESCALATE, got 'CLOSE'"
+   }
+  ]
+ },
+ {
+  "id": "P16-rows",
+  "slice": "rows-escalate-hub",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity consists of recurring small identical inflows from one counterparty, a repeating weekly cheque of the same amount, and two-way ACH flows with two regular counterparties whose amounts do not mirror each other. All of it is in a single currency with no layering, structuring or pass-through pattern evident, so it is consistent with routine business activity.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": false,
+    "reason": "cited 0/25 laundering rows, needs more than half"
+   }
+  ]
+ },
+ {
+  "id": "P17-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Most activity is stable, repeating payments of identical amounts to and from the same few counterparties, which looks like routine recurring business. The exception is two one-off outflows to a new counterparty (80C9FBCD0) at midnight within 21 minutes: an ACH payment of 18,301.67 MXN and a much larger 310,885.80 MXN cheque. They do not fit the account's established pattern and warrant investigation.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P17-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Most activity is stable, repeating payments of identical amounts to and from the same few counterparties, which looks like routine recurring business. The exception is two one-off outflows to a new counterparty (80C9FBCD0) at midnight within 21 minutes: an ACH payment of 18,301.67 MXN and a much larger 310,885.80 MXN cheque. They do not fit the account's established pattern and warrant investigation.\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T001', 'T002']"
+   }
+  ]
+ },
+ {
+  "id": "P18-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Most activity repeats on a regular schedule: the same amounts go to and come from the same counterparties every day or week, which fits routine business payments. The large one-off payments (e.g. T008/T009 to 814231990) and the multi-format bursts sit within the account's normal pattern of high-value corporate transfers and show no layering, fan-in/fan-out or structuring.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P18-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Most activity repeats on a regular schedule: the same amounts go to and come from the same counterparties every day or week, which fits routine business payments. The large one-off payments (e.g. T008/T009 to 814231990) and the multi-format bursts sit within the account's normal pattern of high-value corporate transfers and show no layering, fan-in/fan-out or structuring.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P19-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account receives a single ACH inflow of about $5,200 and otherwise makes small, routine credit card payments to a few recurring merchants. There is no layering, rapid pass-through, structuring or unusual counterparty pattern.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P19-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account receives a single ACH inflow of about $5,200 and otherwise makes small, routine credit card payments to a few recurring merchants. There is no layering, rapid pass-through, structuring or unusual counterparty pattern.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P20-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most inflows are a fixed pair of identical amounts (102,805.08 cash and 53,308.03 cheque) arriving daily from a single counterparty, which reads as a scheduled recurring payment rather than structuring. The large self-reinvestment and the few one-off transfers show no layering, fan-in/fan-out or round-tripping.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P20-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Most inflows are a fixed pair of identical amounts (102,805.08 cash and 53,308.03 cheque) arriving daily from a single counterparty, which reads as a scheduled recurring payment rather than structuring. The large self-reinvestment and the few one-off transfers show no layering, fan-in/fan-out or round-tripping.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P21-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account makes paired, small, identical Bitcoin payments (0.0185 and 0.005973 BTC) to one counterparty about once a day. This looks like a stable recurring payment arrangement, with no inflows, fan-out, layering or threshold-avoidance pattern.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P21-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The account makes paired, small, identical Bitcoin payments (0.0185 and 0.005973 BTC) to one counterparty about once a day. This looks like a stable recurring payment arrangement, with no inflows, fan-out, layering or threshold-avoidance pattern.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P22-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The activity is a highly regular, recurring pattern: the same fixed amounts are paid to the same three counterparties almost daily in consistent formats, which looks like routine scheduled payments. There is no fan-in/fan-out, layering, cycling, structuring or one-off anomalous movement that would indicate laundering.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P22-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The activity is a highly regular, recurring pattern: the same fixed amounts are paid to the same three counterparties almost daily in consistent formats, which looks like routine scheduled payments. There is no fan-in/fan-out, layering, cycling, structuring or one-off anomalous movement that would indicate laundering.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P23-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The large ACH inflow appears to come from a related account with the same ID prefix, likely an own-account transfer. The large outflows are identical amount pairs (29,715.58 and 55,097.54) paid to one counterparty exactly a week apart, which looks like recurring payments rather than layering, and the rest are small routine card spends. With no fan-out, no rapid pass-through of the inflow and no structuring, this looks like a false alarm.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P23-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The large ACH inflow appears to come from a related account with the same ID prefix, likely an own-account transfer. The large outflows are identical amount pairs (29,715.58 and 55,097.54) paid to one counterparty exactly a week apart, which looks like recurring payments rather than layering, and the rest are small routine card spends. With no fan-out, no rapid pass-through of the inflow and no structuring, this looks like a false alarm.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P24-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The account shows a highly regular pattern: fixed-amount cheque inflows from the same counterparties and identical recurring payments of the same amounts and formats to two payees, roughly daily. This looks like routine scheduled payments, such as bills, payroll or subscriptions, with no layering, structuring, rapid pass-through or unusual counterparties.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P24-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The account shows a highly regular pattern: fixed-amount cheque inflows from the same counterparties and identical recurring payments of the same amounts and formats to two payees, roughly daily. This looks like routine scheduled payments, such as bills, payroll or subscriptions, with no layering, structuring, rapid pass-through or unusual counterparties.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P25-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The large incoming cheque comes from what looks like a related account. The outgoing payments are recurring cheque/credit-card pairs of identical amounts to the same few payees on a regular daily or weekly schedule, and they total only a small fraction of the inflow; there is no fan-out, layering or structuring, so this looks like routine payment activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P25-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"The large incoming cheque comes from what looks like a related account. The outgoing payments are recurring cheque/credit-card pairs of identical amounts to the same few payees on a regular daily or weekly schedule, and they total only a small fraction of the inflow; there is no fan-out, layering or structuring, so this looks like routine payment activity.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P26-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The activity is a stable, recurring pattern: the same fixed amounts go out to and come in from the same three counterparties almost every day, plus routine self-reinvestment entries. There is no fan-in/fan-out, no layering through new counterparties, no structuring near thresholds and no rapid pass-through of unusual funds, so this looks like ordinary recurring business payments.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P26-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The activity is a stable, recurring pattern: the same fixed amounts go out to and come in from the same three counterparties almost every day, plus routine self-reinvestment entries. There is no fan-in/fan-out, no layering through new counterparties, no structuring near thresholds and no rapid pass-through of unusual funds, so this looks like ordinary recurring business payments.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P27-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity is dominated by fixed-amount recurring payments to the same few counterparties and a regular 82,569.50 cheque inflow, which looks like routine scheduled business. The one large 15.7M cheque inflow (T017) is not followed by any rapid onward movement, layering, or structuring, so it alone does not support an escalation.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P27-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity is dominated by fixed-amount recurring payments to the same few counterparties and a regular 82,569.50 cheque inflow, which looks like routine scheduled business. The one large 15.7M cheque inflow (T017) is not followed by any rapid onward movement, layering, or structuring, so it alone does not support an escalation.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P28-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Most activity is regular repeating payments: fixed amounts go to the same few counterparties on a steady schedule, and small identical receipts come in from one account. The early large cheque and cash payments are one-offs with no linked inflows, layering or pass-through, so this looks like routine activity rather than laundering.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P28-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"Most activity is regular repeating payments: fixed amounts go to the same few counterparties on a steady schedule, and small identical receipts come in from one account. The early large cheque and cash payments are one-offs with no linked inflows, layering or pass-through, so this looks like routine activity rather than laundering.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P29-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"All activity follows stable recurring patterns: identical small daily payments to and from fixed counterparties, a regular cheque inflow, and identical weekly three-part outflows to 0117. The single three-part outflow to 0240774 has the same structure and plausibly reflects a monthly cycle not fully visible in this 10-day window, with no layering, fan-in/out or pass-through of received funds.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P29-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\": \"All activity follows stable recurring patterns: identical small daily payments to and from fixed counterparties, a regular cheque inflow, and identical weekly three-part outflows to 0117. The single three-part outflow to 0240774 has the same structure and plausibly reflects a monthly cycle not fully visible in this 10-day window, with no layering, fan-in/out or pass-through of received funds.\", \"decision\": \"CLOSE\", \"rows\": []}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P30-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity consists of a self reinvestment and highly regular, fixed-amount recurring payments to the same three or four counterparties, which fits routine bills or subscriptions. There is no inbound funnelling, rapid pass-through, fan-out to new accounts or structuring pattern.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P30-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"Activity consists of a self reinvestment and highly regular, fixed-amount recurring payments to the same three or four counterparties, which fits routine bills or subscriptions. There is no inbound funnelling, rapid pass-through, fan-out to new accounts or structuring pattern.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P31-decision",
+  "slice": "decision-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The activity is a highly regular, recurring set of identical payments to the same two counterparties, made in fixed amounts across several formats nearly every day. There are also two small self-reinvestments. There are no incoming flows from unrelated parties, no fan-in or fan-out, no layering through intermediaries and no structuring, so this looks like scheduled business payments rather than laundering.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P31-rows",
+  "slice": "rows-close",
+  "status": "pass_first",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"The activity is a highly regular, recurring set of identical payments to the same two counterparties, made in fixed amounts across several formats nearly every day. There are also two small self-reinvestments. There are no incoming flows from unrelated parties, no fan-in or fan-out, no layering through intermediaries and no structuring, so this looks like scheduled business payments rather than laundering.\",\"decision\":\"CLOSE\",\"rows\":[]}",
+    "passed": true,
+    "reason": "ok"
+   }
+  ]
+ },
+ {
+  "id": "P32-decision",
+  "slice": "decision-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"A one-off 116,592.50 CHF cheque came in (T011). About 12.5 hours later, 44,777 CHF went out to a new counterparty, 80F740170, in three payments within six minutes, each by a different method (credit card, cheque, wire). This looks like layering, and it stands apart from the account's otherwise routine recurring paired payments.\",\"decision\":\"ESCALATE\",\"rows\":[\"T011\",\"T019\",\"T020\",\"T021\"]}",
+    "passed": false,
+    "reason": "expected CLOSE, got 'ESCALATE'"
+   }
+  ]
+ },
+ {
+  "id": "P32-rows",
+  "slice": "rows-close",
+  "status": "fail",
+  "attempts": [
+   {
+    "kind": "graded",
+    "output": "{\"reason\":\"A one-off 116,592.50 CHF cheque came in (T011). About 12.5 hours later, 44,777 CHF went out to a new counterparty, 80F740170, in three payments within six minutes, each by a different method (credit card, cheque, wire). This looks like layering, and it stands apart from the account's otherwise routine recurring paired payments.\",\"decision\":\"ESCALATE\",\"rows\":[\"T011\",\"T019\",\"T020\",\"T021\"]}",
+    "passed": false,
+    "reason": "normal account, cited ['T011', 'T019', 'T020', 'T021']"
+   }
+  ]
+ }
+]

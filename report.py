@@ -121,6 +121,51 @@ def table(header: list[str], rows: list[list]) -> None:
     print()
 
 
+CLAUDE_RUNS = ["claude-opus-5-5"] + [f"claude-opus-5-5+repeat{n}" for n in (2, 3, 4)]
+
+
+def decisions(run_name: str) -> dict[str, str]:
+    """Returns case id -> the decision the run gave ("?" when the answer has none)."""
+    given = {}
+    for line_id, output in answers(run_name).items():
+        if line_id.endswith("-decision"):
+            answer, _ = parse(output)
+            given[line_id.removesuffix("-decision")] = str((answer or {}).get("decision", "?"))
+    return given
+
+
+def print_repeats(runs: list[str]) -> None:
+    """Prints the same request run several times: the totals, then the cases that changed sides."""
+    labels = ["Nov 8"] + [f"rerun {n}" for n in range(1, len(runs))]
+    by_run = {r: scores(r) for r in runs}
+    table(
+        ["", *labels],
+        [
+            ["normal accounts closed (of 16)"] + [by_run[r]["decision-close"][0] for r in runs],
+            ["laundering caught, single scheme (of 10)"]
+            + [by_run[r]["decision-escalate-single"][0] for r in runs],
+            ["laundering caught, hub (of 6)"]
+            + [by_run[r]["decision-escalate-hub"][0] for r in runs],
+            ["evidence passed, laundering accounts (of 16)"]
+            + [
+                by_run[r]["rows-escalate-single"][0] + by_run[r]["rows-escalate-hub"][0]
+                for r in runs
+            ],
+            ["rows cited: laundering / other"]
+            + ["{:,} / {:,}".format(*rows_cited(r)) for r in runs],
+        ],
+    )
+    given = {r: decisions(r) for r in runs}
+    changed = [case for case in given[runs[0]] if len({given[r][case] for r in runs}) > 1]
+    expected = {case: GOLDEN[f"{case}-decision"]["expected"]["value"] for case in changed}
+    table(
+        ["case", "right answer", *labels],
+        [[case, expected[case]] + [given[r][case] for r in runs] for case in sorted(changed)],
+    )
+    total = len(given[runs[0]])
+    print(f"Same decision in every run: {total - len(changed)} of {total} cases.\n")
+
+
 def main() -> None:
     """Prints every table of the README, then the vocabulary table."""
     print("## What was measured\n")
@@ -208,6 +253,9 @@ def main() -> None:
             ],
         ],
     )
+
+    print("## Claude Opus 5.5, the same request four times\n")
+    print_repeats(CLAUDE_RUNS)
 
     print("## The words each run uses (accounts of 32 whose reason contains the term)\n")
     names = sorted(

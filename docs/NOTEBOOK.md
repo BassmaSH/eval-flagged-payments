@@ -307,3 +307,18 @@ still have seen it.
 laundering accounts.
 **What would change the reading:** a run under 12 of 16 closed, or runs that spread widely, would mean the single
 run overstated the gap.
+
+**Result (Nov 15, three runs, 18:48 to 18:56).** Her prediction held: 14 of 16 normal accounts closed in each of
+the three reruns, as on Nov 8. Laundering accounts caught: 11, 11 and 12 of 16 (Nov 8: 11); hubs 3 of 6 every
+time. No failed call, no retry. Tokens per run: 103,549 prompt, 16,323 / 16,367 / 17,165 completion.
+**The totals are stable, six cases are not.** 26 of the 32 cases got the same decision in all four runs. Six
+changed sides at least once: the laundering accounts P01, P02 (the two cycles), P03 and P04, and the normal accounts
+P17 and P28. P17, the worked example of the memo, was closed on Nov 8 and escalated in all three reruns; P28 was
+escalated on Nov 8 and closed in all three. Wrong in all four runs: the hubs P11, P14 and P16, and the normal
+account P32. Evidence passed on 3, 2, 3 and 4 of the 16 laundering accounts; rows cited, laundering / other: 98 / 32,
+77 / 33, 56 / 25, 107 / 31.
+**Reasoning, measured for the first time.** Claude reasoned on 29, 30 and 30 of the 32 cases and answered the
+others directly (P19 and P24 every time, P11 once). Reasoning took about 11,200 to 11,800 of its output tokens per
+run, about 350 per case, at most 779 on one case.
+**What it does not show.** The same 32 cases four times are not 64 independent cases: this measures how much
+Claude's answers vary, not whether it has seen the data. Fresh accounts are still the test for that.
