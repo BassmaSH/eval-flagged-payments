@@ -2,7 +2,7 @@
 
 Boilerplate, written by Claude on Nov 7, 2026 (like fake_system.py in evals_kit): it only cuts and formats
 data. The eval itself (the alert text, what the model is asked, the expected answer, the graders, the run)
-is yours.
+is the author's.
 
     python make_case.py attempts                  # the 370 laundering attempts, one line each
     python make_case.py attempts --type CYCLE     # only one pattern type

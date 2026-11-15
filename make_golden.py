@@ -1,8 +1,8 @@
 """Write golden.jsonl from keys/P*.json: two lines per case, one for the decision and one for the rows.
 
-Written by Claude on Nov 8, 2026, at Bassma's request; the choices in it are hers (cases/INDEX.md, "Choices"):
+Code written by Claude Code on Nov 8, 2026; the choices in it are the author's (cases/INDEX.md, "Choices"):
 two lines per case, slices by decision and hub, normal accounts get a rows line whose right answer is empty.
-The two grader names, "decision" and "rows", are for her graders.py to define.
+The two grader names, "decision" and "rows", are defined in aml_graders.py.
 
     python make_golden.py
 """

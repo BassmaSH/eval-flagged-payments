@@ -45,8 +45,9 @@ Runs of 8th November 2026, same prompt for each model; answers in `results/`.
 | evidence: escalate, hub account | 6 | 0% | 0% | 0% | 0% | 17% |
 | evidence: close | 16 | 94% | 0% | 0% | 0% | 88% |
 
-Settings: the Mistral models at temperature 0 in JSON mode. Claude takes no temperature setting, always reasons
-first (left at its default level), and its format was forced with a schema; it ran once. Large 4 also reasons before
+Settings: the Mistral models at temperature 0 in JSON mode. Claude takes no temperature setting, can reason
+before answering and decides for each request whether to (effort left at its default), and its format was forced
+with a schema; it ran once. Large 4 also reasons before
 answering (about 4,200 output tokens per case, against about 500 for Claude).
 
 **Human review:** 0 of 4 decisions right on four blind cases, in 7 minutes, before learning what this data looks
@@ -59,7 +60,7 @@ fails the other way: it closes almost everything, laundering included, so it is 
 ## Checking the harness: is it the model, or what surrounds it?
 
 Claude's run did not have exactly the Mistral setup: its format was forced by a schema, it ran with normal
-randomness, and it reasons before answering. Large 4 already reasons by default, so it was rerun with Claude's
+randomness, and it can reason before answering. Large 4 already reasons by default, so it was rerun with Claude's
 schema (one change), then the same at temperature 1 (one more change). Prediction for the first: "same perf this
 run with temp 0".
 
@@ -85,7 +86,7 @@ goes up, escalate stays near 100% and evidence goes up.
 | nothing (the table above) | 0% | 100% / 100% | 0% | 100% / 100% | Small 0%, Large 3 P04 only |
 | "simulated bank… regular payments of the same amount to the same accounts are normal" | 0% | 100% / 100% | 0% | 100% / 100% | Small 0%, Large 3 0% (lost P04) |
 | "your objective is to close false alarms… and to escalate real cases" | 6% | 90% / 67% | 0% | 100% / 100% | unchanged |
-| both sentences | **69%** | **40% / 33%** | 0% | 100% / 100% | unchanged |
+| both sentences | **69%** | **40% / 33%** | 0% | 100% / 100% | unchanged on laundering accounts; Small 69% on normal accounts, since an account closed with no row cited passes |
 
 Our predictions were wrong twice ("close around 90%, escalate around 80%"); the third one ("as bad as the last run")
 was the one that held for Large 3. No change met the bar at all, the evidence score never went up.
@@ -155,7 +156,8 @@ routine and the transactions that departed from it.
 | rows cited: laundering / other | 119 / 1,063 | 95 / 309 | 133 / 206 | 98 / 32 |
 
 The method took: "structuring" fell from 15 normal accounts to 3, and the rows from 1,182 to 404. The decision did
-not move. Large 4's reasoning, saved for these runs, considered closing on 11 of the 16 normal accounts and turned
+not move. The evidence did: on single-scheme laundering accounts, Large 4 passed the evidence rule on 3 of 10 with
+the method and 2 of 10 with the neutral alert, against 0 of 10 without. Large 4's reasoning, saved for these runs, considered closing on 11 of the 16 normal accounts and turned
 back on the alert on 10: "But given the alert, we flag the large outgoing transactions as suspicious". With the
 alert gone, it leaned on the instruction instead, on 13 of 16: "But the prompt asks for suspicious rows. All are
 part of the scheme." Remove one cue that something is there to find, and it leans on the next. The same thing
@@ -163,6 +165,61 @@ happened in [The Data Can't Tell](https://github.com/BassmaSH/the-data-cant-tell
 models find a drop. Claude got the same alert and instruction and was not moved. For training, this points at the
 weight the model gives to what a request presupposes, not at its reading of the data. Details in
 [`REASONING.md`](REASONING.md).
+
+## Further analysis (Nov 15, 2026)
+
+A second reading of the saved answers, a week after the runs. No model was called again. Every number here comes
+from `python report.py` or from the rule, which runs without a model.
+
+**The words each model uses.** The number of accounts, out of 32, whose reason contains the term:
+
+| run | fan-out | fan-in | pass-through | layering | structuring | recurring |
+|---|---|---|---|---|---|---|
+| Small | 0 | 0 | 0 | 24 | 29 | 0 |
+| Large 3 | 0 | 0 | 0 | 20 | 21 | 0 |
+| Large 4 | 0 | 0 | 2 | 29 | 28 | 1 |
+| Large 4 + method | 0 | 0 | 20 | 18 | 2 | 14 |
+| Large 4 + method, neutral alert | 0 | 0 | 22 | 18 | 5 | 13 |
+| Claude | 16 | 12 | 16 | 22 | 11 | 25 |
+
+The Mistral models describe every account with the vocabulary of cash laundering (structuring, layering), which is
+about amounts. Claude also uses the vocabulary of networks (fan-in, fan-out, pass-through), which is about who pays
+whom, and it often uses it to rule laundering out: "nothing shows layering, fan-in/fan-out or rapid pass-through".
+No Mistral run uses "fan-in" or "fan-out" once, in the answers or in the reasoning saved for the two method runs. With the method,
+"structuring" fell from 28 accounts to 2, without being told to. "Pass-through" rose from 2 to 20, but the method's
+own text says "check whether money passes through the account", so that word came from the instruction. These
+terms are common outside this dataset, so the table says nothing about whether a model has seen the data.
+
+**One normal account, every run (P17).** 59 rows: three payment routines that repeat daily, plus two large
+payments to a counterparty that appears once (T001, T002), a transfer to itself (T009) and two small credits from
+a sender that appears once (T011, T012).
+
+| run | the routine | the one-off rows | decision |
+|---|---|---|---|
+| Small, Large 3 | "structuring", "layering"; 30 and 42 rows cited | not singled out | ESCALATE |
+| Large 4 | the same; 56 of 59 rows cited | not singled out | ESCALATE |
+| Large 4 + method | the account's normal | cited T001, T002, T009, T011, T012 | ESCALATE |
+| Large 4 + method, neutral alert | the account's normal | cited T001, T002 | ESCALATE |
+| Claude | "routine scheduled payments" | named T001 and T002 as "the only one-off item" | CLOSE, no row |
+
+With the method, Large 4 finds the same normal and the same one-off rows as Claude. Its reasoning ends on "So the
+departures are T001, T002, T009, T011, T012" and it escalates on them: different from normal is treated as
+suspicious. Claude checks one more thing, whether money came in and left again, finds that it did not, and closes.
+
+**The rule's thresholds.** "8 accounts in 3 days" is one example of a rule that detects a single pattern, fan-out,
+by counting. It was fixed before the runs. Scored afterwards at 4, 6, 8, 10 and 12 accounts over 1, 3 and 7 days,
+it catches between 0% and 50% of the single-scheme laundering accounts. The published setting is not the best one:
+6 accounts in 1 day catches 40% (against 30%) and closes the same 94% of normal accounts. No setting catches more
+than half, so the comparison with the models does not depend on the thresholds chosen.
+
+**Output tokens.** Claude used about 12% of Large 4's output tokens (about 500 per case against 4,200). The
+reasoning effort was left at each API's default and not matched: Claude decides for each request whether to reason
+at all, and Large 4's saved reasoning rewrites the whole table before deciding. This is not a like-for-like
+measure of efficiency.
+
+**Checks added to the repo.** 21 tests on the scoring (`test_aml_graders.py`); `report.py`, which grades every
+saved answer again and rebuilds the tables above; a settings file saved with each new run; and `run.py` no longer
+replaces saved answers. Grading the 960 saved answers again gave the same verdict for each.
 
 ## What next, and what it costs
 
@@ -190,7 +247,7 @@ weight the model gives to what a request presupposes, not at its reading of the 
   on the same 32 cases, as well as the method and neutral-alert runs. The Mistral runs are all at temperature 0,
   except one Large 4 check at temperature 1; Claude's single run is not, so its scores could vary on a re-run.
 - **Not identical settings:** in the main table, Claude's format was forced by a schema, the Mistral models by JSON
-  mode. Claude and Large 4 reason before answering, whereas Small 4 and Large 3 don't. Large 4 was re-run with
+  mode. Large 4 reasons before answering and Claude can (it decides per request), whereas Small 4 and Large 3 don't. Large 4 was re-run with
   Claude's schema and at temperature 1 (no change). The instruction was drafted with Claude's help (which may work
   better for its runs).
 - **Partly hand-picked cases:** half the normal accounts were chosen to look like an alert, which is realistic for an
@@ -203,16 +260,21 @@ weight the model gives to what a request presupposes, not at its reading of the 
 ## Run it
 
 ```bash
+python report.py                        # the tables above, rebuilt from results/, no API call
+python test_aml_graders.py              # 21 checks on the scoring, no API call
 python run.py rule                      # the rule baseline, no API call, standard library only
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
 export MISTRAL_API_KEY=...              # and ANTHROPIC_API_KEY for a Claude model
-.venv/bin/python run.py mistral-small-2603
-.venv/bin/python run.py mistral-small-2603 both      # a prompt variant from variants/
-.venv/bin/python run.py mistral-large-4 schema       # the harness check
-.venv/bin/python run.py mistral-large-4 method-neutral   # the method, with a neutral alert
+# Saved answers are never replaced: a rerun needs a name of its own (repeat2, repeat3, ...).
+.venv/bin/python run.py mistral-small-2603 repeat2
+.venv/bin/python run.py mistral-small-2603 both repeat2      # a prompt variant (the VARIANTS table in run.py)
+.venv/bin/python run.py mistral-large-4 schema repeat2       # the harness check
+.venv/bin/python run.py mistral-large-4 method-neutral repeat2   # the method, with a neutral alert
 ```
 
-Each run produces the per-slice table and stores all the answers in `results/`. `golden.jsonl` contains two lines
+Each run produces the per-slice table and stores all the answers in `results/`. Since Nov 15, 2026, a model run
+also stores `<name>.meta.json` (the settings, the prompt as sent, the date, the library versions and the tokens per
+case); the runs reported above were made before that. `golden.jsonl` contains two lines
 per case (the decision and the evidence) which are generated by `make_golden.py` from `cases/` and `keys/`. The
 scoring is done by `aml_graders.py`. The runner in `evals_kit/` is a copy of
 [evals-kit](https://github.com/BassmaSH/evals-kit).

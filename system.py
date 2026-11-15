@@ -1,13 +1,14 @@
 """The system under test: one flagged account in, the model's JSON answer out.
 
-Written by Claude on Nov 8, 2026, at Bassma's request; the call is hers from Oct 15
-(run_cases.py in github.com/BassmaSH/the-data-cant-tell), the prompt is her wording (NOTEBOOK.md, "Prompt"). She reviews it.
+Code written by Claude Code on Nov 8, 2026; the call is the author's from Oct 15 (run_cases.py in
+github.com/BassmaSH/the-data-cant-tell), the prompt is the author's wording (NOTEBOOK.md, "Prompt"). The author
+reviews it.
 
     system = make_system("mistral-small-2603")
     system("cases/P01.md")  ->  '{"reason": "...", "decision": "ESCALATE", "rows": ["T003", "T009"]}'
 
-Needs MISTRAL_API_KEY in the environment; a "claude-…" model needs ANTHROPIC_API_KEY instead (added Nov 8, her
-request, as an outside reference).
+Needs MISTRAL_API_KEY in the environment; a "claude-…" model needs ANTHROPIC_API_KEY instead (added Nov 8, as an
+outside reference).
 """
 import os
 from pathlib import Path
@@ -16,10 +17,11 @@ from mistralai.client import Mistral
 
 HERE = Path(__file__).parent
 
-# Her choices: one generic alert for every case; no pattern names; reason before the decision; JSON mode.
+# The author's choices: one generic alert for every case; no pattern names; reason before the decision; JSON mode.
 ALERT = "This account has been flagged for suspicious activity."
-# The neutral variant (Nov 11, her choice): the same place in the message, without "Alert:" or "suspicious", to test
-# whether Large 4 reads the alert itself as evidence (its reasoning did, on 10 of the 16 normal accounts).
+# The neutral variant (Nov 11, the author's choice): the same place in the message, without "Alert:" or
+# "suspicious", to test whether Large 4 reads the alert itself as evidence (its reasoning did, on 10 of the 16
+# normal accounts).
 NEUTRAL = "This account was selected for review."
 INSTRUCTION = (
     "You are an analyst in a bank's anti-money-laundering team. Analyze the account's transactions for possible "
@@ -32,8 +34,9 @@ INSTRUCTION = (
 )
 
 client = Mistral(api_key=os.environ.get("MISTRAL_API_KEY", ""))
-# Claude has no JSON mode like Mistral's: the format is forced with a schema (same three fields, in her order).
-# It also takes no temperature, and always reasons first (effort left at its default): both go in the memo.
+# Claude has no JSON mode like Mistral's: the format is forced with a schema (same three fields, same order).
+# It also takes no temperature, and decides per request whether to reason first (effort left at its default):
+# both go in the memo.
 CLAUDE_FORMAT = {"type": "json_schema", "schema": {
     "type": "object",
     "properties": {"reason": {"type": "string"},
@@ -55,6 +58,8 @@ def make_system(model, extra="", schema=False, temperature=0, neutral=False):
     temperature: 0 by default; 1, normal randomness, for the randomness check.
     neutral: replace the alert line with NEUTRAL (the neutral-alert check, Nov 11)."""
     instruction = f"{INSTRUCTION}\n{extra}" if extra else INSTRUCTION
+    alert = NEUTRAL if neutral else "Alert: " + ALERT
+    is_claude = model.startswith("claude")
     cache = {}  # one call per case: the -decision and -rows lines grade the same answer
 
     def system(input):
@@ -62,8 +67,8 @@ def make_system(model, extra="", schema=False, temperature=0, neutral=False):
             return cache[input]
         case = (HERE / input).read_text()
         messages = [{"role": "system", "content": instruction},
-                    {"role": "user", "content": f"{NEUTRAL if neutral else 'Alert: ' + ALERT}\n\n{case}"}]
-        if model.startswith("claude"):
+                    {"role": "user", "content": f"{alert}\n\n{case}"}]
+        if is_claude:
             answer = claude_call(model, instruction, messages[1]["content"], input)
         else:
             res = client.chat.complete(model=model, temperature=temperature, top_p=1, messages=messages,
@@ -77,6 +82,16 @@ def make_system(model, extra="", schema=False, temperature=0, neutral=False):
         cache[input] = answer  # only a call that returned is cached; an exception goes back to the runner
         return answer
 
+    # What this run sends, for run.py to save next to the answers (results/<name>.meta.json).
+    system.settings = {
+        "model": model,
+        "instruction": instruction,
+        "alert_line": alert,
+        "response_format": "json_schema" if (schema or is_claude) else "json_object",
+        # Claude takes no temperature or top_p, and its reasoning effort is not set here: the API's defaults apply.
+        "temperature": None if is_claude else temperature,
+        "top_p": None if is_claude else 1,
+    }
     return system
 
 

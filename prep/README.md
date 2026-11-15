@@ -1,6 +1,6 @@
 # Where the data in `data/aml/` comes from
 
-*Prepared by Claude on Nov 7, 2026, with Bassma's go-ahead for each download. `data/` is gitignored, so this
+*Prepared by Claude on Nov 7, 2026, with the author's go-ahead for each download. `data/` is gitignored, so this
 page is the only record of how to rebuild it.*
 
 **Source.** IBM's synthetic anti-money-laundering data, split "HI-Small" (HI = higher share of laundering).

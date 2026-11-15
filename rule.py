@@ -1,6 +1,6 @@
 """The baseline with no model: a ten-line rule a monitoring team could write.
 
-Written by Claude on Nov 8, 2026, at Bassma's request, with the brief's example rule; the rule itself is hers to
+Code written by Claude Code on Nov 8, 2026, with the brief's example rule; the rule itself is the author's to
 change. Same contract as system.py, so the same graders score it.
 
 Escalate if the account paid 8 or more different accounts within 3 days; cite the payments out in that window.
