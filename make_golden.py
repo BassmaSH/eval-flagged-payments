@@ -1,11 +1,12 @@
-"""Write golden.jsonl from keys/P*.json: two lines per case, one for the decision and one for the rows.
+"""Write golden.jsonl from keys/P*.json: two lines per case, the decision and the rows.
 
-Code written by Claude Code on Nov 8, 2026; the choices in it are the author's (cases/INDEX.md, "Choices"):
-two lines per case, slices by decision and hub, normal accounts get a rows line whose right answer is empty.
-The two grader names, "decision" and "rows", are defined in aml_graders.py.
+Code written by Claude Code on Nov 8, 2026; the choices in it are the author's (cases/INDEX.md,
+"Choices"): two lines per case, slices by decision and hub, normal accounts get a rows line whose
+right answer is empty. The two grader names, "decision" and "rows", are defined in aml_graders.py.
 
     python make_golden.py
 """
+
 import json
 from pathlib import Path
 
@@ -39,13 +40,24 @@ def golden_lines(key: dict) -> list[dict]:
     rows = key["laundering_rows"] + key["labelled_rows_outside_attempts"]
     decision = "ESCALATE" if key["laundering"] else "CLOSE"
     shared = {"input": f"cases/{case}.md", "source": source(key)}
-    return [{"id": f"{case}-decision", "slice": f"decision-{slice_name}",
-             "expected": {"grader": "decision", "value": decision}, **shared},
-            {"id": f"{case}-rows", "slice": f"rows-{slice_name}",
-             "expected": {"grader": "rows", "laundering": rows}, **shared}]
+    return [
+        {
+            "id": f"{case}-decision",
+            "slice": f"decision-{slice_name}",
+            "expected": {"grader": "decision", "value": decision},
+            **shared,
+        },
+        {
+            "id": f"{case}-rows",
+            "slice": f"rows-{slice_name}",
+            "expected": {"grader": "rows", "laundering": rows},
+            **shared,
+        },
+    ]
 
 
 def main() -> None:
+    """Writes golden.jsonl from every key in keys/."""
     keys = [json.loads(path.read_text()) for path in sorted((HERE / "keys").glob("P*.json"))]
     lines = [line for key in keys for line in golden_lines(key)]
     with (HERE / "golden.jsonl").open("w") as f:

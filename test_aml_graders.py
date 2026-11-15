@@ -5,9 +5,11 @@ Run:
 or, with pytest:
     pytest test_aml_graders.py
 
-Plain asserts and no pytest feature, like evals-kit's test_runner.py, so both ways run the same checks.
-Code written by Claude Code on Nov 15, 2026. The three P01 cases are the author's, worked by hand first.
+Plain asserts and no pytest feature, like evals-kit's test_runner.py, so both ways run the same
+checks. Code written by Claude Code on Nov 15, 2026. The three P01 cases are the author's, worked by
+hand first.
 """
+
 import json
 import sys
 import traceback
@@ -26,12 +28,13 @@ P01_ROWS = {"grader": "rows", "laundering": ["T003", "T009"]}
 NORMAL_ROWS = {"grader": "rows", "laundering": []}  # a normal account: nothing to cite
 
 
-def answer(decision="ESCALATE", rows=(), reason="x"):
+def answer(decision: str = "ESCALATE", rows: tuple | list = (), reason: str = "x") -> str:
     """A model's answer, as the text the grader receives."""
     return json.dumps({"reason": reason, "decision": decision, "rows": list(rows)})
 
 
 # ---------------------------------------------------------------- the author's three cases on P01
+
 
 def test_one_of_two_rows_escalates_right_but_fails_the_evidence():
     out = answer("ESCALATE", ["T003"])
@@ -56,6 +59,7 @@ def test_close_with_no_rows_fails_both_on_a_laundering_account():
 
 # ---------------------------------------------------------------- the rows rule
 
+
 def test_both_rows_and_nothing_else_passes():
     assert grade(answer(rows=["T003", "T009"]), P01_ROWS)[0]
 
@@ -75,7 +79,9 @@ def test_one_normal_row_fails_even_with_every_laundering_row():
 
 
 def test_row_ids_are_read_the_same_whatever_the_zeros_and_case():
-    assert grade(answer(rows=["T3", "t009"]), P01_ROWS)[0], "T3, t009 and T003, T009 are the same rows"
+    assert grade(answer(rows=["T3", "t009"]), P01_ROWS)[0], (
+        "T3, t009 and T003, T009 are the same rows"
+    )
     assert grade(answer(rows=[" T003 ", "T0009"]), P01_ROWS)[0]
     assert not grade(answer(rows=["3", "9"]), P01_ROWS)[0], "a bare number is not a row id"
 
@@ -88,10 +94,13 @@ def test_normal_account_passes_only_with_no_row():
     assert grade(answer("CLOSE", []), NORMAL_ROWS)[0]
     passed, reason = grade(answer("CLOSE", ["T007"]), NORMAL_ROWS)
     assert not passed and "T007" in reason
-    assert grade(answer("ESCALATE", []), NORMAL_ROWS)[0], "the rows line does not look at the decision"
+    assert grade(answer("ESCALATE", []), NORMAL_ROWS)[0], (
+        "the rows line does not look at the decision"
+    )
 
 
 # ---------------------------------------------------------------- the decision rule
+
 
 def test_decision_both_directions():
     assert grade(answer("ESCALATE"), ESCALATE)[0]
@@ -110,11 +119,19 @@ def test_decision_line_does_not_look_at_the_rows():
     assert grade(answer("ESCALATE", ["T999"]), ESCALATE)[0]
 
 
-# ---------------------------------------------------------------- answers that are not what was asked
+# ---------------------------------------------------- answers that are not what was asked
+
 
 def test_broken_answers_fail_with_a_reason_and_do_not_crash():
-    broken = ["", "ESCALATE", "Here is my answer: {", '["ESCALATE"]', "null", '{"reason": "x"}',
-              '{"decision": null, "rows": null}']
+    broken = [
+        "",
+        "ESCALATE",
+        "Here is my answer: {",
+        '["ESCALATE"]',
+        "null",
+        '{"reason": "x"}',
+        '{"decision": null, "rows": null}',
+    ]
     for out in broken:
         for expected in (ESCALATE, P01_ROWS):
             passed, reason = grade(out, expected)
@@ -143,6 +160,7 @@ def test_grader_is_pure():
 
 # ---------------------------------------------------------------- the link with evals-kit
 
+
 def test_other_grader_names_go_to_evals_kit():
     assert grade("yes", {"grader": "exact", "value": "yes"})[0]
 
@@ -157,11 +175,16 @@ def test_unknown_grader_raises_value_error():
 
 # ---------------------------------------------------------------- on the real golden file
 
+
 def golden():
-    return [json.loads(line) for line in (HERE / "golden.jsonl").read_text().splitlines() if line.strip()]
+    return [
+        json.loads(line)
+        for line in (HERE / "golden.jsonl").read_text().splitlines()
+        if line.strip()
+    ]
 
 
-def key_of(case_id, lines):
+def key_of(case_id: str, lines: list[dict]) -> tuple[str, list[str]]:
     """The right decision and the laundering rows of one case, from its two golden lines."""
     decision = next(g for g in lines if g["id"] == f"{case_id}-decision")["expected"]["value"]
     rows = next(g for g in lines if g["id"] == f"{case_id}-rows")["expected"]["laundering"]
@@ -178,7 +201,7 @@ def test_the_perfect_answer_passes_every_golden_line():
 
 
 def test_always_escalate_scores_100_on_escalate_and_0_on_close():
-    """The README's reading of the Mistral runs: escalating everything is 100% on one side, 0% on the other."""
+    """The README's reading of the Mistral runs: escalating everything is 100% and 0%."""
     for g in golden():
         if g["expected"]["grader"] != "decision":
             continue
@@ -192,11 +215,15 @@ def test_citing_every_row_passes_no_evidence_line():
         if g["expected"]["grader"] != "rows":
             continue
         n = len(read_transactions(HERE / g["input"]))
-        assert n > len(g["expected"]["laundering"]), f"{g['id']}: every row is laundering, the rule breaks"
-        assert not grade(answer(rows=[f"T{i:03d}" for i in range(1, n + 1)]), g["expected"])[0], g["id"]
+        assert n > len(g["expected"]["laundering"]), (
+            f"{g['id']}: every row is laundering, the rule breaks"
+        )
+        assert not grade(answer(rows=[f"T{i:03d}" for i in range(1, n + 1)]), g["expected"])[0], g[
+            "id"
+        ]
 
 
-# ---------------------------------------------------------------- runner for `python test_aml_graders.py`
+# ---------------------------------------------------- runner for `python test_aml_graders.py`
 
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]

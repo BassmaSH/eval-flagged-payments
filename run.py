@@ -1,22 +1,25 @@
 """Run golden.jsonl through one system and print the per-slice table, like evals-kit's own __main__.
 
-Code written by Claude Code on Nov 8, 2026, for the author; reorganised on Nov 15 (the variants in one table, a
-main() function). Every answer is saved in results/<name>.json, to read the failures for the memo. A model run
-also saves results/<name>.meta.json: the settings, the prompt as sent, the date, the library versions and the
-tokens per case.
+Code written by Claude Code on Nov 8, 2026, for the author; reorganised on Nov 15 (the variants in
+one table, a main() function). Every answer is saved in results/<name>.json, to read the failures
+for the memo. A model run also saves results/<name>.meta.json: the settings, the prompt as sent, the
+date, the library versions and the tokens per case.
 
-Saved answers are never replaced: to run something again, add repeat2, repeat3, ... as the last word.
+Saved answers are never replaced: to run something again, add repeat2, repeat3, ... as the last
+word.
 
     python run.py rule                    # the ten-line rule, no API call
-    python run.py mistral-small-2603      # needs MISTRAL_API_KEY (and .venv/bin/python, for mistralai)
+    python run.py mistral-small-2603      # needs MISTRAL_API_KEY and the mistralai library
     python run.py mistral-large-2512
     python run.py mistral-small-2603 simulated   # a variant from the VARIANTS table below,
-                                                 # saved as results/mistral-small-2603+simulated.json
+                                                 # saved as …/mistral-small-2603+simulated.json
     python run.py mistral-large-4 schema         # same prompt, Claude's schema instead of JSON mode
-    python run.py mistral-large-4 method-neutral # the method, and "This account was selected for review." as alert
-    python run.py claude-opus-5-5 repeat2        # the same run again, saved as results/claude-opus-5-5+repeat2.json
+    python run.py mistral-large-4 method-neutral # the method, with the neutral alert line
+    python run.py claude-opus-5-5 repeat2        # the same run again, saved as …+repeat2.json
     python run.py mistral-large-4 method repeat2 # a variant again, saved as …+method+repeat2.json
 """
+
+import contextlib
 import json
 import platform
 import subprocess
@@ -24,11 +27,15 @@ import sys
 from datetime import datetime
 from importlib import metadata
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 HERE = Path(__file__).parent
 RESULTS = HERE / "results"
+if TYPE_CHECKING:  # for the type hint only: importing system needs mistralai
+    from system import ModelSystem
 sys.path.insert(0, str(HERE / "evals_kit"))  # a copy of github.com/BassmaSH/evals-kit
-from runner import load_golden, run, summarize, format_table, exit_code  # noqa: E402
+from runner import exit_code, format_table, load_golden, run, summarize  # noqa: E402
+
 from aml_graders import grade  # noqa: E402
 
 # Every variant that was run: its name on the command line -> what it changes in the call.
@@ -50,16 +57,21 @@ VARIANTS = {
 
 
 def read_arguments(argv: list[str]) -> tuple[str, str, str]:
-    """['mistral-large-4', 'method', 'repeat2'] -> ('mistral-large-4', 'method', 'repeat2').
-    The variant and the repeat are both optional. A repeat changes nothing in the call: it only gives the run its
-    own file name, to see how much the answers vary from one run to the next."""
+    """Returns (model, variant, repeat) from the words typed after run.py.
+
+    ['mistral-large-4', 'method', 'repeat2'] -> ('mistral-large-4', 'method', 'repeat2'). The
+    variant and the repeat are both optional. A repeat changes nothing in the call: it only gives
+    the run its own file name, to see how much the answers vary from one run to the next.
+    """
     if not argv:
         sys.exit(__doc__)
     model, words = argv[0], argv[1:]
     repeat = words.pop() if words and words[-1].startswith("repeat") else ""
     variant = words[0] if words else ""
     if len(words) > 1 or variant not in VARIANTS:
-        sys.exit(f"unknown variant {' '.join(words)!r}. Known: {', '.join(v for v in VARIANTS if v)}")
+        sys.exit(
+            f"unknown variant {' '.join(words)!r}. Known: {', '.join(v for v in VARIANTS if v)}"
+        )
     return model, variant, repeat
 
 
@@ -73,65 +85,91 @@ def variant_settings(variant: str) -> dict:
 
 def code_version() -> str:
     """The commit the code is at, and whether files were changed since."""
-    def git(*args):
-        return subprocess.run(["git", *args], cwd=HERE, capture_output=True, text=True).stdout.strip()
-    return git("rev-parse", "--short", "HEAD") + (" + uncommitted changes" if git("status", "--porcelain") else "")
+
+    def git(*args: str) -> str:
+        done = subprocess.run(["git", *args], cwd=HERE, capture_output=True, text=True)
+        return done.stdout.strip()
+
+    changed = " + uncommitted changes" if git("status", "--porcelain") else ""
+    return git("rev-parse", "--short", "HEAD") + changed
 
 
 def library_versions() -> dict[str, str]:
     """The installed versions of the two model libraries."""
     versions = {}
     for library in ("mistralai", "anthropic"):
-        try:
+        with contextlib.suppress(metadata.PackageNotFoundError):  # not installed: left out
             versions[library] = metadata.version(library)
-        except metadata.PackageNotFoundError:
-            pass
     return versions
 
 
 def refuse_to_replace(model: str, variant: str, run_name: str) -> None:
-    """Stops, before any model call, when this run's answers are already saved, and names a free repeat."""
+    """Stops, before any model call, when this run's answers are already saved.
+
+    The message names the next free repeat.
+    """
     if not (RESULTS / f"{run_name}.json").exists():
         return
     base = "+".join(part for part in (model, variant) if part)
     free = next(n for n in range(2, 1000) if not (RESULTS / f"{base}+repeat{n}.json").exists())
     again = " ".join(part for part in (model, variant, f"repeat{free}") if part)
-    sys.exit(f"results/{run_name}.json already exists and is not replaced. "
-             f"To run it again under a new name: python run.py {again}")
+    sys.exit(
+        f"results/{run_name}.json already exists and is not replaced. "
+        f"To run it again under a new name: python run.py {again}"
+    )
 
 
-def run_record(run_name: str, model_system) -> dict:
-    """How a model run was made: the settings, the prompt as sent, the date, the versions, the tokens per case."""
+def run_record(run_name: str, model_system: "ModelSystem") -> dict:
+    """Returns how a model run was made.
+
+    The settings, the prompt as sent, the date, the versions and the tokens per case.
+    """
     usage = model_system.usage
-    return {"run": run_name, "date": datetime.now().isoformat(timespec="seconds"),
-            "code_commit": code_version(), "python": platform.python_version(),
-            "libraries": library_versions(), "settings": model_system.settings,
-            "calls": len(usage),
-            "prompt_tokens": sum(prompt for prompt, _ in usage.values()),
-            "completion_tokens": sum(completion for _, completion in usage.values()),
-            "tokens_per_case": {case: list(tokens) for case, tokens in usage.items()}}
+    return {
+        "run": run_name,
+        "date": datetime.now().isoformat(timespec="seconds"),
+        "code_commit": code_version(),
+        "python": platform.python_version(),
+        "libraries": library_versions(),
+        "settings": model_system.settings,
+        "calls": len(usage),
+        "prompt_tokens": sum(prompt for prompt, _ in usage.values()),
+        "completion_tokens": sum(completion for _, completion in usage.values()),
+        "tokens_per_case": {case: list(tokens) for case, tokens in usage.items()},
+    }
 
 
-def save_json(name: str, content) -> None:
+def save_json(name: str, content: object) -> None:
+    """Writes content as JSON in results/."""
     (RESULTS / name).write_text(json.dumps(content, indent=1, ensure_ascii=False))
 
 
 def main(argv: list[str]) -> int:
+    """Runs one system on golden.jsonl, saves its answers and prints the table.
+
+    Returns:
+        The exit code: 0, or 2 when a call or a grader crashed.
+    """
     model, variant, repeat = read_arguments(argv)
-    run_name = "+".join(part for part in (model, variant, repeat) if part)  # the name of the saved files
+    run_name = "+".join(
+        part for part in (model, variant, repeat) if part
+    )  # the name of the saved files
     RESULTS.mkdir(exist_ok=True)
 
-    if model == "rule":  # no variant, and it may replace its file: it gives the same answers every time
+    if (
+        model == "rule"
+    ):  # no variant, and it may replace its file: it gives the same answers every time
         if variant or repeat:
             sys.exit("the rule takes no variant")
         from rule import system as answer_case
     else:
         refuse_to_replace(model, variant, run_name)
         from system import ModelSystem  # needs mistralai, which the rule does not
+
         answer_case = ModelSystem(model, **variant_settings(variant))
 
-    # One attempt: the model is called once per case and both lines grade that answer (system.py's cache),
-    # so a second attempt would only grade the same answer again.
+    # One attempt: the model is called once per case and both lines grade that answer (system.py's
+    # cache), so a second attempt would only grade the same answer again.
     results = run(load_golden(HERE / "golden.jsonl"), answer_case, grade=grade, max_attempts=1)
     save_json(f"{run_name}.json", results)
     print(f"## {run_name}\n")
@@ -142,8 +180,10 @@ def main(argv: list[str]) -> int:
         save_json(f"{run_name}.meta.json", record)
         if answer_case.thinking:  # the reasoning, next to the answers (Nov 11)
             save_json(f"{run_name}.thinking.json", answer_case.thinking)
-        print(f"\n{record['calls']} calls, {record['prompt_tokens']} prompt tokens, "
-              f"{record['completion_tokens']} completion tokens")
+        print(
+            f"\n{record['calls']} calls, {record['prompt_tokens']} prompt tokens, "
+            f"{record['completion_tokens']} completion tokens"
+        )
 
     code = exit_code(results)
     print("exit", code)

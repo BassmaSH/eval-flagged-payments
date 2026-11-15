@@ -2,13 +2,14 @@
 
     python report.py
 
-Every answer in results/ is graded again with aml_graders.py against golden.jsonl, so the tables below follow
-from the answers and the scoring code as they are in the repo today, not from a verdict stored at run time.
-Token counts and costs are not here: the runs of Nov 8-11 did not save them (see results/<name>.meta.json for
-runs made since Nov 15).
+Every answer in results/ is graded again with aml_graders.py against golden.jsonl, so the tables
+below follow from the answers and the scoring code as they are in the repo today, not from a verdict
+stored at run time. Token counts and costs are not here: the runs of Nov 8-11 did not save them (see
+results/<name>.meta.json for runs made since Nov 15).
 
 Code written by Claude Code on Nov 15, 2026, for the author.
 """
+
 import functools
 import json
 import sys
@@ -19,32 +20,37 @@ sys.path.insert(0, str(HERE / "evals_kit"))
 from aml_graders import grade, parse, row_id  # noqa: E402
 
 GOLDEN = {g["id"]: g for g in map(json.loads, (HERE / "golden.jsonl").read_text().splitlines())}
-SLICES = [("decision: escalate, single scheme", "decision-escalate-single"),
-          ("decision: escalate, hub account", "decision-escalate-hub"),
-          ("decision: close", "decision-close"),
-          ("evidence: escalate, single scheme", "rows-escalate-single"),
-          ("evidence: escalate, hub account", "rows-escalate-hub"),
-          ("evidence: close", "rows-close")]
+SLICES = [
+    ("decision: escalate, single scheme", "decision-escalate-single"),
+    ("decision: escalate, hub account", "decision-escalate-hub"),
+    ("decision: close", "decision-close"),
+    ("evidence: escalate, single scheme", "rows-escalate-single"),
+    ("evidence: escalate, hub account", "rows-escalate-hub"),
+    ("evidence: close", "rows-close"),
+]
 
 
 def answers(run_name: str) -> dict[str, str]:
-    """golden line id -> the answer that was graded (the last attempt)."""
+    """Golden line id -> the answer that was graded (the last attempt)."""
     saved = json.loads((HERE / "results" / f"{run_name}.json").read_text())
     return {line["id"]: line["attempts"][-1].get("output", "") for line in saved}
 
 
 @functools.cache
 def scores(run_name: str) -> dict[str, tuple[int, int]]:
-    """slice -> (lines passed, lines in the slice), graded again now. Each run is graded once."""
+    """Slice -> (lines passed, lines in the slice), graded again now. Each run is graded once."""
     passed, total = {}, {}
     for line_id, output in answers(run_name).items():
         golden = GOLDEN[line_id]
         total[golden["slice"]] = total.get(golden["slice"], 0) + 1
-        passed[golden["slice"]] = passed.get(golden["slice"], 0) + grade(output, golden["expected"])[0]
+        passed[golden["slice"]] = (
+            passed.get(golden["slice"], 0) + grade(output, golden["expected"])[0]
+        )
     return {s: (passed[s], total[s]) for s in total}
 
 
 def percent(run_name: str, slice_name: str) -> str:
+    """Returns a run's score on one slice, as "88%"."""
     passed, total = scores(run_name)[slice_name]
     return f"{round(100 * passed / total)}%"
 
@@ -83,6 +89,7 @@ def vocabulary(run_name: str) -> list[int]:
 
 
 def table(header: list[str], rows: list[list]) -> None:
+    """Prints a Markdown table."""
     print("| " + " | ".join(header) + " |")
     print("|" + "---|" * len(header))
     for row in rows:
@@ -91,19 +98,37 @@ def table(header: list[str], rows: list[list]) -> None:
 
 
 def main() -> None:
+    """Prints every table of the README, then the vocabulary table."""
     print("## What was measured\n")
-    runs = ["rule", "mistral-small-2603", "mistral-large-2512", "mistral-large-4", "claude-opus-5-5"]
-    table(["slice", "n"] + runs,
-          [[label, scores("rule")[s][1]] + [percent(r, s) for r in runs] for label, s in SLICES])
+    runs = [
+        "rule",
+        "mistral-small-2603",
+        "mistral-large-2512",
+        "mistral-large-4",
+        "claude-opus-5-5",
+    ]
+    table(
+        ["slice", "n"] + runs,
+        [[label, scores("rule")[s][1]] + [percent(r, s) for r in runs] for label, s in SLICES],
+    )
 
     print("## Checking the harness (Large 4)\n")
-    table(["run", "close", "escalate (single / hub)", "evidence (single / hub)"],
-          [[label, percent(r, "decision-close"),
-            f"{percent(r, 'decision-escalate-single')} / {percent(r, 'decision-escalate-hub')}",
-            f"{percent(r, 'rows-escalate-single')} / {percent(r, 'rows-escalate-hub')}"]
-           for label, r in [("JSON mode, temperature 0", "mistral-large-4"),
-                            ("Claude's schema, temperature 0", "mistral-large-4+schema"),
-                            ("Claude's schema, temperature 1", "mistral-large-4+schema-temp1")]])
+    table(
+        ["run", "close", "escalate (single / hub)", "evidence (single / hub)"],
+        [
+            [
+                label,
+                percent(r, "decision-close"),
+                f"{percent(r, 'decision-escalate-single')} / {percent(r, 'decision-escalate-hub')}",
+                f"{percent(r, 'rows-escalate-single')} / {percent(r, 'rows-escalate-hub')}",
+            ]
+            for label, r in [
+                ("JSON mode, temperature 0", "mistral-large-4"),
+                ("Claude's schema, temperature 0", "mistral-large-4+schema"),
+                ("Claude's schema, temperature 1", "mistral-large-4+schema-temp1"),
+            ]
+        ],
+    )
 
     print("## Three prompt changes (Small and Large 3)\n")
     rows = []
@@ -111,28 +136,51 @@ def main() -> None:
         row = [variant or "nothing"]
         for model in ("mistral-small-2603", "mistral-large-2512"):
             r = f"{model}+{variant}" if variant else model
-            row += [percent(r, "decision-close"),
-                    f"{percent(r, 'decision-escalate-single')} / {percent(r, 'decision-escalate-hub')}",
-                    " / ".join(percent(r, s) for s in ("rows-escalate-single", "rows-escalate-hub", "rows-close"))]
+            row += [
+                percent(r, "decision-close"),
+                f"{percent(r, 'decision-escalate-single')} / {percent(r, 'decision-escalate-hub')}",
+                " / ".join(
+                    percent(r, s)
+                    for s in ("rows-escalate-single", "rows-escalate-hub", "rows-close")
+                ),
+            ]
         rows.append(row)
     columns = ["close", "escalate (single / hub)", "evidence (single / hub / close)"]
     table(["added"] + [f"Small: {c}" for c in columns] + [f"Large 3: {c}" for c in columns], rows)
 
     print("## Giving Large 4 Claude's method\n")
-    runs = [("Large 4", "mistral-large-4"), ("A: + method", "mistral-large-4+method"),
-            ("C: + method, neutral alert", "mistral-large-4+method-neutral"), ("Claude", "claude-opus-5-5")]
+    runs = [
+        ("Large 4", "mistral-large-4"),
+        ("A: + method", "mistral-large-4+method"),
+        ("C: + method, neutral alert", "mistral-large-4+method-neutral"),
+        ("Claude", "claude-opus-5-5"),
+    ]
     by_run = {r: scores(r) for _, r in runs}
-    table([""] + [label for label, _ in runs],
-          [["normal accounts closed (of 16)"] + [by_run[r]["decision-close"][0] for _, r in runs],
-           ["laundering accounts caught (of 16)"]
-           + [by_run[r]["decision-escalate-single"][0] + by_run[r]["decision-escalate-hub"][0] for _, r in runs],
-           ["rows cited: laundering / other"] + ["{:,} / {:,}".format(*rows_cited(r)) for _, r in runs],
-           ["evidence (single / hub)"]
-           + [f"{percent(r, 'rows-escalate-single')} / {percent(r, 'rows-escalate-hub')}" for _, r in runs]])
+    table(
+        [""] + [label for label, _ in runs],
+        [
+            ["normal accounts closed (of 16)"] + [by_run[r]["decision-close"][0] for _, r in runs],
+            ["laundering accounts caught (of 16)"]
+            + [
+                by_run[r]["decision-escalate-single"][0] + by_run[r]["decision-escalate-hub"][0]
+                for _, r in runs
+            ],
+            ["rows cited: laundering / other"]
+            + ["{:,} / {:,}".format(*rows_cited(r)) for _, r in runs],
+            ["evidence (single / hub)"]
+            + [
+                f"{percent(r, 'rows-escalate-single')} / {percent(r, 'rows-escalate-hub')}"
+                for _, r in runs
+            ],
+        ],
+    )
 
     print("## The words each run uses (accounts of 32 whose reason contains the term)\n")
-    names = sorted(p.name[:-5] for p in (HERE / "results").glob("*.json")
-                   if p.name.count(".") == 1 and p.name != "rule.json")
+    names = sorted(
+        p.name[:-5]
+        for p in (HERE / "results").glob("*.json")
+        if p.name.count(".") == 1 and p.name != "rule.json"
+    )
     table(["run"] + TERMS, [[name] + vocabulary(name) for name in names])
 
 
