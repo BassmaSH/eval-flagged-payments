@@ -1,0 +1,17 @@
+# Runs on every push and pull request: style, lint, tests, and the two commands that need no API key.
+name: check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff==0.17.5 pytest
+      - run: ruff format --check .
+      - run: ruff check .
+      - run: pytest -q
+      - run: python run.py rule
+      - run: python report.py

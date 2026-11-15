@@ -1,5 +1,45 @@
-*The lab notebook, written during the work (Nov 7 to 9, 2026), in the third person: "her" is Bassma, whose words
+*The lab notebook, written during the work (Nov 7 to 15, 2026), in the third person: "her" is Bassma, whose words
 are quoted as she wrote them; Claude (Claude Code) kept this record. The README is the write-up.*
+
+## Entries
+
+**Nov 7, reading and design**
+
+- [Three reasons I would close an alert](#three-reasons-i-would-close-an-alert)
+- [What one case can show](#what-one-case-can-show-her-answer-after-checking-the-case-format)
+- [The question the eval answers](#the-question-the-eval-answers-her-sentence-for-the-top-of-the-memo)
+- [Prompt (first thoughts, her words)](#prompt-first-thoughts-her-words)
+
+**Nov 8, the first runs**
+
+- [Predictions for mistral-small-2603, written while it ran](#predictions-for-mistral-small-2603-written-while-it-ran-nov-8)
+- [The answer, for the memo](#the-answer-for-the-memo-her-words-nov-8-after-all-three-runs)
+- [Blind cases](#blind-cases-7-minutes-for-the-four-written-before-opening-any-key)
+- [The simulated-bank rerun](#the-simulated-bank-rerun-nov-8-written-before-the-run)
+- [The objective rerun](#the-objective-rerun-nov-8-written-before-the-run)
+- [The combined rerun](#the-combined-rerun-nov-8-written-before-the-run-the-last-prompt-change-on-these-32-cases)
+- [Her reading of the four runs](#her-reading-of-the-four-runs-nov-8)
+- [Mistral Large 4](#mistral-large-4-nov-8-written-before-the-run)
+- [Claude Opus 5.5](#claude-opus-55-nov-8-written-before-the-run-her-request-as-an-outside-reference)
+- [Her reading after the Claude run](#her-reading-after-the-claude-run-nov-8)
+
+**Nov 9, the harness check**
+
+- [The harness check: Large 4 with Claude's schema](#the-harness-check-large-4-with-claudes-schema-nov-9-written-before-the-run)
+- [Large 4 with the schema at temperature 1](#large-4-with-the-schema-at-temperature-1-nov-9)
+
+**Nov 11 and 12, the method**
+
+- [The plan for the method run, as written before it](#the-plan-for-the-method-run-as-written-before-it-nov-11)
+- [Large 4 with the analyst's method](#large-4-with-the-analysts-method-nov-11)
+- [Large 4 with the method and a neutral alert](#large-4-with-the-method-and-a-neutral-alert-nov-11)
+
+**Nov 15, reruns and direct questions**
+
+- [Claude Opus 5.5, three reruns](#claude-opus-55-three-reruns-nov-15-written-before-the-runs)
+- [Asking the models directly about laundering patterns](#asking-the-models-directly-about-laundering-patterns-nov-15-written-before-the-run)
+- [Where the checks of Nov 15 came from](#where-the-checks-of-nov-15-came-from-her-observations-in-her-words)
+- [Asking Large 4 to define the four patterns it did not name](#asking-large-4-to-define-the-four-patterns-it-did-not-name-nov-15-written-before-the-run)
 
 # Field notes
 
@@ -251,9 +291,42 @@ schemes (one case), 0% elsewhere. Tokens: 32 calls, 75,339 prompt, 138,796 compl
 not make Large 4 close anything. Still open: whether Claude's 88% holds on a rerun (needs credits).
 She stopped here (Nov 9).
 
+## The plan for the method run, as written before it (Nov 11)
+
+These are the same 32 cases every earlier prompt change was tried on, so a fourth prompt would fit this simulator,
+not the task. The run is a diagnostic, to locate the gap, not a new score; a score needs fresh cases.
+
+The earlier variant runs *told* the models that regularity is normal; they swapped one feature for another and kept
+the same method. This run asks Large 4 to *find* the normal itself, with Claude's method in the prompt and nothing
+else changed. Two runs separate three explanations:
+
+| run | what Large 4 gets | if it now closes normal accounts, the gap was… |
+|---|---|---|
+| A | the method in the prompt (`src/variants/method.txt`) | its default way of working: it had the skill and applied the wrong procedure |
+| B, only if A fails | the method, plus a summary computed by code, one line per counterparty (payments, total in and out, first and last date) | reading a long table: it cannot build the baseline over 100+ rows, but reasons fine once given it |
+| neither works | | deeper: how it reasons about this domain, or what it believes about laundering |
+
+What each would mean for improving the model:
+- **A works:** the model knows how but does not do it by default. It reaches for textbook labels it learned
+  elsewhere over the evidence in front of it. A post-training fix (analyst-style examples, or a reward for closing
+  false alarms), not a bigger model.
+- **B needed:** a weakness in pulling a pattern out of a long table. A tool (code over the rows) or training on long
+  tables; better instructions will not help.
+- **Neither:** a reasoning or knowledge gap, the most expensive kind to fix.
+
+Three cautions:
+- **The bar is Claude, not 16 of 16.** Claude's method misses hub accounts where the laundering is the routine
+  (P11, P14, P16). A Large 4 that copies it well should miss them too.
+- **The method may only fit this dataset.** "Routine is normal" may be how IBM's simulator makes normal accounts.
+  A success shows the method works here; the rearranged-routine test (same accounts, new amounts and dates,
+  laundering rows kept) would show whether it works in general. The same test would tell whether Claude worked its
+  method out or knows IBM's data.
+- **Score the rows, not only the decision.** A Large 4 that closes normal accounts but still cites 40 rows per
+  laundering account has changed its answer, not its method.
+
 ## Large 4 with the analyst's method (Nov 11)
 
-Prompted by reading the two models' reasons side by side (`REASONING.md`): Claude first says what the
+Prompted by reading the two models' reasons side by side (`REASONING.md`, since split between `REPORT.md` and `ANSWERS.md`): Claude first says what the
 account normally does and escalates on what departs from it; Large 4 never describes normal and calls repetition
 "structuring". Run A adds that method to the instruction (`variants/method.txt`, `run.py mistral-large-4 method`),
 nothing else changed. Run B, only if A falls short: the same, plus a summary per counterparty computed by code.
@@ -294,3 +367,151 @@ retried (P01). Tokens: 32 calls, 75,851 prompt, 176,120 completion, about $0.40.
 instruction takes its place: on 13 of the 16 normal accounts the reasoning quotes "flag the suspicious rows" while
 deciding, for example "But the prompt asks for suspicious rows. All are part of the scheme." (P21). It still
 considers closing on 12 of 16. Remove one cue that the account is suspicious and it leans on the next one.
+
+## Claude Opus 5.5, three reruns (Nov 15, written before the runs)
+
+The Nov 8 run is the only Claude run: 14 of 16 normal accounts closed, 11 of 16 laundering accounts caught, once,
+with the API's default randomness. Three more runs of the same request on the same 32 cases
+(`claude-opus-5-5 repeat2`, `repeat3`, `repeat4`), to see whether that result holds. Nothing in the request
+changes. New in the record: the tokens Claude spends reasoning on each case, which the API reports and the first
+run did not save. This tests luck, not memory: the cases are the same, so a model that had seen the data would
+still have seen it.
+**Prediction (her words):** "about the same 13-15" normal accounts closed, of 16. No prediction given for the
+laundering accounts.
+**What would change the reading:** a run under 12 of 16 closed, or runs that spread widely, would mean the single
+run overstated the gap.
+
+**Result (Nov 15, three runs, 18:48 to 18:56).** Her prediction held: 14 of 16 normal accounts closed in each of
+the three reruns, as on Nov 8. Laundering accounts caught: 11, 11 and 12 of 16 (Nov 8: 11); hubs 3 of 6 every
+time. No failed call, no retry. Tokens per run: 103,549 prompt, 16,323 / 16,367 / 17,165 completion.
+**The totals are stable, six cases are not.** 26 of the 32 cases got the same decision in all four runs. Six
+changed sides at least once: the laundering accounts P01, P02 (the two cycles), P03 and P04, and the normal accounts
+P17 and P28. P17, the worked example of the memo, was closed on Nov 8 and escalated in all three reruns; P28 was
+escalated on Nov 8 and closed in all three. Wrong in all four runs: the hubs P11, P14 and P16, and the normal
+account P32. Evidence passed on 3, 2, 3 and 4 of the 16 laundering accounts; rows cited, laundering / other: 98 / 32,
+77 / 33, 56 / 25, 107 / 31.
+**Reasoning, measured for the first time.** Claude reasoned on 29, 30 and 30 of the 32 cases and answered the
+others directly (P19 and P24 every time, P11 once). Reasoning took about 11,200 to 11,800 of its output tokens per
+run, about 350 per case, at most 779 on one case.
+**What it does not show.** The same 32 cases four times are not 64 independent cases: this measures how much
+Claude's answers vary, not whether it has seen the data. Fresh accounts are still the test for that.
+
+## Asking the models directly about laundering patterns (Nov 15, written before the run)
+
+On the 32 cases, no Mistral run names one of the dataset's network patterns (fan-out, fan-in, scatter, gather,
+stack, bipartite: zero times in the answers and in the saved reasoning); they use the cash vocabulary
+(structuring, layering, smurfing, placement). Claude names the network patterns, and where it asserts one it
+matches the key (P03 fan-out, P06 fan-in, P08 fan-in then fan-out, P10 fan-out). Two explanations for the Mistral
+models: they do not know these patterns, or they know them and a case does not call them up.
+**The probe** (`probe.py`): two questions, no account, no alert, no system message, neither naming a pattern.
+Open: "What are the common patterns of money laundering?" Network: "What patterns of money laundering can be seen
+in a network of transactions between bank accounts?" Four models: Small 4, Large 3, Large 4 at temperature 0, and
+Claude Opus 5.5. One call per question.
+**What is counted, fixed before the run** (`src/vocabulary.py`): which of the eight patterns each answer names
+(fan-out, fan-in, cycle, scatter-gather, gather-scatter, stack, bipartite, random) and which cash terms
+(placement, layering, integration, structuring, smurfing). The answers are also read, since a shape can be
+described without its name, and "stack" and "random" are ordinary words.
+**How it will be read:** most of the eight named on the network question means the knowledge is there and the case
+does not call it up; none or one, with cash terms, means it is not there; shapes described without the names is
+in between.
+**Prediction (her words):** "I predict question 2 to list everything, question 1 to be about cash stages."
+*Clarified by her after launching the run and before reading any answer:* that prediction was for the Mistral
+models. For Claude: "I expect it to give the patterns in both + maybe cash."
+
+**Result (Nov 15, 20:22, one call per question).** Counted with the lists fixed before the run, then read.
+- **Open question:** all four models, Claude included, answer with the cash framework (placement, layering,
+  integration, structuring) and name none of the eight network patterns. Her prediction held for the Mistral
+  models. For Claude it did not: she expected the patterns in both answers.
+- **Network question:** Claude names 7 of the 8, with the dataset's own names (fan-out, fan-in, scatter-gather,
+  gather-scatter, cycle, bipartite, stack), in a numbered list of eight "structural (topological) patterns". Large 4
+  names 3 (fan-in / fan-out in one line, and cycles). Large 3 and Small 4 name 1 (circular flows). Her prediction
+  "list everything" did not hold for the Mistral models.
+- **Read, not counted:** the Mistral models describe the shapes without the names. Large 3: "chain structures",
+  "star or hub-and-spoke networks", "mesh networks". Small 4: "star-like subgraphs", "long, winding transaction
+  chains", "high-degree nodes". Large 4: "funnel accounts", which is a gather-scatter in other words.
+- **How each answer is organised, on the network question:** the three Mistral models still build the answer on
+  the cash framework. Small 4's headings are Structuring, Layering, Integration; Large 3's are Layering,
+  Integration; Large 4's open with "Classic structuring patterns" and "Layering patterns", and fan-in / fan-out is
+  one line under layering. Claude's first heading is "Structural (Topological) Patterns".
+**Reading.** Not "missing" and not "there but unused", in between, and different per model. Large 4 knows fan-in,
+fan-out and cycles by name and never used them on 160 case answers: for those, the case does not call them up.
+All three Mistral models know the shapes; none has the dataset's vocabulary beyond that. And even when asked about
+networks, they organise what they know by the cash stages.
+**What this does not show.** One call per question, one wording: another wording could give other lists. That
+Claude reproduces the dataset's taxonomy almost name for name shows it knows the literature the data comes from;
+it does not show that it has seen the data.
+*Her note:* the eight patterns are ones we read about before building the cases, not something the data alone
+defines. *Checked afterwards:* her Nov 7 reading notes cite them by their figure labels, (2b), (2c), (2f): that is
+Figure 2 of the dataset's paper (Altman et al., 2023, arXiv:2306.16424). Its section 3.2 says where the set comes
+from: "In their AMLSim generator, Suzumura and Kanezashi introduced a set of 8 patterns often used in money
+laundering." So the eight, as a set and with these names, come from that line of work; fan-in, fan-out and cycle
+are also general terms.
+
+## Where the checks of Nov 15 came from (her observations, in her words)
+
+Each check run on Nov 15 started from something she noticed or questioned. Her words, as she wrote them.
+
+- **The vocabulary.** Reading the answers: "I noticed claude mentions terms like "fan-out" and the patterns I saw
+  while reading wikipedia and the article when I first started this case, large 4 mentions different terms like
+  "layering" and something else?" This led to the count of terms per run, then to asking the models directly.
+- **Not jumping to "Claude has seen the data".** On Claude's use of the pattern names: "that is a bold claim, we
+  have seen these terms outside of IBM's dataset". The check that followed separated the three general terms from
+  the four particular to the dataset's literature.
+- **Method is not knowledge.** When Claude wrote that giving Large 4 the method gave it the knowledge: "isn't it
+  giving it the reasoning? it still didn't name the laundering patterns (fan out, gather scatter, etc.)". And on
+  the cause as first written: "also the knowledge no? with today's finidngs?"
+- **The direct question.** "let's ask Large 4 directly to list laundering patterns in transaction networks then".
+- **Findings are not insights.** On a first list of results: "these are findings, good ones, not insights about
+  the models like the one about large giving emphasis to the framing or assumptions in the prompt". The section
+  of readings in the README comes from that distinction.
+- **Weakness, or a different approach.** On the readings: "I'd say some claims are about model "weakness" while
+  others are about different approach from claude, which I can't know if it's good in some other cases outside of
+  our benchmark". The readings are now split that way.
+- **The framing as evidence.** Her reading of Nov 14, "it treats what the request presupposes as evidence", was
+  tested on the saved reasoning: the alert is brought up while deciding on 11 of the 16 normal accounts, the
+  instruction on 11. Her words on seeing it: "the additional rows you found are very interesting and confirm my
+  instinct".
+- **The baseline rule.** ""paid 8 or more different accounts within 3 days" sounds a bit random". This led to
+  scoring the rule at other thresholds; it stays as it was, fixed before the runs.
+- **A run that stops.** While the reruns were going: "if we run out of tokens mid run, we lose everything". Runs
+  are now saved line by line and can be resumed.
+- **Still open, by her:** "but it could still be missing knowledge no? I don't know". The next entry tests it.
+
+## Asking Large 4 to define the four patterns it did not name (Nov 15, written before the run)
+
+Asked what laundering patterns can be seen in a network of transactions, Large 4 named fan-in, fan-out and cycles,
+and not scatter-gather, gather-scatter, bipartite or stack. Either it does not know those four, or it knows them
+and did not list them. The first question tested recall; this one tests recognition.
+**The questions** (`python probe.py definitions mistral-large-4`), one call each, temperature 0, no system message:
+"In money laundering through bank transactions, what is a scatter-gather pattern?", and the same for
+gather-scatter, bipartite and stack. A fifth question asks for a "hinge-loop" pattern, which does not exist: if
+Large 4 defines that one too, its other definitions show fluency, not knowledge.
+**What counts as a correct definition, fixed before the run,** from the dataset's paper (Altman et al., section
+3.2): scatter-gather, a fan-out from one account and a fan-in to another through the same intermediate accounts;
+gather-scatter, a fan-in and a fan-out at the same account; bipartite, funds moved from a set of input accounts to
+a set of output accounts; stack, a bipartite pattern with one more layer. AMLSim's own documentation gives the two
+compound patterns in the same shapes. An answer is correct if it describes that shape, whatever its wording.
+**Prediction (her words):** "I predict it defines them".
+
+**Result (Nov 15, 22:22, five calls).** Judged against the definitions fixed above.
+
+| asked to define | the shape it describes | correct | how it frames it |
+|---|---|---|---|
+| scatter-gather | a large sum split into many small transactions, then recombined in one account | yes | "often called smurfing or structuring"; amounts "kept below regulatory reporting thresholds" |
+| gather-scatter | many deposits into one account, then dispersed to many recipients | yes | "sometimes called smurfing"; each deposit "below a reporting threshold" |
+| bipartite | funds between "two distinct, separate groups of accounts", with little activity inside each group | yes | in graph terms, then "smurfing/structuring" among what it indicates |
+| stack | deposits each below a reporting threshold, "stacked" into a larger balance | no: the paper's stack is a bipartite pattern with one more layer | structuring |
+| hinge-loop (invented) | funds that "repeatedly leave and return through a common hinge account" | there is no such pattern | it says the term "is not one of FATF's standardized typology labels", then defines it anyway |
+
+Her prediction, "it defines them", held on the shape for three of the four, and not for stack.
+**What the control changes.** Large 4 also defined a pattern that does not exist. So a correct definition is not
+proof that it knew the pattern: "scatter-gather" and "gather-scatter" can be worked out from the words, and
+"bipartite" is a general term for graphs. "Stack" cannot be worked out from the word, and it is the one it got wrong.
+**Reading.** Two things, both sharper than before. All five answers, the invented one included, come back to
+structuring under reporting thresholds: given a network pattern by name, Large 4 still explains it as a way of
+splitting cash. And it probably does not know the dataset's own taxonomy as such; her doubt, "it could still be
+missing knowledge", is supported for that taxonomy. It is not missing the general idea of network patterns, which
+it named unprompted in the earlier question.
+**What this does not show.** One call per question. Whether knowing that taxonomy would change its decisions on the
+cases is a separate question, which the test in the README's fourth reading would answer.
+

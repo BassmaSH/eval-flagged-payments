@@ -9,12 +9,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "expected ESCALATE, got 'CLOSE'"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
    }
   ]
  },
@@ -23,12 +17,6 @@
   "slice": "rows-escalate-single",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/2 laundering rows, needs more than half"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -47,12 +35,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "expected ESCALATE, got 'CLOSE'"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
    }
   ]
  },
@@ -61,12 +43,6 @@
   "slice": "rows-escalate-single",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/2 laundering rows, needs more than half"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -111,12 +87,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "expected ESCALATE, got 'CLOSE'"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
    }
   ]
  },
@@ -125,12 +95,6 @@
   "slice": "rows-escalate-single",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/2 laundering rows, needs more than half"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -162,12 +126,6 @@
     "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T035\", \"T036\", \"T041\"]}",
     "passed": false,
     "reason": "cited normal rows ['T001', 'T002', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T024', 'T025', 'T026', 'T027', 'T030', 'T031', 'T032', 'T035', 'T036', 'T041'] (2/34 laundering rows cited)"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T001\", \"T002\", \"T007\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\", \"T021\", \"T024\", \"T025\", \"T026\", \"T027\", \"T030\", \"T031\", \"T032\", \"T033\", \"T035\", \"T036\", \"T041\"]}",
-    "passed": false,
-    "reason": "cited normal rows ['T001', 'T002', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020', 'T021', 'T024', 'T025', 'T026', 'T027', 'T030', 'T031', 'T032', 'T035', 'T036', 'T041'] (2/34 laundering rows cited)"
    }
   ]
  },
@@ -176,12 +134,6 @@
   "slice": "decision-escalate-single",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -200,12 +152,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "cited 0/13 laundering rows, needs more than half"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/13 laundering rows, needs more than half"
    }
   ]
  },
@@ -219,12 +165,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "expected ESCALATE, got 'CLOSE'"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
    }
   ]
  },
@@ -233,12 +173,6 @@
   "slice": "rows-escalate-hub",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/49 laundering rows, needs more than half"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -270,12 +204,6 @@
     "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T035\"]}",
     "passed": false,
     "reason": "cited normal rows ['T018'] (13/27 laundering rows cited)"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T022\", \"T023\", \"T025\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T035\"]}",
-    "passed": false,
-    "reason": "cited normal rows ['T018'] (13/27 laundering rows cited)"
    }
   ]
  },
@@ -289,12 +217,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "expected ESCALATE, got 'CLOSE'"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
    }
   ]
  },
@@ -303,12 +225,6 @@
   "slice": "rows-escalate-hub",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/33 laundering rows, needs more than half"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -340,12 +256,6 @@
     "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T036\", \"T037\", \"T038\", \"T040\", \"T044\", \"T046\"]}",
     "passed": false,
     "reason": "cited normal rows ['T019', 'T020', 'T021', 'T022', 'T037', 'T038'] (12/12 laundering rows cited)"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T014\", \"T016\", \"T018\", \"T019\", \"T020\", \"T021\", \"T022\", \"T026\", \"T028\", \"T030\", \"T032\", \"T034\", \"T036\", \"T037\", \"T038\", \"T040\", \"T044\", \"T046\"]}",
-    "passed": false,
-    "reason": "cited normal rows ['T019', 'T020', 'T021', 'T022', 'T037', 'T038'] (12/12 laundering rows cited)"
    }
   ]
  },
@@ -354,12 +264,6 @@
   "slice": "decision-escalate-hub",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -378,12 +282,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "cited 0/10 laundering rows, needs more than half"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/10 laundering rows, needs more than half"
    }
   ]
  },
@@ -392,12 +290,6 @@
   "slice": "decision-escalate-single",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -416,12 +308,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "cited 0/2 laundering rows, needs more than half"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/2 laundering rows, needs more than half"
    }
   ]
  },
@@ -430,12 +316,6 @@
   "slice": "decision-escalate-single",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -454,12 +334,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "cited 0/2 laundering rows, needs more than half"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/2 laundering rows, needs more than half"
    }
   ]
  },
@@ -468,12 +342,6 @@
   "slice": "decision-escalate-hub",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -492,12 +360,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "cited 0/23 laundering rows, needs more than half"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/23 laundering rows, needs more than half"
    }
   ]
  },
@@ -506,12 +368,6 @@
   "slice": "decision-escalate-single",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -530,12 +386,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "cited 0/2 laundering rows, needs more than half"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/2 laundering rows, needs more than half"
    }
   ]
  },
@@ -549,12 +399,6 @@
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
     "passed": false,
     "reason": "expected ESCALATE, got 'CLOSE'"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "expected ESCALATE, got 'CLOSE'"
    }
   ]
  },
@@ -563,12 +407,6 @@
   "slice": "rows-escalate-hub",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
-    "passed": false,
-    "reason": "cited 0/25 laundering rows, needs more than half"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"no burst of payments out\", \"decision\": \"CLOSE\", \"rows\": []}",
@@ -795,12 +633,6 @@
     "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",
     "passed": false,
     "reason": "expected CLOSE, got 'ESCALATE'"
-   },
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",
-    "passed": false,
-    "reason": "expected CLOSE, got 'ESCALATE'"
    }
   ]
  },
@@ -809,12 +641,6 @@
   "slice": "rows-close",
   "status": "fail",
   "attempts": [
-   {
-    "kind": "graded",
-    "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",
-    "passed": false,
-    "reason": "normal account, cited ['T002', 'T003', 'T004', 'T005', 'T006', 'T007', 'T008', 'T009', 'T010', 'T011', 'T012', 'T013', 'T014', 'T015', 'T016', 'T017', 'T018', 'T019', 'T020']"
-   },
    {
     "kind": "graded",
     "output": "{\"reason\": \"paid 8+ accounts within 3 days\", \"decision\": \"ESCALATE\", \"rows\": [\"T002\", \"T003\", \"T004\", \"T005\", \"T006\", \"T007\", \"T008\", \"T009\", \"T010\", \"T011\", \"T012\", \"T013\", \"T014\", \"T015\", \"T016\", \"T017\", \"T018\", \"T019\", \"T020\"]}",

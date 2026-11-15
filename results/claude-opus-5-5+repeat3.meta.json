@@ -1,0 +1,185 @@
+{
+ "run": "claude-opus-5-5+repeat3",
+ "date": "2026-11-15T18:52:15",
+ "code_commit": "a7adf9b + uncommitted changes",
+ "python": "3.14.6",
+ "libraries": {
+  "mistralai": "3.7.0",
+  "anthropic": "2.8.0"
+ },
+ "settings": {
+  "model": "claude-opus-5-5",
+  "instruction": "You are an analyst in a bank's anti-money-laundering team. Analyze the account's transactions for possible money laundering and flag the suspicious rows. Then decide: ESCALATE (send it for investigation) or CLOSE (a false alarm).\nAnswer with a JSON object with exactly three fields, in this order:\n\"reason\": one or two sentences on what you saw;\n\"decision\": \"ESCALATE\" or \"CLOSE\";\n\"rows\": the ids of the suspicious rows, for example [\"T004\", \"T017\"], or [] if there are none.",
+  "alert_line": "Alert: This account has been flagged for suspicious activity.",
+  "response_format": "json_schema",
+  "temperature": null,
+  "top_p": null
+ },
+ "calls": 32,
+ "prompt_tokens": 103549,
+ "completion_tokens": 16367,
+ "tokens_per_case": {
+  "cases/P01.md": [
+   1573,
+   606
+  ],
+  "cases/P02.md": [
+   1258,
+   671
+  ],
+  "cases/P03.md": [
+   1844,
+   617
+  ],
+  "cases/P04.md": [
+   883,
+   531
+  ],
+  "cases/P05.md": [
+   8250,
+   531
+  ],
+  "cases/P06.md": [
+   8084,
+   355
+  ],
+  "cases/P07.md": [
+   7117,
+   636
+  ],
+  "cases/P08.md": [
+   2429,
+   596
+  ],
+  "cases/P09.md": [
+   3674,
+   568
+  ],
+  "cases/P10.md": [
+   3462,
+   592
+  ],
+  "cases/P11.md": [
+   2023,
+   756
+  ],
+  "cases/P12.md": [
+   2121,
+   699
+  ],
+  "cases/P13.md": [
+   2133,
+   635
+  ],
+  "cases/P14.md": [
+   3155,
+   804
+  ],
+  "cases/P15.md": [
+   3011,
+   454
+  ],
+  "cases/P16.md": [
+   4091,
+   467
+  ],
+  "cases/P17.md": [
+   3847,
+   466
+  ],
+  "cases/P18.md": [
+   3502,
+   374
+  ],
+  "cases/P19.md": [
+   1189,
+   122
+  ],
+  "cases/P20.md": [
+   1660,
+   749
+  ],
+  "cases/P21.md": [
+   1373,
+   232
+  ],
+  "cases/P22.md": [
+   3518,
+   548
+  ],
+  "cases/P23.md": [
+   1504,
+   418
+  ],
+  "cases/P24.md": [
+   2999,
+   186
+  ],
+  "cases/P25.md": [
+   3670,
+   431
+  ],
+  "cases/P26.md": [
+   3579,
+   312
+  ],
+  "cases/P27.md": [
+   3577,
+   362
+  ],
+  "cases/P28.md": [
+   3516,
+   777
+  ],
+  "cases/P29.md": [
+   3716,
+   610
+  ],
+  "cases/P30.md": [
+   3395,
+   362
+  ],
+  "cases/P31.md": [
+   3604,
+   383
+  ],
+  "cases/P32.md": [
+   3792,
+   517
+  ]
+ },
+ "thinking_tokens_per_case": {
+  "cases/P01.md": 446,
+  "cases/P02.md": 504,
+  "cases/P03.md": 439,
+  "cases/P04.md": 393,
+  "cases/P05.md": 362,
+  "cases/P06.md": 157,
+  "cases/P07.md": 482,
+  "cases/P08.md": 382,
+  "cases/P09.md": 400,
+  "cases/P10.md": 386,
+  "cases/P11.md": 622,
+  "cases/P12.md": 472,
+  "cases/P13.md": 460,
+  "cases/P14.md": 647,
+  "cases/P15.md": 285,
+  "cases/P16.md": 332,
+  "cases/P17.md": 298,
+  "cases/P18.md": 198,
+  "cases/P19.md": 0,
+  "cases/P20.md": 572,
+  "cases/P21.md": 117,
+  "cases/P22.md": 407,
+  "cases/P23.md": 285,
+  "cases/P24.md": 0,
+  "cases/P25.md": 286,
+  "cases/P26.md": 172,
+  "cases/P27.md": 209,
+  "cases/P28.md": 629,
+  "cases/P29.md": 437,
+  "cases/P30.md": 211,
+  "cases/P31.md": 236,
+  "cases/P32.md": 345
+ }
+}
