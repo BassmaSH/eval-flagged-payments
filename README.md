@@ -1,10 +1,8 @@
 # Can a language model reduce the number of false positives in AML alert queues?
 
-*This is a summary of a very small benchmark: 32 flagged accounts from IBM's synthetic bank, a rule baseline, three Mistral models, and Claude Opus 5.5 as an external reference. The full record is in
-[`NOTEBOOK.md`](docs/NOTEBOOK.md), with each prediction logged prior to running.*
+*This is a summary of a very small benchmark: 32 flagged accounts from IBM's synthetic bank, a rule baseline, three Mistral models, and Claude Opus 5.5 as an external reference. The full record, with each prediction written before its run, is in [`NOTEBOOK.md`](docs/NOTEBOOK.md).*
 
-**The decision.** Whether to put a language model in front of the alert queue. It would filter out clear false
-alarms and pass the rest to an analyst, along with the transactions that actually mattered.
+**The decision.** Whether to put a language model in front of the alert queue. It would filter out clear false alarms and pass the rest to an analyst, with the transactions that matter.
 
 **The test.** A bank's monitoring system flags accounts, and an analyst decides whether to escalate each one or
 close it as a false alarm. We took 32 accounts from IBM's synthetic bank data, 16 laundering and 16 normal, showed
@@ -13,18 +11,16 @@ each to the model as flagged, and scored its decision and the transactions it ci
 **The result.** The Mistral models, as tested, did not reduce false positives: all three (Small 4, Large 3, and
 Large 4) escalated every account and closed none of the 16 false alarms. For comparison, we tested Claude Opus 5.5
 four times on the same cases: each time it closed 14 of 16 false alarms and caught 11 or 12 of 16 laundering
-accounts. This shows the task can be performed from a single account, and that the gap lies with the models.
+accounts. So the task can be done from a single account, and the gap lies with the models.
 
 **The caveat.** Claude did not come to this test cold. Asked what laundering looks like in a network of
-transactions, it lists seven of the eight patterns this data is built from, by name, including the four that are
-particular to the literature the data belongs to (scatter-gather, gather-scatter, bipartite, stack). So it knows
+transactions, it names seven of the eight patterns this data is built from, including the four particular to the data's own literature (scatter-gather, gather-scatter, bipartite, stack). So it knows
 that literature; we cannot tell whether it has seen these accounts. The data is synthetic, and 32 cases can show a
-large gap, not a small one. More testing on more realistic data is required before we can come to any firm
-conclusions.
+large gap, not a small one. Firm conclusions need more testing, on more realistic data.
 
 ## 1. What we understood about the Mistral models
 
-Five readings of how the models work, drawn from the runs below. They are interpretations, not measurements: each
+Five readings of how the models work. They are interpretations, not measurements: each
 says what it rests on, how sure we are, and what would test it.
 
 | | what the model does | what we saw | how sure | what would test it |
@@ -44,10 +40,7 @@ readings 3 and 5, and [testing the cause](docs/REPORT.md#3-testing-the-cause) fo
 ## 2. What is measured, and what is not
 
 32 flagged accounts from IBM's synthetic bank (Sep 1–18, 2022): 16 laundering, 16 normal (8 drawn at random, 8
-chosen from 15 candidates because they look most like an alert). The model sees the transactions on one account
-and a generic alert and then responds in JSON format with a reason, an ESCALATE or a CLOSE and the IDs of the
-suspicious rows. Two scores per account: the **decision** and the **evidence** (for a laundering account more than
-half of the laundering rows cited and no normal row; for a normal account no row is cited).
+chosen from 15 candidates because they look most like an alert). The model sees one account's transactions and a generic alert, and answers in JSON: a reason, ESCALATE or CLOSE, and the ids of the suspicious rows. Two scores per account: the **decision** and the **evidence** (laundering account: more than half of the laundering rows cited and no normal row; normal account: no row cited).
 
 It measures the first step of an analyst's work: one account, one decision, the rows that justify it. It does not
 measure following money across accounts, working an alert over weeks, or performance on a real bank's data.
@@ -104,10 +97,8 @@ the same result ([the check](docs/REPORT.md#1-is-it-the-harness)).
 ## 4. Limits, in short
 
 - **Synthetic data:** no real bank or person involved at all.
-- **Public data:** the IBM dataset has been public since 2023 so any model could have read the descriptions of how
-  it behaves.
-- **One account, 18 days:** an analyst's best signals (a monthly rhythm, the other accounts in the scheme) are
-  completely out of reach.
+- **Public data:** public since 2023, so any model could have read how it behaves.
+- **One account, 18 days:** an analyst's best signals (a monthly rhythm, the other accounts in the scheme) are out of reach.
 - **32 cases:** each close case is 6 points on its slice.
 - **Not identical settings:** Claude's format was forced by a schema, the Mistral models by JSON mode, and the
   reasoning effort was left at each API's default.
@@ -139,11 +130,10 @@ export MISTRAL_API_KEY=...              # and ANTHROPIC_API_KEY for a Claude mod
 .venv/bin/python run.py mistral-large-4 method-neutral repeat2   # the method, with a neutral alert
 ```
 
-Each run produces the per-slice table and stores all the answers in `results/`. Since Nov 15, 2026, a model run
+Each run prints the per-slice table and saves every answer in `results/`. Since Nov 15, 2026, a model run
 also stores `<name>.meta.json` (the settings, the prompt as sent, the date, the library versions and the tokens per
-case); the runs of Nov 8 to 12 were made before that. `benchmark/golden.jsonl` contains two lines per case (the
-decision and the evidence) which are generated by `prep/make_golden.py` from `benchmark/cases/` and
-`benchmark/keys/`. The scoring is done by `src/aml_graders.py`. The runner in `src/evals_kit/` is a copy of
+case); the runs of Nov 8 to 12 were made before that. `benchmark/golden.jsonl` has two lines per case (the decision and the evidence), generated by `prep/make_golden.py` from `benchmark/cases/` and
+`benchmark/keys/`. `src/aml_graders.py` does the scoring. The runner in `src/evals_kit/` is a copy of
 [evals-kit](https://github.com/BassmaSH/evals-kit).
 
 **Is the scoring itself right?** 48 tests, 21 of them on the two scoring rules; and `report.py` grades every saved
@@ -153,9 +143,7 @@ in the repo today. Conventions for changing the code are in [`CONTRIBUTING.md`](
 **The data.** IBM's synthetic anti-money-laundering data, split HI-Small (Altman et al., *Realistic Synthetic
 Financial Transactions for Anti-Money Laundering Models*, NeurIPS 2023, <https://arxiv.org/abs/2306.16424>), licence
 CDLA-Sharing-1.0. Everything is simulated, no real person or real bank. The raw files are not in this repo;
-`prep/README.md` has the instructions for rebuilding them and `prep/make_case.py` cuts a case from them. The files
-that are derived from that data (everything in `benchmark/`) are shared under the same CDLA-Sharing-1.0 licence and
-the code is MIT.
+`prep/README.md` says how to rebuild them and `prep/make_case.py` cuts a case from them. The files derived from that data (everything in `benchmark/`) are under the same CDLA-Sharing-1.0 licence; the code is MIT.
 
 **Where things are.**
 
