@@ -367,3 +367,5 @@ networks, they organise what they know by the cash stages.
 **What this does not show.** One call per question, one wording: another wording could give other lists. That
 Claude reproduces the dataset's taxonomy almost name for name shows it knows the literature the data comes from;
 it does not show that it has seen the data.
+*Her note:* the eight patterns are not IBM's own: we found them in the literature we read before building the
+cases. IBM's data plants them. So "the dataset's names" above means the names the literature uses.

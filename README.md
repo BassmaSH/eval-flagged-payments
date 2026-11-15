@@ -7,26 +7,36 @@ rule baseline, three Mistral models, and Claude Opus 5.5 as an external referenc
 **The decision.** Whether to put a language model in front of the alert queue. It would filter out clear false
 alarms and pass the rest to an analyst, along with the transactions that actually mattered.
 
-**The result.** The Mistral models, as tested, did not reduce false positives. On simulated alerts, all three (Small
-4, Large 3, and Large 4) escalated every account and closed none of the 16 false alarms. Adjusting the prompt to
-specify that the bank is simulated, or that the goal is to close false alarms, did not improve results. For
-comparison, we tested Claude Opus 5.5 four times on the same cases: each time it closed 14 of 16 false alarms and
-caught 11 or 12 of 16 laundering accounts. It interpreted regular payments as routine and flagged the one-off payments inside them,
-which is how laundering looks in this dataset, an insight we only recognized after reviewing the answers. This shows
-the task can be performed from a single account, and that the gap lies with the models.
+**The test.** A bank's monitoring system flags accounts, and an analyst decides whether to escalate each one or
+close it as a false alarm. We took 32 accounts from IBM's synthetic bank data, 16 laundering and 16 normal, showed
+each to the model as flagged, and scored its decision and the transactions it cited.
 
-We then ran Large 4 again to pinpoint the source of the gap. Giving it Claude's answer format, then normal
-randomness, changed nothing. Reading the two models' reasoning side by side, we noticed that Claude started by
-describing what an account normally does before identifying unusual transactions. We described this method in Large
-4's prompt: it altered its approach but not its decisions. Its reasoning kept coming back to the alert saying the
-account had been flagged. We removed the alert as a last trial, and it leaned on the next part of the request that
-suggested something was there to find: the instruction to "flag the suspicious rows". For training, this points to
-the weight the model gives to what a request takes for granted, not to how it reads the data.
+**The result.** The Mistral models, as tested, did not reduce false positives: all three (Small 4, Large 3, and
+Large 4) escalated every account and closed none of the 16 false alarms. For comparison, we tested Claude Opus 5.5
+four times on the same cases: each time it closed 14 of 16 false alarms and caught 11 or 12 of 16 laundering
+accounts. This shows the task can be performed from a single account, and that the gap lies with the models.
 
-While differences between models are likely, we cannot rule out data familiarity; Claude may have previously
-encountered this public dataset. Additionally, Claude was not tested at temperature 0; over four runs its totals did
-not move, though six individual cases did. More testing
-on more realistic data is definitely required before we can come to any firm conclusions.
+**The caveat.** Claude did not come to this test cold. Asked what laundering looks like in a network of
+transactions, it lists seven of the eight patterns this data is built from, by name. Those patterns are standard in
+the literature, which we read before building the cases, so this shows it knows that literature, not that it has
+seen these accounts; we cannot rule that out either. The data is synthetic, and 32 cases can show a large gap, not a
+small one. More testing on more realistic data is required before we can come to any firm conclusions.
+
+## What we understood about the Mistral models
+
+Five readings of how the models work, drawn from the runs below. They are interpretations, not measurements: each
+says what it rests on, how sure we are, and what would test it.
+
+| | what the model does | what we saw | how sure | what would test it |
+|---|---|---|---|---|
+| **1** | **It treats what a request presupposes as evidence.** | Large 4's saved reasoning considered closing 11 of the 16 normal accounts and turned back on 10 because the account was flagged. With "flagged" removed, it cited the instruction to find suspicious rows on 13 of 16. The same effect in [a second experiment](https://github.com/BassmaSH/the-data-cant-tell), where "why did X drop?" made models find a drop. | Medium to high. Another reading fits: it would escalate anyway, and the cue is a justification written afterwards. | A request with no cue at all, on new cases: no alert, and an instruction that does not ask it to flag rows. |
+| **2** | **A prompt changes which feature it decides from, not the habit of deciding from one feature.** | Told that regular payments are normal, Small 4 called the same repetition "unusual for regular customer behavior". Told the goal is to close false alarms, it closed 11 normal accounts and 10 laundering ones, and escalated on very large amounts instead. | Medium: seen on Small 4; Large 3 did not move at all. | The same prompt changes on Large 4. |
+| **3** | **It applies what is generally true of laundering, without first working out what is normal for this account.** | Large 4 calls routine payments "structuring" on 28 of 32 accounts, and on P11 cites a real Saudi cash-declaration threshold that the case never mentions. Asked to describe the account's normal first, "structuring" falls to 2 of 32. We made the same mistake on four blind cases (0 of 4). | Medium to high: it can do the step when told, and does not do it unprompted. | Cases where a textbook red flag is present and benign, without the method. |
+| **4** | **Its analysis does not decide its answer.** | Given Claude's method, Large 4 describes the same routine and picks the same one-off row as Claude (P27), and cites a third of the rows it cited before. It still escalates 15 of the 16 normal accounts. | Medium: two runs. What a model writes while reasoning is not proof of what drove its answer ([Anthropic, 2025](https://www.anthropic.com/research/reasoning-models-dont-say-think)). | The decision with reasoning set low, against the default. |
+| **5** | **It has one frame for laundering, the cash framework, and keeps it whatever it is asked.** | On the cases, no Mistral run names a network pattern (fan-out, cycle…) in 13 runs; they say "structuring" and "layering". Asked directly about transaction networks, Large 4 names 3 of the 8 patterns and the others 1; they describe the shapes in other words and still organise the answer by the stages of laundering cash. Claude gives the same cash answer to the general question, and switches to the network patterns (7 of 8) when asked about networks. | Medium: the direct question was asked once, in one wording. | Ask Large 4 to analyse the account as a network of counterparties, without the method, and see whether its decisions move. |
+
+Taken together: a model that decides from the request and from one salient feature, seen through a framework that
+does not fit this data. Its analysis can be correct and still not change the decision.
 
 ## 1. What is measured, and what is not
 
@@ -191,6 +201,24 @@ No Mistral run uses "fan-in" or "fan-out" once, in the answers or in the reasoni
 own text says "check whether money passes through the account", so that word came from the instruction. These
 terms are common outside this dataset, so the table says nothing about whether a model has seen the data.
 
+### Asked directly
+
+Two questions with no account and no alert, neither naming a pattern (`python probe.py`, Nov 15, one call each):
+"What are the common patterns of money laundering?" and "What patterns of money laundering can be seen in a network
+of transactions between bank accounts?" The eight patterns are the ones this data plants; they are standard in the
+literature on transaction networks.
+
+| model | general question | network question |
+|---|---|---|
+| Small 4 | the cash stages; 0 of 8 patterns | 1 of 8 (circular flows); "star-like subgraphs", "long chains" |
+| Large 3 | the cash stages; 0 of 8 | 1 of 8 (circular flows); "chain structures", "hub-and-spoke", "mesh" |
+| Large 4 | the cash stages; 0 of 8 | 3 of 8 (fan-in, fan-out, cycles); "funnel accounts" |
+| Claude | the cash stages; 0 of 8 | 7 of 8, as a numbered list of structural patterns |
+
+The Mistral models know the shapes and mostly not the names, and on the network question their headings are still
+Structuring, Layering, Integration. Large 4 names fan-in and fan-out here and never used either word in 160 answers
+on the cases.
+
 ## 5. Testing the cause
 
 ### Three prompt changes (Small and Large 3)
@@ -316,7 +344,7 @@ Each run's prediction is in [`docs/NOTEBOOK.md`](docs/NOTEBOOK.md), in the autho
 
 ```bash
 python report.py                        # the tables above, rebuilt from results/, no API call
-pytest -q                               # 42 checks, no API call (pip install pytest)
+pytest -q                               # 48 checks, no API call (pip install pytest)
 python run.py rule                      # the rule baseline, no API call, standard library only
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
 export MISTRAL_API_KEY=...              # and ANTHROPIC_API_KEY for a Claude model
@@ -341,6 +369,7 @@ per case (the decision and the evidence) which are generated by `prep/make_golde
 |---|---|
 | `run.py` | runs one system on the 32 cases and saves its answers |
 | `report.py` | rebuilds every table above from `results/` |
+| `probe.py` | asks a model about laundering patterns directly, with no account |
 | `benchmark/` | the test: `golden.jsonl` (the expected answers), `cases/` (what the model sees), `keys/` (the answer keys) |
 | `src/` | what the two commands are made of: |
 | `src/system.py`, `src/variants/` | the model under test, the prompt, and the paragraphs added to it |
@@ -350,7 +379,7 @@ per case (the decision and the evidence) which are generated by `prep/make_golde
 | `src/evals_kit/` | the runner, a copy of evals-kit |
 | `results/` | every saved answer, and the saved reasoning of the two method runs |
 | `prep/` | rebuilds the data and the cases |
-| `tests/` | 42 checks on the scoring, the command line, the statistics and resuming a run, no API call |
+| `tests/` | 48 checks on the scoring, the command line, the statistics, resuming a run and the term lists, no API call |
 | `docs/` | the notebook, and the two models' reasoning side by side |
 
 **Is the scoring itself right?** 21 tests on the scoring (`tests/test_aml_graders.py`), 9 on the command line and 7

@@ -10,7 +10,7 @@ Research Code Handbook and the ML Code Completeness Checklist.
 pip install ruff==0.17.5 pytest
 ruff format .      # rewrites the files in the agreed style
 ruff check .       # reports what breaks a rule
-pytest -q          # 42 checks, no API call
+pytest -q          # 48 checks, no API call
 python report.py   # the README's tables, rebuilt from results/
 ```
 
