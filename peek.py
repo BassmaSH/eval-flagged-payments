@@ -1,20 +1,34 @@
 """One line per case, to screen candidates without reading every table.
 
-Boilerplate, written by Claude on Nov 7, 2026 (like make_case.py): it only counts what is in cases/<id>.md.
-
     python peek.py P17 P18 P19
+
+Written by Claude on Nov 7, 2026: it only counts what is in cases/<id>.md.
 """
 import sys
 from pathlib import Path
 
+from case_table import read_transactions
+
 HERE = Path(__file__).parent
 
-for case in sys.argv[1:]:
-    rows = [line.split("|")[1:-1] for line in (HERE / "cases" / f"{case}.md").read_text().splitlines()
-            if line.startswith("| T")]
-    out = [r for r in rows if r[2].strip() == "out"]
-    into = [r for r in rows if r[2].strip() == "in"]
-    print(f"{case}: {len(rows)} rows | {len(out)} out, to {len({r[3] for r in out})} accounts | "
-          f"{len(into)} in, from {len({r[3] for r in into})} accounts | "
-          f"{len({r[5] for r in rows})} currencies | {len({r[6] for r in rows})} formats | "
-          f"largest {max(float(r[4]) for r in rows):,.2f}")
+
+def summary(case_id: str) -> str:
+    """Returns the counts that show at a glance whether an account looks like an alert."""
+    rows = read_transactions(HERE / "cases" / f"{case_id}.md")
+    out = [t for t in rows if t.direction == "out"]
+    into = [t for t in rows if t.direction == "in"]
+    return (f"{case_id}: {len(rows)} rows | {len(out)} out, to {len({t.counterparty for t in out})} accounts | "
+            f"{len(into)} in, from {len({t.counterparty for t in into})} accounts | "
+            f"{len({t.currency for t in rows})} currencies | {len({t.format for t in rows})} formats | "
+            f"largest {max(float(t.amount) for t in rows):,.2f}")
+
+
+def main(argv: list[str]) -> None:
+    if not argv:
+        sys.exit(__doc__)
+    for case_id in argv:
+        print(summary(case_id))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

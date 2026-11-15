@@ -9,6 +9,7 @@ runs made since Nov 15).
 
 Code written by Claude Code on Nov 15, 2026, for the author.
 """
+import functools
 import json
 import sys
 from pathlib import Path
@@ -26,14 +27,15 @@ SLICES = [("decision: escalate, single scheme", "decision-escalate-single"),
           ("evidence: close", "rows-close")]
 
 
-def answers(run_name):
+def answers(run_name: str) -> dict[str, str]:
     """golden line id -> the answer that was graded (the last attempt)."""
     saved = json.loads((HERE / "results" / f"{run_name}.json").read_text())
     return {line["id"]: line["attempts"][-1].get("output", "") for line in saved}
 
 
-def scores(run_name):
-    """slice -> (lines passed, lines in the slice), graded again now."""
+@functools.cache
+def scores(run_name: str) -> dict[str, tuple[int, int]]:
+    """slice -> (lines passed, lines in the slice), graded again now. Each run is graded once."""
     passed, total = {}, {}
     for line_id, output in answers(run_name).items():
         golden = GOLDEN[line_id]
@@ -42,12 +44,12 @@ def scores(run_name):
     return {s: (passed[s], total[s]) for s in total}
 
 
-def percent(run_name, slice_name):
+def percent(run_name: str, slice_name: str) -> str:
     passed, total = scores(run_name)[slice_name]
     return f"{round(100 * passed / total)}%"
 
 
-def rows_cited(run_name):
+def rows_cited(run_name: str) -> tuple[int, int]:
     """(laundering rows cited, other rows cited) over the 32 accounts."""
     laundering = other = 0
     for line_id, output in answers(run_name).items():
@@ -65,7 +67,7 @@ def rows_cited(run_name):
 TERMS = ["fan-out", "fan-in", "pass-through", "layering", "structuring", "recurring"]
 
 
-def vocabulary(run_name):
+def vocabulary(run_name: str) -> list[int]:
     """For each term, the number of accounts (of 32) whose "reason" contains it."""
     counts = dict.fromkeys(TERMS, 0)
     for line_id, output in answers(run_name).items():
@@ -80,7 +82,7 @@ def vocabulary(run_name):
     return [counts[term] for term in TERMS]
 
 
-def table(header, rows):
+def table(header: list[str], rows: list[list]) -> None:
     print("| " + " | ".join(header) + " |")
     print("|" + "---|" * len(header))
     for row in rows:
@@ -88,7 +90,7 @@ def table(header, rows):
     print()
 
 
-def main():
+def main() -> None:
     print("## What was measured\n")
     runs = ["rule", "mistral-small-2603", "mistral-large-2512", "mistral-large-4", "claude-opus-5-5"]
     table(["slice", "n"] + runs,

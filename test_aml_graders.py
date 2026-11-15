@@ -17,6 +17,7 @@ HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE / "evals_kit"))  # aml_graders imports evals-kit's graders
 
 from aml_graders import grade  # noqa: E402
+from case_table import read_transactions  # noqa: E402
 
 # P01's key: two laundering rows, the two ends of a cycle.
 ESCALATE = {"grader": "decision", "value": "ESCALATE"}
@@ -190,7 +191,7 @@ def test_citing_every_row_passes_no_evidence_line():
     for g in golden():
         if g["expected"]["grader"] != "rows":
             continue
-        n = sum(1 for line in (HERE / g["input"]).read_text().splitlines() if line.startswith("| T"))
+        n = len(read_transactions(HERE / g["input"]))
         assert n > len(g["expected"]["laundering"]), f"{g['id']}: every row is laundering, the rule breaks"
         assert not grade(answer(rows=[f"T{i:03d}" for i in range(1, n + 1)]), g["expected"])[0], g["id"]
 

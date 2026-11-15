@@ -11,8 +11,10 @@ import re
 
 from graders import grade as kit_grade  # evals-kit's five: exact, contains_all, contains_none, numeric, abstains
 
+Verdict = tuple[bool, str]  # (passed, the reason)
 
-def parse(output):
+
+def parse(output: str) -> tuple[dict | None, str]:
     """The answer as a dict, or None and why not. Broken JSON is a model failure, not a grader crash."""
     try:
         answer = json.loads(output)
@@ -23,13 +25,13 @@ def parse(output):
     return answer, ""
 
 
-def row_id(r):
+def row_id(r: object) -> str:
     """'T3', 't003' and 'T003' are the same row (the author's choice, Nov 8); anything else is kept as written."""
     m = re.fullmatch(r"[Tt]0*(\d+)", str(r).strip())
     return f"T{int(m.group(1)):03d}" if m else str(r).strip()
 
 
-def grade_decision(answer, expected):
+def grade_decision(answer: dict, expected: dict) -> Verdict:
     """Passes when the decision is the expected word. Only case and spaces are forgiven: "ESCALATE." fails."""
     decision = " ".join(str(answer.get("decision", "")).split()).upper()
     if decision == expected["value"]:
@@ -37,7 +39,7 @@ def grade_decision(answer, expected):
     return False, f"expected {expected['value']}, got {answer.get('decision')!r}"
 
 
-def grade_rows(answer, expected):
+def grade_rows(answer: dict, expected: dict) -> Verdict:
     """The author's rule, written before any run.
     Laundering account: more than half of the laundering rows cited, and no other row.
     Normal account: no row cited."""
@@ -61,7 +63,7 @@ def grade_rows(answer, expected):
 GRADERS = {"decision": grade_decision, "rows": grade_rows}
 
 
-def grade(output, expected):
+def grade(output: str, expected: dict) -> Verdict:
     """One answer against one golden line -> (passed, reason)."""
     name = expected["grader"]
     if name not in GRADERS:
