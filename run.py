@@ -34,8 +34,9 @@ SRC = Path(__file__).parent / "src"
 sys.path[:0] = [str(SRC), str(SRC / "evals_kit")]
 if TYPE_CHECKING:  # for the type hint only: importing system needs mistralai
     from system import ModelSystem
-from runner import exit_code, format_table, load_golden, run, summarize  # noqa: E402
+from runner import exit_code, format_table, load_golden, run_case, summarize  # noqa: E402
 
+import checkpoint  # noqa: E402
 from aml_graders import grade  # noqa: E402
 from paths import GOLDEN, RESULTS, ROOT, VARIANTS_DIR  # noqa: E402
 
@@ -146,6 +147,33 @@ def save_json(name: str, content: object) -> None:
     (RESULTS / name).write_text(json.dumps(content, indent=1, ensure_ascii=False))
 
 
+def run_and_save(cases: list[dict], answer_case: object, run_name: str) -> list[dict]:
+    """Runs every golden line, writing the results so far after each one.
+
+    A run that stopped (a closed terminal) or whose calls failed (no credit left) leaves
+    results/<run>.partial.json and no final file. The same command then resumes it: the cases
+    already answered in full are not asked again, the others are.
+    """
+    partial = RESULTS / f"{run_name}.partial.json"
+    kept = checkpoint.resume(partial, cases, answer_case)
+    if kept:
+        print(f"resuming {run_name}: {len(kept)} of {len(cases)} lines already answered")
+    results = []
+    for case in cases:
+        # One attempt: the model is called once per case and both lines grade that answer
+        # (system.py's cache), so a second attempt would only grade the same answer again.
+        results.append(kept.get(case["id"]) or run_case(case, answer_case, grade, max_attempts=1))
+        checkpoint.save(partial, results, answer_case)
+    failed = sum(result["status"] == "infra_error" for result in results)
+    if failed:
+        print(f"{failed} of {len(results)} lines got no answer: the run is not saved as finished.")
+        print("Run the same command again to ask only the missing cases.")
+    else:
+        save_json(f"{run_name}.json", results)
+        partial.unlink()
+    return results
+
+
 def main(argv: list[str]) -> int:
     """Runs one system on golden.jsonl, saves its answers and prints the table.
 
@@ -170,14 +198,14 @@ def main(argv: list[str]) -> int:
 
         answer_case = ModelSystem(model, **variant_settings(variant))
 
-    # One attempt: the model is called once per case and both lines grade that answer (system.py's
-    # cache), so a second attempt would only grade the same answer again.
-    results = run(load_golden(GOLDEN), answer_case, grade=grade, max_attempts=1)
-    save_json(f"{run_name}.json", results)
+    results = run_and_save(load_golden(GOLDEN), answer_case, run_name)
     print(f"## {run_name}\n")
     print(format_table(summarize(results)))
 
-    if model != "rule":
+    finished = (RESULTS / f"{run_name}.json").exists() and not (
+        RESULTS / f"{run_name}.partial.json"
+    ).exists()
+    if model != "rule" and finished:
         record = run_record(run_name, answer_case)
         save_json(f"{run_name}.meta.json", record)
         if answer_case.thinking:  # the reasoning, next to the answers (Nov 11)

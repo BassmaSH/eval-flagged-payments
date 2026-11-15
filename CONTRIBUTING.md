@@ -10,7 +10,7 @@ Research Code Handbook and the ML Code Completeness Checklist.
 pip install ruff==0.17.5 pytest
 ruff format .      # rewrites the files in the agreed style
 ruff check .       # reports what breaks a rule
-pytest -q          # 37 checks, no API call
+pytest -q          # 42 checks, no API call
 python report.py   # the README's tables, rebuilt from results/
 ```
 
@@ -64,7 +64,8 @@ numbers still follow:
 - A change to `prep/make_case.py` must rebuild the 36 files in `benchmark/cases/` and
   `benchmark/keys/` unchanged (the data: `prep/README.md`).
 
-Saved answers in `results/` are never replaced. A new run gets its own name (`repeat2`, or a new
+Saved answers in `results/` are never replaced, and a run is written to disk line by line: one
+that stops is resumed by the same command. A new run gets its own name (`repeat2`, or a new
 row in `VARIANTS`), and its prediction is written in `docs/NOTEBOOK.md` before it is run.
 
 ## Not covered
