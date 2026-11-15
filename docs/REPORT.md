@@ -229,8 +229,24 @@ are also general terms for transaction networks.
 | Claude | the cash stages; 0 of 8 | 7 of 8, as a numbered list of structural patterns |
 
 The Mistral models know the shapes and mostly not the names, and on the network question their headings are still
-Structuring, Layering, Integration. Large 4 names fan-in and fan-out here and never used either word in 160 answers
-on the cases.
+Structuring, Layering, Integration. Large 4 names fan-in and fan-out here and never used either word in 160 answers on the cases.
+
+We then gave Large 4 the four names it had not used and asked it to define each (`python probe.py definitions
+mistral-large-4`), with a fifth name we invented, "hinge-loop", as a control.
+
+| asked to define | the shape it describes | correct |
+|---|---|---|
+| scatter-gather | a large sum split into many small transactions, then recombined | yes |
+| gather-scatter | many deposits into one account, then dispersed to many | yes |
+| bipartite | funds between two separate groups of accounts | yes |
+| stack | deposits under a reporting threshold, "stacked" into a larger balance | no |
+| hinge-loop (invented) | funds leaving and returning through a "hinge" account | no such pattern |
+
+It defined the invented pattern too, after noting it "is not one of FATF's standardized typology labels". So its
+correct definitions are not proof that it knew those patterns: the first two can be worked out from the words,
+and "bipartite" is a general term. "Stack" cannot, and it is the one it got wrong. All five answers come back to
+structuring under reporting thresholds; it calls scatter-gather "smurfing or structuring". Large 4 probably does
+not know this data's taxonomy as such, and when given it by name, it still reads it as a way of splitting cash.
 
 ## 3. Testing the cause
 

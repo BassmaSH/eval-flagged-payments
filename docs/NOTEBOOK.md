@@ -493,3 +493,25 @@ a set of output accounts; stack, a bipartite pattern with one more layer. AMLSim
 compound patterns in the same shapes. An answer is correct if it describes that shape, whatever its wording.
 **Prediction (her words):** "I predict it defines them".
 
+**Result (Nov 15, 22:22, five calls).** Judged against the definitions fixed above.
+
+| asked to define | the shape it describes | correct | how it frames it |
+|---|---|---|---|
+| scatter-gather | a large sum split into many small transactions, then recombined in one account | yes | "often called smurfing or structuring"; amounts "kept below regulatory reporting thresholds" |
+| gather-scatter | many deposits into one account, then dispersed to many recipients | yes | "sometimes called smurfing"; each deposit "below a reporting threshold" |
+| bipartite | funds between "two distinct, separate groups of accounts", with little activity inside each group | yes | in graph terms, then "smurfing/structuring" among what it indicates |
+| stack | deposits each below a reporting threshold, "stacked" into a larger balance | no: the paper's stack is a bipartite pattern with one more layer | structuring |
+| hinge-loop (invented) | funds that "repeatedly leave and return through a common hinge account" | there is no such pattern | it says the term "is not one of FATF's standardized typology labels", then defines it anyway |
+
+Her prediction, "it defines them", held on the shape for three of the four, and not for stack.
+**What the control changes.** Large 4 also defined a pattern that does not exist. So a correct definition is not
+proof that it knew the pattern: "scatter-gather" and "gather-scatter" can be worked out from the words, and
+"bipartite" is a general term for graphs. "Stack" cannot be worked out from the word, and it is the one it got wrong.
+**Reading.** Two things, both sharper than before. All five answers, the invented one included, come back to
+structuring under reporting thresholds: given a network pattern by name, Large 4 still explains it as a way of
+splitting cash. And it probably does not know the dataset's own taxonomy as such; her doubt, "it could still be
+missing knowledge", is supported for that taxonomy. It is not missing the general idea of network patterns, which
+it named unprompted in the earlier question.
+**What this does not show.** One call per question. Whether knowing that taxonomy would change its decisions on the
+cases is a separate question, which the test in the README's fourth reading would answer.
+
