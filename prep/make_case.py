@@ -1,10 +1,10 @@
 """Turn one account of IBM's synthetic bank into a case file and its answer key.
 
-    python make_case.py attempts                  # the 370 laundering attempts, one line each
-    python make_case.py attempts --type CYCLE     # only one pattern type
-    python make_case.py normal                    # normal accounts with 10 to 60 transactions
-    python make_case.py build P01 8000ABC12       # writes cases/P01.md and keys/P01.json
-    python make_case.py blind 4                   # B01-B04: half laundering, shuffled, unlabelled
+    python prep/make_case.py attempts         # the 370 laundering attempts, one line each
+    python prep/make_case.py attempts --type CYCLE# only one pattern type
+    python prep/make_case.py normal           # normal accounts with 10 to 60 transactions
+    python prep/make_case.py build P01 8000ABC12# writes cases/P01.md and keys/P01.json
+    python prep/make_case.py blind 4          # B01-B04: half laundering, shuffled, unlabelled
 
 Reads data/aml/ (gitignored; how it was made: prep/README.md). Standard library only.
 
@@ -21,8 +21,8 @@ from collections import Counter
 from pathlib import Path
 from typing import NamedTuple
 
-HERE = Path(__file__).parent
-DATA = HERE / "data" / "aml"
+ROOT = Path(__file__).parent.parent
+DATA = ROOT / "data" / "aml"
 TRANS = DATA / "kept_transactions.csv"
 PATTERNS = DATA / "HI-Small_Patterns.txt"
 NORMAL = DATA / "kept_transactions.csv.normal_accounts.txt"
@@ -174,9 +174,9 @@ def build_case(
 def write_case(case_id: str, text: str, key: dict) -> None:
     """Writes cases/<case_id>.md and keys/<case_id>.json."""
     for folder in ("cases", "keys"):
-        (HERE / folder).mkdir(exist_ok=True)
-    (HERE / "cases" / f"{case_id}.md").write_text(text)
-    (HERE / "keys" / f"{case_id}.json").write_text(json.dumps(key, indent=2) + "\n")
+        (ROOT / folder).mkdir(exist_ok=True)
+    (ROOT / "cases" / f"{case_id}.md").write_text(text)
+    (ROOT / "keys" / f"{case_id}.json").write_text(json.dumps(key, indent=2) + "\n")
 
 
 def cmd_attempts(args: list[str]) -> None:

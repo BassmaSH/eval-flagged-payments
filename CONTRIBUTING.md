@@ -44,13 +44,13 @@ The scores in the README depend on `aml_graders.py`, `golden.jsonl`, the files i
 numbers still follow:
 
 - `python report.py` grades every saved answer again. Its tables must match the README.
-- `python make_golden.py` must write the same `golden.jsonl`.
+- `python prep/make_golden.py` must write the same `golden.jsonl`.
 - `python run.py rule` must give the same table.
-- A change to `make_case.py` must rebuild the 36 files in `cases/` and `keys/` unchanged (the data:
+- A change to `prep/make_case.py` must rebuild the 36 files in `cases/` and `keys/` unchanged (the data:
   `prep/README.md`).
 
 Saved answers in `results/` are never replaced. A new run gets its own name (`repeat2`, or a new
-row in `VARIANTS`), and its prediction is written in `NOTEBOOK.md` before it is run.
+row in `VARIANTS`), and its prediction is written in `docs/NOTEBOOK.md` before it is run.
 
 ## Not covered
 

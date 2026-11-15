@@ -34,5 +34,8 @@ max-complexity = 10
 max-args = 6
 max-statements = 40
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.ruff.lint.per-file-ignores]
-"test_*.py" = ["D103", "ANN201"]  # a test's name is its description, and it returns nothing
+"tests/*.py" = ["D103", "ANN201"]  # a test's name is its description, and it returns nothing

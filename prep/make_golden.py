@@ -4,13 +4,13 @@ Code written by Claude Code on Nov 8, 2026; the choices in it are the author's (
 "Choices"): two lines per case, slices by decision and hub, normal accounts get a rows line whose
 right answer is empty. The two grader names, "decision" and "rows", are defined in aml_graders.py.
 
-    python make_golden.py
+    python prep/make_golden.py
 """
 
 import json
 from pathlib import Path
 
-HERE = Path(__file__).parent
+ROOT = Path(__file__).parent.parent
 HUBS = {"P05", "P07", "P09", "P11", "P14", "P16"}  # laundering accounts in many attempts
 FIELDS = ("id", "slice", "input", "expected", "source")  # the order of the fields in a golden line
 
@@ -58,9 +58,9 @@ def golden_lines(key: dict) -> list[dict]:
 
 def main() -> None:
     """Writes golden.jsonl from every key in keys/."""
-    keys = [json.loads(path.read_text()) for path in sorted((HERE / "keys").glob("P*.json"))]
+    keys = [json.loads(path.read_text()) for path in sorted((ROOT / "keys").glob("P*.json"))]
     lines = [line for key in keys for line in golden_lines(key)]
-    with (HERE / "golden.jsonl").open("w") as f:
+    with (ROOT / "golden.jsonl").open("w") as f:
         for line in lines:
             f.write(json.dumps({field: line[field] for field in FIELDS}) + "\n")
     print(f"golden.jsonl written: {len(lines)} lines")

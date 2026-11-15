@@ -1,6 +1,6 @@
 """One line per case, to screen candidates without reading every table.
 
-    python peek.py P17 P18 P19
+    python prep/peek.py P17 P18 P19
 
 Written by Claude on Nov 7, 2026: it only counts what is in cases/<id>.md.
 """
@@ -8,14 +8,14 @@ Written by Claude on Nov 7, 2026: it only counts what is in cases/<id>.md.
 import sys
 from pathlib import Path
 
-from case_table import read_transactions
-
-HERE = Path(__file__).parent
+ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(ROOT))  # case_table.py is in the repo's root
+from case_table import read_transactions  # noqa: E402
 
 
 def summary(case_id: str) -> str:
     """Returns the counts that show at a glance whether an account looks like an alert."""
-    rows = read_transactions(HERE / "cases" / f"{case_id}.md")
+    rows = read_transactions(ROOT / "cases" / f"{case_id}.md")
     out = [t for t in rows if t.direction == "out"]
     into = [t for t in rows if t.direction == "in"]
     return (

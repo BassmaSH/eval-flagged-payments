@@ -1,9 +1,9 @@
 """Tests for aml_graders.py: the "decision" and "rows" graders behind every score in the README.
 
 Run:
-    python test_aml_graders.py
+    python tests/test_aml_graders.py
 or, with pytest:
-    pytest test_aml_graders.py
+    pytest tests/test_aml_graders.py
 
 Plain asserts and no pytest feature, like evals-kit's test_runner.py, so both ways run the same
 checks. Code written by Claude Code on Nov 15, 2026. The three P01 cases are the author's, worked by
@@ -15,8 +15,9 @@ import sys
 import traceback
 from pathlib import Path
 
-HERE = Path(__file__).parent
-sys.path.insert(0, str(HERE / "evals_kit"))  # aml_graders imports evals-kit's graders
+ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "evals_kit"))  # aml_graders imports evals-kit's graders
 
 from aml_graders import grade  # noqa: E402
 from case_table import read_transactions  # noqa: E402
@@ -179,7 +180,7 @@ def test_unknown_grader_raises_value_error():
 def golden():
     return [
         json.loads(line)
-        for line in (HERE / "golden.jsonl").read_text().splitlines()
+        for line in (ROOT / "golden.jsonl").read_text().splitlines()
         if line.strip()
     ]
 
@@ -214,7 +215,7 @@ def test_citing_every_row_passes_no_evidence_line():
     for g in golden():
         if g["expected"]["grader"] != "rows":
             continue
-        n = len(read_transactions(HERE / g["input"]))
+        n = len(read_transactions(ROOT / g["input"]))
         assert n > len(g["expected"]["laundering"]), (
             f"{g['id']}: every row is laundering, the rule breaks"
         )
@@ -223,7 +224,7 @@ def test_citing_every_row_passes_no_evidence_line():
         ]
 
 
-# ---------------------------------------------------- runner for `python test_aml_graders.py`
+# ---------------------------------------------------- runner for `python tests/test_aml_graders.py`
 
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]

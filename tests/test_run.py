@@ -1,7 +1,7 @@
 """Tests for run.py: reading the command line and the VARIANTS table. No API call.
 
-    python test_run.py
-    pytest test_run.py
+    python tests/test_run.py
+    pytest tests/test_run.py
 
 Plain asserts, like test_aml_graders.py. Code written by Claude Code on Nov 15, 2026.
 """
@@ -11,8 +11,8 @@ import sys
 import traceback
 from pathlib import Path
 
-HERE = Path(__file__).parent
-sys.path.insert(0, str(HERE))
+ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(ROOT))
 
 import run  # noqa: E402
 
@@ -45,17 +45,17 @@ def test_a_mistyped_variant_is_refused_before_any_call():
 def test_every_paragraph_named_in_the_table_exists():
     for name, row in run.VARIANTS.items():
         if "extra" in row:
-            assert (HERE / "variants" / f"{row['extra']}.txt").is_file(), name
+            assert (ROOT / "variants" / f"{row['extra']}.txt").is_file(), name
 
 
 def test_every_file_in_variants_is_used_by_the_table():
     used = {row["extra"] for row in run.VARIANTS.values() if "extra" in row}
-    assert {p.stem for p in (HERE / "variants").glob("*.txt")} == used
+    assert {p.stem for p in (ROOT / "variants").glob("*.txt")} == used
 
 
 def test_every_saved_run_is_a_variant_in_the_table():
     """A results file whose variant is not in the table could not be run again."""
-    for path in (HERE / "results").glob("*.json"):
+    for path in (ROOT / "results").glob("*.json"):
         if (
             path.name.count(".") > 1 or path.stem == "rule"
         ):  # .meta.json and .thinking.json; the rule
@@ -67,7 +67,7 @@ def test_every_saved_run_is_a_variant_in_the_table():
 
 def test_variant_settings_reads_the_paragraph_and_keeps_the_rest():
     settings = run.variant_settings("method-neutral")
-    assert settings["extra"] == (HERE / "variants" / "method.txt").read_text().strip()
+    assert settings["extra"] == (ROOT / "variants" / "method.txt").read_text().strip()
     assert settings["neutral"] is True
     assert run.variant_settings("") == {}
     assert run.variant_settings("schema-temp1") == {"schema": True, "temperature": 1}

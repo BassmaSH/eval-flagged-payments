@@ -5,7 +5,8 @@
                     counterparty="020 / 80BC62F10", amount="58702.10", currency="Yuan",
                     format="ACH")
 
-Code written by Claude Code on Nov 15, 2026: the same lines were in rule.py, peek.py and the tests.
+Code written by Claude Code on Nov 15, 2026: the same lines were in rule.py, prep/peek.py and the
+tests.
 """
 
 from pathlib import Path

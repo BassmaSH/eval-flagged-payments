@@ -53,16 +53,16 @@
 | P31 | 802545DC0 | normal, picked to look suspicious | 55 out to 3 accounts, nothing in, largest 7.2 million |
 | P32 | 80F022480 | normal, picked to look suspicious | 42 out to 5 accounts, 5 formats |
 
-P17–P24 were picked at random from the normal list; P25–P32 were picked from 15 candidates with `peek.py`
+P17–P24 were picked at random from the normal list; P25–P32 were picked from 15 candidates with `prep/peek.py`
 because they look most like an alert.
 
 ## Who wrote what
 
-- `make_golden.py`: written by Claude on Nov 8 at her request ("I can write the code on the next eval"), from her
+- `prep/make_golden.py`: written by Claude on Nov 8 at her request ("I can write the code on the next eval"), from her
   choices above. It writes `golden.jsonl`: 64 lines, slices `decision-` and `rows-` × `escalate-single` (10),
   `escalate-hub` (6), `close` (16). Input is the case path, `cases/P01.md`.
 - `aml_graders.py`, `system.py`, `rule.py`, `run.py`: written by Claude on Nov 8 at her request ("write and I
-  review line by line"), from her choices. `peek.py`: Claude's screening helper.
+  review line by line"), from her choices. `prep/peek.py`: Claude's screening helper.
 
 ## Where she stopped
 
@@ -80,7 +80,7 @@ All three runs done (Nov 8), no infra_error, answers in `results/`:
 `MEMO.md` drafted by Claude from her notes, at her request ("draft it, I'll edit").
 
 Then three prompt variants on all 32 cases, both models (Nov 8; `variants/`, answers in
-`results/<model>+<variant>.json`, predictions and reasons in `NOTEBOOK.md`): `simulated`, `objective`, `both`.
+`results/<model>+<variant>.json`, predictions and reasons in `docs/NOTEBOOK.md`): `simulated`, `objective`, `both`.
 None met the bar written before the last run. Large escalated everything in every run; Small with both sentences
 closed 69% of normal accounts and 63% of laundering ones; evidence never rose. Then `mistral-large-4` (same as the others: escalated
 all 32) and `claude-opus-5-5` as an outside reference (one run, no temperature setting: close 88%, escalate 80% /

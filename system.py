@@ -9,7 +9,7 @@ Nov 8, as an outside reference).
 
 Code written by Claude Code on Nov 8, 2026, reorganised on Nov 15. The call is the author's from Oct
 15 (run_cases.py in github.com/BassmaSH/the-data-cant-tell) and the prompt is the author's wording
-(NOTEBOOK.md, "Prompt"). The author reviews it.
+(docs/NOTEBOOK.md, "Prompt"). The author reviews it.
 """
 
 import os
