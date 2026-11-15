@@ -344,3 +344,26 @@ in between.
 **Prediction (her words):** "I predict question 2 to list everything, question 1 to be about cash stages."
 *Clarified by her after launching the run and before reading any answer:* that prediction was for the Mistral
 models. For Claude: "I expect it to give the patterns in both + maybe cash."
+
+**Result (Nov 15, 20:22, one call per question).** Counted with the lists fixed before the run, then read.
+- **Open question:** all four models, Claude included, answer with the cash framework (placement, layering,
+  integration, structuring) and name none of the eight network patterns. Her prediction held for the Mistral
+  models. For Claude it did not: she expected the patterns in both answers.
+- **Network question:** Claude names 7 of the 8, with the dataset's own names (fan-out, fan-in, scatter-gather,
+  gather-scatter, cycle, bipartite, stack), in a numbered list of eight "structural (topological) patterns". Large 4
+  names 3 (fan-in / fan-out in one line, and cycles). Large 3 and Small 4 name 1 (circular flows). Her prediction
+  "list everything" did not hold for the Mistral models.
+- **Read, not counted:** the Mistral models describe the shapes without the names. Large 3: "chain structures",
+  "star or hub-and-spoke networks", "mesh networks". Small 4: "star-like subgraphs", "long, winding transaction
+  chains", "high-degree nodes". Large 4: "funnel accounts", which is a gather-scatter in other words.
+- **How each answer is organised, on the network question:** the three Mistral models still build the answer on
+  the cash framework. Small 4's headings are Structuring, Layering, Integration; Large 3's are Layering,
+  Integration; Large 4's open with "Classic structuring patterns" and "Layering patterns", and fan-in / fan-out is
+  one line under layering. Claude's first heading is "Structural (Topological) Patterns".
+**Reading.** Not "missing" and not "there but unused", in between, and different per model. Large 4 knows fan-in,
+fan-out and cycles by name and never used them on 160 case answers: for those, the case does not call them up.
+All three Mistral models know the shapes; none has the dataset's vocabulary beyond that. And even when asked about
+networks, they organise what they know by the cash stages.
+**What this does not show.** One call per question, one wording: another wording could give other lists. That
+Claude reproduces the dataset's taxonomy almost name for name shows it knows the literature the data comes from;
+it does not show that it has seen the data.
