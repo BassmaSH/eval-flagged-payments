@@ -30,6 +30,7 @@ are quoted as she wrote them; Claude (Claude Code) kept this record. The README 
 
 **Nov 11 and 12, the method**
 
+- [The plan for the method run, as written before it](#the-plan-for-the-method-run-as-written-before-it-nov-11)
 - [Large 4 with the analyst's method](#large-4-with-the-analysts-method-nov-11)
 - [Large 4 with the method and a neutral alert](#large-4-with-the-method-and-a-neutral-alert-nov-11)
 
@@ -288,9 +289,42 @@ schemes (one case), 0% elsewhere. Tokens: 32 calls, 75,339 prompt, 138,796 compl
 not make Large 4 close anything. Still open: whether Claude's 88% holds on a rerun (needs credits).
 She stopped here (Nov 9).
 
+## The plan for the method run, as written before it (Nov 11)
+
+These are the same 32 cases every earlier prompt change was tried on, so a fourth prompt would fit this simulator,
+not the task. The run is a diagnostic, to locate the gap, not a new score; a score needs fresh cases.
+
+The earlier variant runs *told* the models that regularity is normal; they swapped one feature for another and kept
+the same method. This run asks Large 4 to *find* the normal itself, with Claude's method in the prompt and nothing
+else changed. Two runs separate three explanations:
+
+| run | what Large 4 gets | if it now closes normal accounts, the gap was… |
+|---|---|---|
+| A | the method in the prompt (`src/variants/method.txt`) | its default way of working: it had the skill and applied the wrong procedure |
+| B, only if A fails | the method, plus a summary computed by code, one line per counterparty (payments, total in and out, first and last date) | reading a long table: it cannot build the baseline over 100+ rows, but reasons fine once given it |
+| neither works | | deeper: how it reasons about this domain, or what it believes about laundering |
+
+What each would mean for improving the model:
+- **A works:** the model knows how but does not do it by default. It reaches for textbook labels it learned
+  elsewhere over the evidence in front of it. A post-training fix (analyst-style examples, or a reward for closing
+  false alarms), not a bigger model.
+- **B needed:** a weakness in pulling a pattern out of a long table. A tool (code over the rows) or training on long
+  tables; better instructions will not help.
+- **Neither:** a reasoning or knowledge gap, the most expensive kind to fix.
+
+Three cautions:
+- **The bar is Claude, not 16 of 16.** Claude's method misses hub accounts where the laundering is the routine
+  (P11, P14, P16). A Large 4 that copies it well should miss them too.
+- **The method may only fit this dataset.** "Routine is normal" may be how IBM's simulator makes normal accounts.
+  A success shows the method works here; the rearranged-routine test (same accounts, new amounts and dates,
+  laundering rows kept) would show whether it works in general. The same test would tell whether Claude worked its
+  method out or knows IBM's data.
+- **Score the rows, not only the decision.** A Large 4 that closes normal accounts but still cites 40 rows per
+  laundering account has changed its answer, not its method.
+
 ## Large 4 with the analyst's method (Nov 11)
 
-Prompted by reading the two models' reasons side by side (`REASONING.md`): Claude first says what the
+Prompted by reading the two models' reasons side by side (`REASONING.md`, since split between `REPORT.md` and `ANSWERS.md`): Claude first says what the
 account normally does and escalates on what departs from it; Large 4 never describes normal and calls repetition
 "structuring". Run A adds that method to the instruction (`variants/method.txt`, `run.py mistral-large-4 method`),
 nothing else changed. Run B, only if A falls short: the same, plus a summary per counterparty computed by code.

@@ -2,7 +2,7 @@
 
 *The detailed evidence behind the [README](../README.md): the checks on the setup, what each model does, the tests of
 the cause, the limits, what to do next and the timeline. Every table is rebuilt by `python report.py`. The record
-of the work as it happened, with each prediction, is in [`NOTEBOOK.md`](NOTEBOOK.md).*
+of the work as it happened, with each prediction, is in [`NOTEBOOK.md`](NOTEBOOK.md). The questions behind section 2 are the author's: why Claude did better, whether the cited rows were right (which corrected two of Claude's first readings), whether the 60,000 SAR threshold is real, and what to test next.*
 
 ## 1. Is it the harness?
 
@@ -19,6 +19,11 @@ Neither the format nor the randomness explains the gap, and Claude's 88% held on
 
 ## 2. What each model does
 
+These descriptions rest on the one-or-two-sentence `reason` field each model wrote inside its answer. It summarises
+the reasoning; it is not the reasoning itself. Large 4's reasoning is saved for the two method runs only (section
+3). Claude's is not returned by the API, which reports only how many tokens it spent reasoning. Every answer is in
+[`ANSWERS.md`](ANSWERS.md), account by account.
+
 ### The Mistral models
 
 They read **regularity as laundering**. On P17, a normal account, Mistral Large 3 wrote: "multiple repeated
@@ -27,7 +32,7 @@ of the 59 rows (Small cited 30). In this simulated bank, a normal customer makes
 Structuring (splitting money into several payments to stay below the reporting threshold) is a genuine red flag in the real world, not in this simulation. We made the same mistake in our own blind cases. Large 4, with
 full reasoning, flagged 15 of the 16 normal accounts as "structuring" or "smurfing" and cited 38 rows on a typical
 one. It also pulls in a real fact from the wrong place: on P11, it says cheques of 55,852.15 SAR are "just below the
-60,000 SAR reporting threshold". The 60k SAR is what a traveler must declare in cash at the Saudi border. It is irrelevant here, and the case mentions no threshold.
+60,000 SAR reporting threshold". The 60k SAR is what a traveler must declare in cash at the Saudi border ([ZATCA](https://zatca.gov.sa/en/RulesRegulations/Taxes/Pages/customs_individual/Travel_pages/declare.aspx)), reportedly lowered to SAR 40,000 in 2026 ([Zawya](https://www.zawya.com/en/world/middle-east/saudi-arabia-lowers-mandatory-declaration-threshold-for-cash-valuables-at-borders-gplzlfdk)). It is irrelevant here, and the case mentions no threshold.
 
 On the evidence, they point to the busy, regular rows and overlook the two or three quiet laundering rows: Large 3
 passed one case (P04, two foreign-currency payments after self-transfers), in three of the four runs.
@@ -43,13 +48,40 @@ counterparty followed by three fast payments). Six cases change from one run to 
 two quiet rows each (P01, P02), P03, P04, and the normal accounts P17 and P28 ("just under a 10k threshold" again,
 the real-world habit). The evidence is still weak: it often finds the right area but cites fewer than half of the laundering rows.
 
-Read side by side ([`REASONING.md`](REASONING.md), all 32 pairs) the difference is in the method. Claude first states what the account normally does, then looks at what is unusual and checks whether money actually passes through. That is the method analysts are told to follow: the examiner looks at whether
+Read side by side ([`ANSWERS.md`](ANSWERS.md), all 32 pairs) the difference is in the method. Claude first states what the account normally does, then looks at what is unusual and checks whether money actually passes through. That is the method analysts are told to follow: the examiner looks at whether
 the activity is typical for the customer
 ([FFIEC](https://bsaaml.ffiec.gov/manual/AssessingComplianceWithBSARegulatoryRequirements/04_ep)) and a single red
 flag proves nothing on its own
 ([FATF](https://www.fatf-gafi.org/content/dam/fatf-gafi/brochures/Handout-Red-Flags-VA-Financial-Non-Financial.pdf)).
-Large 4 never defines normal, so a single feature (repetition) is enough. The rows show the limit of Claude's method: those it cites are mostly correct (98 of 130 on Nov 8, and between 69% and 78% over the four runs), but it finds only 98 of the 250 laundering rows, because on the hub accounts the laundering is the steady two-way flow it takes as normal. Large 4 cites
+Large 4 never defines normal, so a single feature (repetition) is enough, and it uses "structuring" without the part that defines it, amounts kept under a reporting limit. The rows show the limit of Claude's method: those it cites are mostly correct (98 of 130 on Nov 8, and between 69% and 78% over the four runs), but it finds only 98 of the 250 laundering rows, because on the hub accounts the laundering is the steady two-way flow it takes as normal. Large 4 cites
 1,182 rows of which 119 are correct.
+
+### Where Claude's method breaks
+
+On Nov 8 Claude made seven wrong decisions: five laundering accounts closed (P01, P02, P11, P14, P16) and two
+normal ones escalated (P28, P32). They fall into three kinds, and the three reruns show which are repeatable.
+
+- **Two rows that don't make a pattern (P01, P02, single accounts).** Claude saw the laundering rows and named them,
+  then judged them too small to matter. P01's two laundering rows are the Yuan payment and the incoming ACH:
+  "The single Yuan ACH payment and one incoming ACH show no layering, structuring or rapid pass-through pattern."
+  In this data a laundering attempt often touches only two rows of the flagged account; the rest of the chain sits
+  in other accounts, which the model never sees. Not repeatable: over the four runs it closed P01 three times and P02 twice.
+- **Laundering that looks like business between related accounts (P11, P14, P16, hub accounts).** On these, the
+  laundering is the heavy two-way flow with one or two counterparties: on P14, 23 laundering rows, all with two
+  accounts at the same bank. Claude: "two-way ACH churn with two accounts at the same bank… which looks like
+  related-entity treasury transfers." It read the same kind of flow as layering on P05 ("irregular, bidirectional
+  ACH flows… looks like funds being cycled"), so it is not consistent here. Repeatable: closed in all four runs.
+- **A one-off burst on a normal account (P28, P32).** On P32: "A one-off 116,592.50 CHF cheque from a new
+  counterparty… followed the same evening by three rapid payments… to another new counterparty… This looks like
+  pass-through layering." By Claude's own rule this is the right thing to flag; in this data it was ordinary. P32 is escalated in all four runs; P28 only on Nov 8.
+
+So Claude is better at the decision because it asks the analyst's question, "what is unusual for this account?",
+rather than "what here resembles a laundering label?". But the rows show the limit of that question: when the
+laundering is a large, steady part of the account, it becomes the "normal" Claude compares against.
+
+One difference from a real analyst: in a bank the baseline comes from the customer file (business type, expected
+volumes, what the customer declared when opening the account). These cases have no file, so the account's own
+history is the only baseline there is. Claude used it.
 
 ### One normal account, every run (P27)
 
@@ -72,6 +104,82 @@ and closes.
 P17 is the opposite case. There the one-off rows are two payments *out* to a new counterparty (T001, T002). Claude
 closed it on Nov 8 and escalated it in the three reruns, citing those two rows, as Large 4 does with the method.
 
+### Three more pairs
+
+The answers of Nov 8. Claude gave the same decision on these three accounts in all four runs.
+
+**Same feature, opposite reading (P22, normal).**
+- Claude, CLOSE: "The account repeats the same fixed set of payments almost every day to the same three
+  counterparties, with identical amounts and payment formats. This looks like scheduled recurring obligations…"
+- Large 4, ESCALATE, 49 rows: "identical transaction amounts… repeated exactly 7 times each to the same
+  counterparties over a 9-day period, indicating potential money laundering to evade reporting thresholds."
+
+**A baseline first, then the departure from it (P07, laundering).**
+- Claude, ESCALATE, 2 rows: it describes the routine (daily conversions, a daily cheque, weekly payments), then
+  finds the one thing that breaks it: "4,409.63 arrives… and 4,409.56 goes back to that same account about 1.5
+  days later, a near-exact pass-through… unlike any other flow with this counterparty." Right decision, but only
+  2 of the 49 laundering rows: 47 of the account's 48 transactions with that counterparty (8021353D0) are
+  laundering, and Claude treated the other 46 as the normal background it compared against.
+- Large 4, ESCALATE, 81 rows: it calls the routine itself laundering ("repeated identical large self-transfers…
+  repeated identical large cheque deposits") and cites most of the account, none of them laundering rows (0 of
+  49). Right decision for the wrong reason.
+
+**Following the money (P26, normal).**
+- Claude, CLOSE: "Inflows (about 13.9k BRL per day) far exceed outflows (about 4.7k), so funds are not being
+  passed through." It checks whether money actually moves through the account.
+- Large 4, ESCALATE: "identical amounts… repeated exactly across three counterparties over 10 days… indicating
+  systematic money laundering activity." No look at whether the money stays or leaves.
+
+**A detail the case does not support (P19, normal).**
+- Large 4 on P19 (normal): small card payments "at suspicious hours between 00:05 and 00:28". In this data, many
+  ordinary payments carry timestamps just after midnight.
+
+### Did they cite the right rows?
+
+Counted on the runs of Nov 8.
+
+The grader's rule, set before any run: on a laundering account, cite more than half of the laundering rows and no
+normal row; on a normal account, cite nothing. The keys are in `benchmark/keys/`. "Right" is a cited row that is a
+laundering row; "wrong" is any other cited row.
+
+| | Claude Opus 5.5 | Large 4 |
+|---|---|---|
+| rows cited, all 32 accounts | 130 | 1,182 |
+| of which laundering rows | 98 (75 %) | 119 (10 %) |
+| laundering rows found, of 250 | 98 (39 %) | 119 (48 %) |
+| rows test passed, 16 laundering accounts | 3 (P03, P05, P15) | 0 |
+| rows test passed, 16 normal accounts (cited nothing) | 14 | 0 |
+
+Large 4 finds a few more laundering rows only because it cites nearly everything: about 9 wrong rows for each right
+one. Claude's rows are mostly right but too few. Even where Claude escalates, it usually cites the one departure it
+noticed and stops (P07: 2 of 49; P09: 3 rows, none of them laundering).
+
+Per account, as cited / right / wrong:
+
+| account | laundering rows | all rows | Claude | rows test | Large 4 | rows test |
+|---|---|---|---|---|---|---|
+| P01 | 2 | 19 | 0 / 0 / 0 | fail | 15 / 1 / 14 | fail |
+| P02 | 2 | 13 | 0 / 0 / 0 | fail | 10 / 2 / 8 | fail |
+| P03 | 12 | 27 | 12 / 12 / 0 | pass | 26 / 12 / 14 | fail |
+| P04 | 2 | 6 | 4 / 2 / 2 | fail | 5 / 2 / 3 | fail |
+| P05 | 34 | 139 | 33 / 33 / 0 | pass | 90 / 0 / 90 | fail |
+| P06 | 13 | 155 | 14 / 13 / 1 | fail | 90 / 13 / 77 | fail |
+| P07 | 49 | 139 | 2 / 2 / 0 | fail | 81 / 0 / 81 | fail |
+| P08 | 27 | 39 | 22 / 20 / 2 | fail | 30 / 20 / 10 | fail |
+| P09 | 33 | 56 | 3 / 0 / 3 | fail | 22 / 4 / 18 | fail |
+| P10 | 12 | 57 | 24 / 12 / 12 | fail | 57 / 12 / 45 | fail |
+| P11 | 10 | 26 | 0 / 0 / 0 | fail | 23 / 10 / 13 | fail |
+| P12 | 2 | 28 | 3 / 0 / 3 | fail | 26 / 2 / 24 | fail |
+| P13 | 2 | 29 | 3 / 2 / 1 | fail | 26 / 0 / 26 | fail |
+| P14 | 23 | 46 | 0 / 0 / 0 | fail | 36 / 14 / 22 | fail |
+| P15 | 2 | 47 | 2 / 2 / 0 | pass | 45 / 2 / 43 | fail |
+| P16 | 25 | 63 | 0 / 0 / 0 | fail | 62 / 25 / 37 | fail |
+| P17–P32 (normal) | 0 | 11–59 | 0 on 14, 4 on P28 and P32 | 14 pass | 5 to 58 each | 0 pass |
+
+Some of Claude's "wrong" rows may be defensible: P04's two extra rows are the self-transfers that fund the two
+laundering payouts, and P10's twelve extra rows are the matching self-conversions, one before each payout. The
+grader counts them as normal rows.
+
 ### The words each model uses
 
 The number of accounts, out of 32, whose reason contains the term:
@@ -90,6 +198,20 @@ about amounts. Claude also uses the vocabulary of networks (fan-in, fan-out, pas
 whom, and it often uses it to rule laundering out: "nothing shows layering, fan-in/fan-out or rapid pass-through".
 Where it asserts a pattern on a single-scheme account, it matches the answer key (P03, P06, P08, P10, on Nov 8). "Pass-through"
 in the method runs came from the instruction, whose text says "check whether money passes through the account".
+
+By group of accounts, on Nov 8. How many of the 16 reasons use each word, per group of accounts. "Rows" is how many transactions the model
+cited as suspicious (the middle value of the 16).
+
+| run | accounts | "structuring" or "smurfing" | "recurring", "routine" or "scheduled" | "classic" | rows cited |
+|---|---|---|---|---|---|
+| Claude Opus 5.5 | laundering | 1 | 12 | 0 | 3 |
+| Claude Opus 5.5 | normal | 11* | 16 | 0 | 0 |
+| Large 4 | laundering | 15 | 0 | 8 | 30 |
+| Large 4 | normal | 15 | 1 | 11 | 38 |
+| Large 4, Claude's schema | normal | 15 | 1 | 9 | 44 |
+| Large 4, schema, temperature 1 | normal | 16 | 3 | 4 | 48 |
+
+\* Claude uses the word to rule it out: "no layering, structuring or rapid pass-through".
 
 ### Asked directly
 
@@ -146,17 +268,20 @@ We had planned a run B, giving Large 4 a summary of the account computed by code
 
 | | Large 4 | A: + method | C: + method, neutral alert | Claude (Nov 8) |
 |---|---|---|---|---|
-| normal accounts closed (of 16) | 0 | 1 | 1 | 14 |
+| normal accounts closed (of 16) | 0 | 1 (P21) | 1 (P19) | 14 |
 | laundering accounts caught (of 16) | 16 | 16 | 16 | 11 |
 | rows cited: laundering / other | 119 / 1,063 | 95 / 309 | 133 / 206 | 98 / 32 |
 | evidence passed, single scheme (of 10) | 0 | 3 | 2 | 2 |
+| rows cited on a typical normal account | 38 | 9 | 7 | 0 |
 
 The method took: "structuring" fell from 28 of the 32 accounts to 2, and the rows from 1,182 to 404. The decision
 did not move. Large 4's reasoning, saved for these runs, considered closing on 11 of the 16 normal accounts and
-turned back on the alert on 10: "But given the alert, we flag the large outgoing transactions as suspicious". With
-the alert gone, it leaned on the instruction instead, on 13 of 16: "But the prompt asks for suspicious rows. All are
-part of the scheme." Remove one cue that something is there to find, and it leans on the next. Claude got the same
-alert and instruction and was not moved. Details in [`REASONING.md`](REASONING.md).
+turned back on the alert on 10: "But given the alert, we flag the large outgoing transactions as suspicious" (P18). With
+the alert gone, it leaned on the instruction instead, on 13 of 16: "But the prompt asks for suspicious rows. All are part of the scheme." (P21). Remove one cue that something is there to find, and it leans on the next. Claude got the same
+alert and instruction and was not moved. The plan for these runs, written before them, is in [the notebook](NOTEBOOK.md#the-plan-for-the-method-run-as-written-before-it-nov-11).
+
+**Not tested:** an instruction without "flag the suspicious rows" (it would change the original prompt, and these
+are the same 32 cases every change was tried on, so each further prompt fits this simulator more than the task).
 
 ## 4. Limits
 
