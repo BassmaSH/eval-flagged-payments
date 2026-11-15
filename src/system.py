@@ -13,11 +13,10 @@ Code written by Claude Code on Nov 8, 2026, reorganised on Nov 15. The call is t
 """
 
 import os
-from pathlib import Path
 
 from mistralai.client import Mistral
 
-HERE = Path(__file__).parent
+from paths import BENCHMARK
 
 # The author's choices: one generic alert for every case; no pattern names; reason before the
 # decision; JSON mode.
@@ -114,7 +113,7 @@ class ModelSystem:
     def __call__(self, case_file: str) -> str:
         """Returns the model's answer to one case, as text. An API error is raised, not cached."""
         if case_file not in self._answers:
-            user = f"{self.alert}\n\n{(HERE / case_file).read_text()}"
+            user = f"{self.alert}\n\n{(BENCHMARK / case_file).read_text()}"
             ask = self._ask_claude if self.is_claude else self._ask_mistral
             self._answers[case_file] = ask(case_file, user)
         return self._answers[case_file]

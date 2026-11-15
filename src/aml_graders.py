@@ -1,6 +1,7 @@
 """The two graders of this eval, "decision" and "rows", on top of evals-kit's five.
 
-Code written by Claude Code on Nov 8, 2026, from the author's choices (cases/INDEX.md, "Choices");
+Code written by Claude Code on Nov 8, 2026, from the author's choices (benchmark/cases/INDEX.md,
+"Choices");
 the author reviews it line by line. Named aml_graders.py, not graders.py, because evals-kit's runner
 imports its own `graders`.
 

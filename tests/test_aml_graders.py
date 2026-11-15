@@ -16,8 +16,8 @@ import traceback
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "evals_kit"))  # aml_graders imports evals-kit's graders
+SRC = ROOT / "src"
+sys.path[:0] = [str(SRC), str(SRC / "evals_kit")]
 
 from aml_graders import grade  # noqa: E402
 from case_table import read_transactions  # noqa: E402
@@ -180,7 +180,7 @@ def test_unknown_grader_raises_value_error():
 def golden():
     return [
         json.loads(line)
-        for line in (ROOT / "golden.jsonl").read_text().splitlines()
+        for line in (ROOT / "benchmark" / "golden.jsonl").read_text().splitlines()
         if line.strip()
     ]
 
@@ -215,7 +215,7 @@ def test_citing_every_row_passes_no_evidence_line():
     for g in golden():
         if g["expected"]["grader"] != "rows":
             continue
-        n = len(read_transactions(ROOT / g["input"]))
+        n = len(read_transactions(ROOT / "benchmark" / g["input"]))
         assert n > len(g["expected"]["laundering"]), (
             f"{g['id']}: every row is laundering, the rule breaks"
         )

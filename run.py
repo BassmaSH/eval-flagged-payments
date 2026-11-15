@@ -29,17 +29,18 @@ from importlib import metadata
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-HERE = Path(__file__).parent
-RESULTS = HERE / "results"
+SRC = Path(__file__).parent / "src"
+# evals_kit is a copy of github.com/BassmaSH/evals-kit
+sys.path[:0] = [str(SRC), str(SRC / "evals_kit")]
 if TYPE_CHECKING:  # for the type hint only: importing system needs mistralai
     from system import ModelSystem
-sys.path.insert(0, str(HERE / "evals_kit"))  # a copy of github.com/BassmaSH/evals-kit
 from runner import exit_code, format_table, load_golden, run, summarize  # noqa: E402
 
 from aml_graders import grade  # noqa: E402
+from paths import GOLDEN, RESULTS, ROOT, VARIANTS_DIR  # noqa: E402
 
 # Every variant that was run: its name on the command line -> what it changes in the call.
-#   extra:       a paragraph added to the instruction, read from variants/<extra>.txt
+#   extra:       a paragraph added to the instruction, read from src/variants/<extra>.txt
 #   schema:      give a Mistral model Claude's schema instead of JSON mode
 #   temperature: 0 unless said otherwise
 #   neutral:     "This account was selected for review." in place of the alert line
@@ -79,7 +80,7 @@ def variant_settings(variant: str) -> dict:
     """The table row, with the file name under "extra" replaced by the paragraph it holds."""
     settings = dict(VARIANTS[variant])
     if "extra" in settings:
-        settings["extra"] = (HERE / "variants" / f"{settings['extra']}.txt").read_text().strip()
+        settings["extra"] = (VARIANTS_DIR / f"{settings['extra']}.txt").read_text().strip()
     return settings
 
 
@@ -87,7 +88,7 @@ def code_version() -> str:
     """The commit the code is at, and whether files were changed since."""
 
     def git(*args: str) -> str:
-        done = subprocess.run(["git", *args], cwd=HERE, capture_output=True, text=True)
+        done = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
         return done.stdout.strip()
 
     changed = " + uncommitted changes" if git("status", "--porcelain") else ""
@@ -170,7 +171,7 @@ def main(argv: list[str]) -> int:
 
     # One attempt: the model is called once per case and both lines grade that answer (system.py's
     # cache), so a second attempt would only grade the same answer again.
-    results = run(load_golden(HERE / "golden.jsonl"), answer_case, grade=grade, max_attempts=1)
+    results = run(load_golden(GOLDEN), answer_case, grade=grade, max_attempts=1)
     save_json(f"{run_name}.json", results)
     print(f"## {run_name}\n")
     print(format_table(summarize(results)))

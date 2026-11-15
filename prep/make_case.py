@@ -3,7 +3,7 @@
     python prep/make_case.py attempts               # the 370 laundering attempts, one line each
     python prep/make_case.py attempts --type CYCLE  # only one pattern type
     python prep/make_case.py normal                 # normal accounts with 10 to 60 transactions
-    python prep/make_case.py build P01 8000ABC12    # writes cases/P01.md and keys/P01.json
+    python prep/make_case.py build P01 8000ABC12    # writes the case file and its key in benchmark/
     python prep/make_case.py blind 4                # B01-B04: half laundering, shuffled, unlabelled
 
 Reads data/aml/ (gitignored; how it was made: prep/README.md). Standard library only.
@@ -23,6 +23,7 @@ from typing import NamedTuple
 
 ROOT = Path(__file__).parent.parent
 DATA = ROOT / "data" / "aml"
+BENCHMARK = ROOT / "benchmark"
 TRANS = DATA / "kept_transactions.csv"
 PATTERNS = DATA / "HI-Small_Patterns.txt"
 NORMAL = DATA / "kept_transactions.csv.normal_accounts.txt"
@@ -174,9 +175,9 @@ def build_case(
 def write_case(case_id: str, text: str, key: dict) -> None:
     """Writes cases/<case_id>.md and keys/<case_id>.json."""
     for folder in ("cases", "keys"):
-        (ROOT / folder).mkdir(exist_ok=True)
-    (ROOT / "cases" / f"{case_id}.md").write_text(text)
-    (ROOT / "keys" / f"{case_id}.json").write_text(json.dumps(key, indent=2) + "\n")
+        (BENCHMARK / folder).mkdir(parents=True, exist_ok=True)
+    (BENCHMARK / "cases" / f"{case_id}.md").write_text(text)
+    (BENCHMARK / "keys" / f"{case_id}.json").write_text(json.dumps(key, indent=2) + "\n")
 
 
 def cmd_attempts(args: list[str]) -> None:
@@ -213,7 +214,7 @@ def cmd_build(args: list[str]) -> None:
     text, key = build_case(case_id, account, load_attempts(), load_rows())
     write_case(case_id, text, key)
     print(
-        f"cases/{case_id}.md written ({key['n_transactions']} transactions); "
+        f"benchmark/cases/{case_id}.md written ({key['n_transactions']} transactions); "
         f"keys/{case_id}.json written (laundering rows: {len(key['laundering_rows'])}). "
         "Do not open the key until your expected answer is written."
     )

@@ -13,11 +13,10 @@ before the runs and are the author's to change.
 
 import json
 from datetime import datetime, timedelta
-from pathlib import Path
 
 from case_table import TIME_FORMAT, read_transactions
+from paths import BENCHMARK
 
-HERE = Path(__file__).parent
 MIN_ACCOUNTS = 8
 WINDOW = timedelta(days=3)
 
@@ -26,7 +25,7 @@ def system(case_file: str) -> str:
     """Returns the rule's answer to one case, in the same JSON as a model's."""
     paid = [
         (t.id, datetime.strptime(t.time, TIME_FORMAT), t.counterparty)
-        for t in read_transactions(HERE / case_file)
+        for t in read_transactions(BENCHMARK / case_file)
         if t.direction == "out"
     ]
     for _, start, _ in paid:

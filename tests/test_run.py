@@ -45,12 +45,12 @@ def test_a_mistyped_variant_is_refused_before_any_call():
 def test_every_paragraph_named_in_the_table_exists():
     for name, row in run.VARIANTS.items():
         if "extra" in row:
-            assert (ROOT / "variants" / f"{row['extra']}.txt").is_file(), name
+            assert (ROOT / "src" / "variants" / f"{row['extra']}.txt").is_file(), name
 
 
 def test_every_file_in_variants_is_used_by_the_table():
     used = {row["extra"] for row in run.VARIANTS.values() if "extra" in row}
-    assert {p.stem for p in (ROOT / "variants").glob("*.txt")} == used
+    assert {p.stem for p in (ROOT / "src" / "variants").glob("*.txt")} == used
 
 
 def test_every_saved_run_is_a_variant_in_the_table():
@@ -67,7 +67,7 @@ def test_every_saved_run_is_a_variant_in_the_table():
 
 def test_variant_settings_reads_the_paragraph_and_keeps_the_rest():
     settings = run.variant_settings("method-neutral")
-    assert settings["extra"] == (ROOT / "variants" / "method.txt").read_text().strip()
+    assert settings["extra"] == (ROOT / "src" / "variants" / "method.txt").read_text().strip()
     assert settings["neutral"] is True
     assert run.variant_settings("") == {}
     assert run.variant_settings("schema-temp1") == {"schema": True, "temperature": 1}

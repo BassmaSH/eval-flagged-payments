@@ -15,12 +15,14 @@ import json
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).parent
-sys.path.insert(0, str(HERE / "evals_kit"))
+SRC = Path(__file__).parent / "src"
+# evals_kit is a copy of github.com/BassmaSH/evals-kit
+sys.path[:0] = [str(SRC), str(SRC / "evals_kit")]
+import paths  # noqa: E402
 from aml_graders import grade, parse, row_id  # noqa: E402
 from stats import exact_interval, paired_p_value  # noqa: E402
 
-GOLDEN = {g["id"]: g for g in map(json.loads, (HERE / "golden.jsonl").read_text().splitlines())}
+GOLDEN = {g["id"]: g for g in map(json.loads, paths.GOLDEN.read_text().splitlines())}
 SLICES = [
     ("decision: escalate, single scheme", "decision-escalate-single"),
     ("decision: escalate, hub account", "decision-escalate-hub"),
@@ -33,7 +35,7 @@ SLICES = [
 
 def answers(run_name: str) -> dict[str, str]:
     """Golden line id -> the answer that was graded (the last attempt)."""
-    saved = json.loads((HERE / "results" / f"{run_name}.json").read_text())
+    saved = json.loads((paths.RESULTS / f"{run_name}.json").read_text())
     return {line["id"]: line["attempts"][-1].get("output", "") for line in saved}
 
 
@@ -210,7 +212,7 @@ def main() -> None:
     print("## The words each run uses (accounts of 32 whose reason contains the term)\n")
     names = sorted(
         p.name[:-5]
-        for p in (HERE / "results").glob("*.json")
+        for p in paths.RESULTS.glob("*.json")
         if p.name.count(".") == 1 and p.name != "rule.json"
     )
     table(["run"] + TERMS, [[name] + vocabulary(name) for name in names])

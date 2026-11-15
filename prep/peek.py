@@ -9,13 +9,13 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-sys.path.insert(0, str(ROOT))  # case_table.py is in the repo's root
+sys.path.insert(0, str(ROOT / "src"))
 from case_table import read_transactions  # noqa: E402
 
 
 def summary(case_id: str) -> str:
     """Returns the counts that show at a glance whether an account looks like an alert."""
-    rows = read_transactions(ROOT / "cases" / f"{case_id}.md")
+    rows = read_transactions(ROOT / "benchmark" / "cases" / f"{case_id}.md")
     out = [t for t in rows if t.direction == "out"]
     into = [t for t in rows if t.direction == "in"]
     return (
