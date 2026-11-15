@@ -86,13 +86,17 @@ def variant_settings(variant: str) -> dict:
 
 
 def code_version() -> str:
-    """The commit the code is at, and whether files were changed since."""
+    """The commit the code is at, and whether code was changed since.
+
+    results/ is left out: a run writes there, and would otherwise always report its own new file.
+    """
 
     def git(*args: str) -> str:
         done = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
         return done.stdout.strip()
 
-    changed = " + uncommitted changes" if git("status", "--porcelain") else ""
+    outside_results = git("status", "--porcelain", "--", ".", ":(exclude)results")
+    changed = " + uncommitted changes" if outside_results else ""
     return git("rev-parse", "--short", "HEAD") + changed
 
 
