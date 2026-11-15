@@ -48,7 +48,7 @@ the activity is typical for the customer
 ([FFIEC](https://bsaaml.ffiec.gov/manual/AssessingComplianceWithBSARegulatoryRequirements/04_ep)) and a single red
 flag proves nothing on its own
 ([FATF](https://www.fatf-gafi.org/content/dam/fatf-gafi/brochures/Handout-Red-Flags-VA-Financial-Non-Financial.pdf)).
-Large 4 never defines normal, so a single feature (repetition) is enough. The rows show the limit of Claude's method: those it cites are mostly correct (98 of 130), but it finds only 98 of the 250 laundering rows, because on the hub accounts the laundering is the steady two-way flow it takes as normal. Large 4 cites
+Large 4 never defines normal, so a single feature (repetition) is enough. The rows show the limit of Claude's method: those it cites are mostly correct (98 of 130 on Nov 8, and between 69% and 78% over the four runs), but it finds only 98 of the 250 laundering rows, because on the hub accounts the laundering is the steady two-way flow it takes as normal. Large 4 cites
 1,182 rows of which 119 are correct.
 
 ### One normal account, every run (P27)
@@ -83,12 +83,12 @@ The number of accounts, out of 32, whose reason contains the term:
 | Large 4 | 0 | 0 | 2 | 29 | 28 | 1 |
 | Large 4 + method | 0 | 0 | 20 | 18 | 2 | 14 |
 | Large 4 + method, neutral alert | 0 | 0 | 22 | 18 | 5 | 13 |
-| Claude | 16 | 12 | 16 | 22 | 11 | 25 |
+| Claude (Nov 8) | 16 | 12 | 16 | 22 | 11 | 25 |
 
 The Mistral models describe every account with the vocabulary of cash laundering (structuring, layering), which is
 about amounts. Claude also uses the vocabulary of networks (fan-in, fan-out, pass-through), which is about who pays
 whom, and it often uses it to rule laundering out: "nothing shows layering, fan-in/fan-out or rapid pass-through".
-Where it asserts a pattern on a single-scheme account, it matches the answer key (P03, P06, P08, P10). "Pass-through"
+Where it asserts a pattern on a single-scheme account, it matches the answer key (P03, P06, P08, P10, on Nov 8). "Pass-through"
 in the method runs came from the instruction, whose text says "check whether money passes through the account".
 
 ### Asked directly
@@ -144,7 +144,7 @@ score.
 
 We had planned a run B, giving Large 4 a summary of the account computed by code (one line per counterparty), in case it could not read a long table. We dropped it: run A showed that Large 4 did find the account's routine and the transactions that depart from it.
 
-| | Large 4 | A: + method | C: + method, neutral alert | Claude |
+| | Large 4 | A: + method | C: + method, neutral alert | Claude (Nov 8) |
 |---|---|---|---|---|
 | normal accounts closed (of 16) | 0 | 1 | 1 | 14 |
 | laundering accounts caught (of 16) | 16 | 16 | 16 | 11 |
