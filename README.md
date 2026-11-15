@@ -1,6 +1,7 @@
 # Can a language model reduce the number of false positives in AML alert queues?
 
-*This is a summary of a very small benchmark we ran over a weekend: 32 flagged accounts from IBM's synthetic bank, a
+*This is a summary of a very small benchmark we ran over a weekend, with follow-up tests the week after
+([timeline](#9-timeline)): 32 flagged accounts from IBM's synthetic bank, a
 rule baseline, three Mistral models, and Claude Opus 5.5 as an external reference. The full record is in
 [`NOTEBOOK.md`](docs/NOTEBOOK.md), with each prediction logged prior to running.*
 
@@ -314,16 +315,19 @@ Each run's prediction is in [`docs/NOTEBOOK.md`](docs/NOTEBOOK.md), in the autho
 
 | date | step | prediction, and whether it held |
 |---|---|---|
+| **First weekend** | | |
 | Nov 7 | data rebuilt from IBM's files, cases cut | |
 | Nov 8 | four blind cases worked by hand: 0 of 4 decisions right | answers written before opening the keys |
 | Nov 8 | rule, Small 4, Large 3 | written while the first run was in progress: "close lower than the rule" held, "evidence above 50%" did not |
 | Nov 8 | three prompt changes, on Small 4 and Large 3 | "close around 90%", twice: did not hold. "As bad as the last run": held for Large 3 |
 | Nov 8 | Large 4 | "almost as bad": held |
 | Nov 8 | Claude Opus 5.5, as an outside reference | "same results": did not hold |
+| **The week after** | | |
 | Nov 9 | Large 4 with Claude's schema | "same perf": held |
 | Nov 9 | the same at temperature 1 | no prediction written |
 | Nov 11 | Large 4 with the method | "will do better but less good than Claude": 1 normal account closed, from 0 |
 | Nov 11–12 | the same with a neutral alert | "does better than the last run": did not hold on the decision |
+| **Second weekend** | | |
 | Nov 15 | the code reviewed: tests, `report.py`, ranges, resumable runs | no model called |
 | Nov 15 | Claude, three reruns | "about the same 13-15" normal accounts closed: held (14, 14, 14) |
 | Nov 15 | four models asked directly about laundering patterns | Mistral: "question 1 about cash stages" held, "question 2 to list everything" did not. Claude: "patterns in both" held on the network question only |

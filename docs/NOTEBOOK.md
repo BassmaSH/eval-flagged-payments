@@ -1,4 +1,4 @@
-*The lab notebook, written during the work (Nov 7 to 9, 2026), in the third person: "her" is Bassma, whose words
+*The lab notebook, written during the work (Nov 7 to 15, 2026), in the third person: "her" is Bassma, whose words
 are quoted as she wrote them; Claude (Claude Code) kept this record. The README is the write-up.*
 
 # Field notes
