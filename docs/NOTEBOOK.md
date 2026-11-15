@@ -342,3 +342,5 @@ described without its name, and "stack" and "random" are ordinary words.
 does not call it up; none or one, with cash terms, means it is not there; shapes described without the names is
 in between.
 **Prediction (her words):** "I predict question 2 to list everything, question 1 to be about cash stages."
+*Clarified by her after launching the run and before reading any answer:* that prediction was for the Mistral
+models. For Claude: "I expect it to give the patterns in both + maybe cash."
