@@ -21,6 +21,7 @@ sys.path[:0] = [str(SRC), str(SRC / "evals_kit")]
 import paths  # noqa: E402
 from aml_graders import grade, parse, row_id  # noqa: E402
 from stats import exact_interval, paired_p_value  # noqa: E402
+from vocabulary import CASH_TERMS, PATTERNS, named  # noqa: E402
 
 GOLDEN = {g["id"]: g for g in map(json.loads, paths.GOLDEN.read_text().splitlines())}
 SLICES = [
@@ -166,6 +167,29 @@ def print_repeats(runs: list[str]) -> None:
     print(f"Same decision in every run: {total - len(changed)} of {total} cases.\n")
 
 
+def print_probe() -> None:
+    """Prints which laundering terms each model names when asked directly, if probe.py was run."""
+    files = sorted((paths.RESULTS / "probe").glob("*.json"))
+    if not files:
+        return
+    print("## Asked directly: which patterns does each model name?\n")
+    rows = []
+    for file in files:
+        saved = json.loads(file.read_text())
+        for answer in saved["answers"]:
+            patterns = named(answer["answer"], PATTERNS)
+            cash = named(answer["answer"], CASH_TERMS)
+            rows.append(
+                [
+                    saved["model"],
+                    answer["question"],
+                    f"{len(patterns)} of {len(PATTERNS)}: {', '.join(patterns) or 'none'}",
+                    ", ".join(cash) or "none",
+                ]
+            )
+    table(["model", "question", "network patterns named", "cash terms named"], rows)
+
+
 def main() -> None:
     """Prints every table of the README, then the vocabulary table."""
     print("## What was measured\n")
@@ -256,6 +280,8 @@ def main() -> None:
 
     print("## Claude Opus 5.5, the same request four times\n")
     print_repeats(CLAUDE_RUNS)
+
+    print_probe()
 
     print("## The words each run uses (accounts of 32 whose reason contains the term)\n")
     names = sorted(

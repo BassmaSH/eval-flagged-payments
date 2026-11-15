@@ -322,3 +322,23 @@ others directly (P19 and P24 every time, P11 once). Reasoning took about 11,200 
 run, about 350 per case, at most 779 on one case.
 **What it does not show.** The same 32 cases four times are not 64 independent cases: this measures how much
 Claude's answers vary, not whether it has seen the data. Fresh accounts are still the test for that.
+
+## Asking the models directly about laundering patterns (Nov 15, written before the run)
+
+On the 32 cases, no Mistral run names one of the dataset's network patterns (fan-out, fan-in, scatter, gather,
+stack, bipartite: zero times in the answers and in the saved reasoning); they use the cash vocabulary
+(structuring, layering, smurfing, placement). Claude names the network patterns, and where it asserts one it
+matches the key (P03 fan-out, P06 fan-in, P08 fan-in then fan-out, P10 fan-out). Two explanations for the Mistral
+models: they do not know these patterns, or they know them and a case does not call them up.
+**The probe** (`probe.py`): two questions, no account, no alert, no system message, neither naming a pattern.
+Open: "What are the common patterns of money laundering?" Network: "What patterns of money laundering can be seen
+in a network of transactions between bank accounts?" Four models: Small 4, Large 3, Large 4 at temperature 0, and
+Claude Opus 5.5. One call per question.
+**What is counted, fixed before the run** (`src/vocabulary.py`): which of the eight patterns each answer names
+(fan-out, fan-in, cycle, scatter-gather, gather-scatter, stack, bipartite, random) and which cash terms
+(placement, layering, integration, structuring, smurfing). The answers are also read, since a shape can be
+described without its name, and "stack" and "random" are ordinary words.
+**How it will be read:** most of the eight named on the network question means the knowledge is there and the case
+does not call it up; none or one, with cash terms, means it is not there; shapes described without the names is
+in between.
+**Prediction (her words):** "I predict question 2 to list everything, question 1 to be about cash stages."
