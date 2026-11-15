@@ -1,8 +1,6 @@
 # Can a language model reduce the number of false positives in AML alert queues?
 
-*This is a summary of a very small benchmark we ran over a weekend, with follow-up tests the week after
-([timeline](docs/REPORT.md#6-timeline)): 32 flagged accounts from IBM's synthetic bank, a
-rule baseline, three Mistral models, and Claude Opus 5.5 as an external reference. The full record is in
+*This is a summary of a very small benchmark: 32 flagged accounts from IBM's synthetic bank, a rule baseline, three Mistral models, and Claude Opus 5.5 as an external reference. The full record is in
 [`NOTEBOOK.md`](docs/NOTEBOOK.md), with each prediction logged prior to running.*
 
 **The decision.** Whether to put a language model in front of the alert queue. It would filter out clear false

@@ -42,7 +42,7 @@ The same five steps run on every push (`.github/workflows/check.yml`). The setti
 
 | folder | role | goes here |
 |---|---|---|
-| root | what a reader runs | `run.py`, `report.py`, and the files that describe the repo |
+| root | what a reader runs | `run.py`, `report.py`, `probe.py`, and the files that describe the repo |
 | `src/` | what the commands are made of | the systems, the graders, the statistics, the prompt variants |
 | `benchmark/` | the test itself | the cases, the keys, `golden.jsonl` |
 | `results/` | what came out | one file of answers per run, never edited |
