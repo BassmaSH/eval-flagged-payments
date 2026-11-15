@@ -10,8 +10,8 @@ alarms and pass the rest to an analyst, along with the transactions that actuall
 **The result.** The Mistral models, as tested, did not reduce false positives. On simulated alerts, all three (Small
 4, Large 3, and Large 4) escalated every account and closed none of the 16 false alarms. Adjusting the prompt to
 specify that the bank is simulated, or that the goal is to close false alarms, did not improve results. For
-comparison, we tested Claude Opus 5.5 once on the same cases: it closed 14 of 16 false alarms and still caught 11 of
-16 laundering accounts. It interpreted regular payments as routine and flagged the one-off payments inside them,
+comparison, we tested Claude Opus 5.5 four times on the same cases: each time it closed 14 of 16 false alarms and
+caught 11 or 12 of 16 laundering accounts. It interpreted regular payments as routine and flagged the one-off payments inside them,
 which is how laundering looks in this dataset, an insight we only recognized after reviewing the answers. This shows
 the task can be performed from a single account, and that the gap lies with the models.
 
@@ -24,7 +24,8 @@ suggested something was there to find: the instruction to "flag the suspicious r
 the weight the model gives to what a request takes for granted, not to how it reads the data.
 
 While differences between models are likely, we cannot rule out data familiarity; Claude may have previously
-encountered this public dataset. Additionally, Claude was tested only once and not at temperature 0. More testing
+encountered this public dataset. Additionally, Claude was not tested at temperature 0; over four runs its totals did
+not move, though six individual cases did. More testing
 on more realistic data is definitely required before we can come to any firm conclusions.
 
 ## 1. What is measured, and what is not
@@ -59,7 +60,7 @@ Runs of 8th November 2026, same prompt for each model; answers in `results/`.
 
 Settings: the Mistral models at temperature 0 in JSON mode. Claude takes no temperature setting, can reason
 before answering and decides for each request whether to (effort left at its default), and its format was forced
-with a schema; it ran once. Large 4 also reasons before
+with a schema; it ran four times (Nov 8, and three reruns on Nov 15: the table shows the first). Large 4 also reasons before
 answering (about 4,200 output tokens per case, against about 500 for Claude).
 
 **Human review:** 0 of 4 decisions right on four blind cases, in 7 minutes, before learning what this data looks
@@ -126,10 +127,12 @@ passed one case (P04, two foreign-currency payments after self-transfers), in th
 
 It refers to the regular payments as "routine recurring payments" and escalates on the one-off items within them: a
 burst of credits from new counterparties (P06, P08), a self-conversion followed by a payout in a different currency
-(P03, P04, P10, P13), three payments in the space of a few minutes in three different formats (P09, P12). It misses
-the two cycles with only two quiet rows each (P01, P02) and the three hub accounts (P11, P14, P16) whose two-way
-flows it treats as "related-entity treasury transfers". It incorrectly escalates P28 ("just under a 10k threshold"
-again, the real-world habit) and P32 (a one-off cheque from a new counterparty followed by three fast payments). The
+(P03, P04, P10, P13), three payments in the space of a few minutes in three different formats (P09, P12). Across
+four runs, it misses the three hub accounts (P11, P14, P16) every time, treating their two-way flows as
+"related-entity treasury transfers", and incorrectly escalates P32 every time (a one-off cheque from a new
+counterparty followed by three fast payments). Six cases change from one run to the next: the two cycles with only
+two quiet rows each (P01, P02), P03, P04, and the normal accounts P17 and P28 ("just under a 10k threshold" again,
+the real-world habit). The
 evidence is still very weak in that it often gets the right area but only cites less than half of the laundering
 rows.
 
@@ -249,7 +252,8 @@ weight the model gives to what a request presupposes, not at its reading of the 
   completely out of reach. From within one account, a scatter-gather looks precisely the same as a fan-out.
 - **32 cases, one run per prompt:** each close case is 6 points on its slice. We tested the three prompt variations
   on the same 32 cases, as well as the method and neutral-alert runs. The Mistral runs are all at temperature 0,
-  except one Large 4 check at temperature 1; Claude's single run is not, so its scores could vary on a re-run.
+  except one Large 4 check at temperature 1; Claude's runs are not: over four runs its totals held and six cases
+  changed.
 - **Not identical settings:** in the main table, Claude's format was forced by a schema, the Mistral models by JSON
   mode. Large 4 reasons before answering and Claude can (it decides per request), whereas Small 4 and Large 3 don't. Large 4 was re-run with
   Claude's schema and at temperature 1 (no change). The instruction was drafted with Claude's help (which may work
