@@ -1,10 +1,10 @@
 """Turn one account of IBM's synthetic bank into a case file and its answer key.
 
-    python prep/make_case.py attempts         # the 370 laundering attempts, one line each
-    python prep/make_case.py attempts --type CYCLE# only one pattern type
-    python prep/make_case.py normal           # normal accounts with 10 to 60 transactions
-    python prep/make_case.py build P01 8000ABC12# writes cases/P01.md and keys/P01.json
-    python prep/make_case.py blind 4          # B01-B04: half laundering, shuffled, unlabelled
+    python prep/make_case.py attempts               # the 370 laundering attempts, one line each
+    python prep/make_case.py attempts --type CYCLE  # only one pattern type
+    python prep/make_case.py normal                 # normal accounts with 10 to 60 transactions
+    python prep/make_case.py build P01 8000ABC12    # writes cases/P01.md and keys/P01.json
+    python prep/make_case.py blind 4                # B01-B04: half laundering, shuffled, unlabelled
 
 Reads data/aml/ (gitignored; how it was made: prep/README.md). Standard library only.
 
