@@ -145,23 +145,27 @@ Claude's method: the rows it cites are mostly correct (98 of 130) but it only pi
 as the laundering on the hub accounts is simply the steady two-way flow that it takes as the normal. Large 4 cites
 1,182 rows of which 119 are correct.
 
-### One normal account, every run (P17)
+### One normal account, every run (P27)
 
-59 rows: three payment routines that repeat daily, plus two large
-payments to a counterparty that appears once (T001, T002), a transfer to itself (T009) and two small credits from
-a sender that appears once (T011, T012).
+58 rows: recurring payments to the same few accounts, a cheque of 82,569.50 received ten times from one sender,
+and one cheque of 15.7 million received once from a new sender (T017).
 
-| run | the routine | the one-off rows | decision |
+| run | the routine | the one-off row | decision |
 |---|---|---|---|
-| Small, Large 3 | "structuring", "layering"; 30 and 42 rows cited | not singled out | ESCALATE |
-| Large 4 | the same; 56 of 59 rows cited | not singled out | ESCALATE |
-| Large 4 + method | the account's normal | cited T001, T002, T009, T011, T012 | ESCALATE |
-| Large 4 + method, neutral alert | the account's normal | cited T001, T002 | ESCALATE |
-| Claude | "routine scheduled payments" | named T001 and T002 as "the only one-off item" | CLOSE, no row |
+| Small, Large 3 | "structuring", "layering"; 11 and 25 rows cited | among the rows cited | ESCALATE |
+| Large 4 | the same; 11 rows cited | among the rows cited | ESCALATE |
+| Large 4 + method | the account's normal | cited T017, and only T017 | ESCALATE |
+| Large 4 + method, neutral alert | the account's normal | cited T017, and only T017 | ESCALATE |
+| Claude, four runs | "routine recurring business" | named T017 each time | CLOSE, no row, four times |
 
-With the method, Large 4 finds the same normal and the same one-off rows as Claude. Its reasoning ends on "So the
-departures are T001, T002, T009, T011, T012" and it escalates on them: different from normal is treated as
-suspicious. Claude checks one more thing, whether money came in and left again, finds that it did not, and closes.
+With the method, Large 4 finds the same normal and the same one-off row as Claude, and escalates on it: "roughly
+190 times larger than the typical inflow". Different from normal is treated as suspicious. Claude checks one more
+thing each time, whether the money moved on: "not followed by any rapid onward movement, layering, or structuring",
+and closes.
+
+The same check explains the case where Claude is not stable. On P17, the one-off rows are two payments *out* to a new
+counterparty (T001, T002). Claude closed it on Nov 8 and escalated it in the three reruns, citing those two rows,
+as Large 4 does with the method. Where money left, Claude hesitates; where it only arrived, it closes every time.
 
 ### The words each model uses
 
