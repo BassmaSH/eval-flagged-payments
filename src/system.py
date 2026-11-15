@@ -68,6 +68,8 @@ class ModelSystem:
         settings: what this system sends, for run.py to save next to the answers.
         usage: case file -> (prompt tokens, completion tokens), filled as cases are answered.
         thinking: case file -> the reasoning chunks of a Mistral reasoning answer, if any.
+        thinking_tokens: case file -> the output tokens Claude spent reasoning, as the API reports
+            them (part of the completion tokens; the reasoning itself is not returned).
     """
 
     def __init__(
@@ -95,6 +97,7 @@ class ModelSystem:
         self.temperature = temperature
         self.usage: dict[str, tuple[int, int]] = {}
         self.thinking: dict[str, list] = {}
+        self.thinking_tokens: dict[str, int] = {}
         self._answers: dict[str, str] = {}
         self._mistral = (
             None if self.is_claude else Mistral(api_key=os.environ.get("MISTRAL_API_KEY", ""))
@@ -153,6 +156,9 @@ class ModelSystem:
             output_config={"format": CLAUDE_FORMAT},
         )
         self.usage[case_file] = (res.usage.input_tokens, res.usage.output_tokens)
+        details = getattr(res.usage, "output_tokens_details", None)
+        if details is not None and getattr(details, "thinking_tokens", None) is not None:
+            self.thinking_tokens[case_file] = details.thinking_tokens
         if (
             res.stop_reason != "end_turn"
         ):  # a refusal or a cut-off answer: an infra error, not a wrong answer

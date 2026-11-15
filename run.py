@@ -137,6 +137,7 @@ def run_record(run_name: str, model_system: "ModelSystem") -> dict:
         "prompt_tokens": sum(prompt for prompt, _ in usage.values()),
         "completion_tokens": sum(completion for _, completion in usage.values()),
         "tokens_per_case": {case: list(tokens) for case, tokens in usage.items()},
+        "thinking_tokens_per_case": model_system.thinking_tokens,
     }
 
 
