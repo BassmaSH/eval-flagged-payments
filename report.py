@@ -18,6 +18,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE / "evals_kit"))
 from aml_graders import grade, parse, row_id  # noqa: E402
+from stats import exact_interval, paired_p_value  # noqa: E402
 
 GOLDEN = {g["id"]: g for g in map(json.loads, (HERE / "golden.jsonl").read_text().splitlines())}
 SLICES = [
@@ -47,6 +48,27 @@ def scores(run_name: str) -> dict[str, tuple[int, int]]:
             passed.get(golden["slice"], 0) + grade(output, golden["expected"])[0]
         )
     return {s: (passed[s], total[s]) for s in total}
+
+
+def passes(run_name: str) -> dict[str, bool]:
+    """Returns golden line id -> whether the saved answer passes, graded again now."""
+    return {i: grade(out, GOLDEN[i]["expected"])[0] for i, out in answers(run_name).items()}
+
+
+def with_range(run_name: str, slice_name: str) -> str:
+    """Returns a score with its exact 95% range, as "14/16 · 62–98%"."""
+    passed, total = scores(run_name)[slice_name]
+    low, high = exact_interval(passed, total)
+    return f"{passed}/{total} · {round(100 * low)}–{round(100 * high)}%"
+
+
+def paired(first: str, second: str, slice_name: str) -> list:
+    """Returns how two runs differ case by case on one slice, with the exact McNemar p-value."""
+    a, b = passes(first), passes(second)
+    ids = [i for i in a if GOLDEN[i]["slice"] == slice_name]
+    only_first = sum(a[i] and not b[i] for i in ids)
+    only_second = sum(b[i] and not a[i] for i in ids)
+    return [only_first, only_second, f"{paired_p_value(only_first, only_second):.2g}"]
 
 
 def percent(run_name: str, slice_name: str) -> str:
@@ -110,6 +132,16 @@ def main() -> None:
     table(
         ["slice", "n"] + runs,
         [[label, scores("rule")[s][1]] + [percent(r, s) for r in runs] for label, s in SLICES],
+    )
+
+    print("## Decision scores with their exact 95% ranges\n")
+    decision = [(label, s) for label, s in SLICES if s.startswith("decision")]
+    table(["slice", *runs], [[label] + [with_range(r, s) for r in runs] for label, s in decision])
+
+    print("## Claude against Large 4, case by case\n")
+    table(
+        ["slice", "only Claude right", "only Large 4 right", "p (exact McNemar)"],
+        [[label, *paired("claude-opus-5-5", "mistral-large-4", s)] for label, s in SLICES],
     )
 
     print("## Checking the harness (Large 4)\n")
