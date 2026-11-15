@@ -324,14 +324,15 @@ are the same 32 cases every change was tried on, so each further prompt fits thi
 
 ## 5. What next, and what it costs
 
-Each reading in the [README](../README.md#1-what-we-understood-about-mistral-large-4) names the test that would settle it. Beyond those:
+Each reading in the [README](../README.md#1-what-we-understood-about-mistral-large-4) names the test that would
+settle it. Beyond those:
 
 1. **Claude on accounts it has not seen.** Its result held on four runs of the same 32 cases; that measures luck,
-   not memory. New accounts from another of IBM's datasets reduce the risk only partly (those are public too); only regenerated or real data removes it.
+   not memory. New accounts from another of IBM's datasets reduce the risk only partly (those are public too); only regenerated or real data removes it. The planned next step is data of our own: a synthetic bank generated
+   by an agent-based model, over a longer period, that no model has seen.
 2. **Better data:** the larger IBM datasets cover a longer period, so the monthly rhythm shows. A sample of
    anonymised alerts from one bank with the analyst's decisions as the key. That's the only real test of capacity.
-3. **For the Mistral models:** a request that assumes nothing (no alert, and an instruction that does not ask it to "flag the suspicious rows"), on new cases, not these 32. If Large 4 then closes the false
-   alarms, the fix belongs in training rather than in the prompt.
+3. **For the Mistral models:** a request that assumes nothing (no alert, and an instruction that does not ask it to "flag the suspicious rows"), on new cases, not these 32. If Large 4 then closes the false alarms, the fix belongs in training rather than in the prompt. The two failure modes point at what such training would use: requests whose premise is false, and cases where a textbook red flag is present and benign.
 
 ## 6. Timeline
 
