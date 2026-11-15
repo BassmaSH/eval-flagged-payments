@@ -1,6 +1,43 @@
 *The lab notebook, written during the work (Nov 7 to 15, 2026), in the third person: "her" is Bassma, whose words
 are quoted as she wrote them; Claude (Claude Code) kept this record. The README is the write-up.*
 
+## Entries
+
+**Nov 7, reading and design**
+
+- [Three reasons I would close an alert](#three-reasons-i-would-close-an-alert)
+- [What one case can show](#what-one-case-can-show-her-answer-after-checking-the-case-format)
+- [The question the eval answers](#the-question-the-eval-answers-her-sentence-for-the-top-of-the-memo)
+- [Prompt (first thoughts, her words)](#prompt-first-thoughts-her-words)
+
+**Nov 8, the first runs**
+
+- [Predictions for mistral-small-2603, written while it ran](#predictions-for-mistral-small-2603-written-while-it-ran-nov-8)
+- [The answer, for the memo](#the-answer-for-the-memo-her-words-nov-8-after-all-three-runs)
+- [Blind cases](#blind-cases-7-minutes-for-the-four-written-before-opening-any-key)
+- [The simulated-bank rerun](#the-simulated-bank-rerun-nov-8-written-before-the-run)
+- [The objective rerun](#the-objective-rerun-nov-8-written-before-the-run)
+- [The combined rerun](#the-combined-rerun-nov-8-written-before-the-run-the-last-prompt-change-on-these-32-cases)
+- [Her reading of the four runs](#her-reading-of-the-four-runs-nov-8)
+- [Mistral Large 4](#mistral-large-4-nov-8-written-before-the-run)
+- [Claude Opus 5.5](#claude-opus-55-nov-8-written-before-the-run-her-request-as-an-outside-reference)
+- [Her reading after the Claude run](#her-reading-after-the-claude-run-nov-8)
+
+**Nov 9, the harness check**
+
+- [The harness check: Large 4 with Claude's schema](#the-harness-check-large-4-with-claudes-schema-nov-9-written-before-the-run)
+- [Large 4 with the schema at temperature 1](#large-4-with-the-schema-at-temperature-1-nov-9)
+
+**Nov 11 and 12, the method**
+
+- [Large 4 with the analyst's method](#large-4-with-the-analysts-method-nov-11)
+- [Large 4 with the method and a neutral alert](#large-4-with-the-method-and-a-neutral-alert-nov-11)
+
+**Nov 15, reruns and direct questions**
+
+- [Claude Opus 5.5, three reruns](#claude-opus-55-three-reruns-nov-15-written-before-the-runs)
+- [Asking the models directly about laundering patterns](#asking-the-models-directly-about-laundering-patterns-nov-15-written-before-the-run)
+
 # Field notes
 
 ## Three reasons I would close an alert
