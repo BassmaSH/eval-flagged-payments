@@ -3,7 +3,8 @@
 *The questions and checks are Bassma's: why Claude did better, whether the cited rows were right (which corrected two of Claude's first readings), whether the 60,000 SAR threshold is real, and what to test next. Claude (Claude Code) pulled the outputs, did the counts and drafted this page, Nov 11–12, 2026. Source: the `reason` field of each answer in `results/claude-opus-5-5.json` and `results/mistral-large-4.json` (temperature 0, JSON mode); Large 4's two harness runs (`+schema`, `+schema-temp1`) say the same thing.*
 
 *Written on Nov 11 and 12 from the runs of Nov 8. What came after (Claude's three reruns, the worked example
-P27, the models asked directly about laundering patterns) is in [`REPORT.md`](REPORT.md).*
+P27, the models asked directly about laundering patterns) is in [`REPORT.md`](REPORT.md). In particular, Claude's
+decisions here are those of Nov 8: over four runs, six of them change (P01, P02, P03, P04, P17, P28).*
 
 **On this page**
 
@@ -19,7 +20,7 @@ P27, the models asked directly about laundering patterns) is in [`REPORT.md`](RE
 
 **In three lines.**
 1. Both models see the same thing, payments of the same amount to the same account again and again, and read it
-   in opposite ways. Large 4 calls it "structuring" on all 16 normal accounts. Claude calls it routine on all 16.
+   in opposite ways. Large 4 calls it "structuring" on 15 of the 16 normal accounts. Claude calls it routine on all 16.
 2. Claude's method: first say what this account normally does, then look for what departs from it (a one-off
    payment, a new counterparty, money that comes in and goes straight out). Large 4 never describes what normal
    looks like for the account, so every repeated pattern matches some textbook money-laundering label.
