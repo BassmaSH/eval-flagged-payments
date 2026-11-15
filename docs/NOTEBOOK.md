@@ -294,3 +294,16 @@ retried (P01). Tokens: 32 calls, 75,851 prompt, 176,120 completion, about $0.40.
 instruction takes its place: on 13 of the 16 normal accounts the reasoning quotes "flag the suspicious rows" while
 deciding, for example "But the prompt asks for suspicious rows. All are part of the scheme." (P21). It still
 considers closing on 12 of 16. Remove one cue that the account is suspicious and it leans on the next one.
+
+## Claude Opus 5.5, three reruns (Nov 15, written before the runs)
+
+The Nov 8 run is the only Claude run: 14 of 16 normal accounts closed, 11 of 16 laundering accounts caught, once,
+with the API's default randomness. Three more runs of the same request on the same 32 cases
+(`claude-opus-5-5 repeat2`, `repeat3`, `repeat4`), to see whether that result holds. Nothing in the request
+changes. New in the record: the tokens Claude spends reasoning on each case, which the API reports and the first
+run did not save. This tests luck, not memory: the cases are the same, so a model that had seen the data would
+still have seen it.
+**Prediction (her words):** "about the same 13-15" normal accounts closed, of 16. No prediction given for the
+laundering accounts.
+**What would change the reading:** a run under 12 of 16 closed, or runs that spread widely, would mean the single
+run overstated the gap.
