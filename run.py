@@ -104,8 +104,8 @@ def main(argv):
             sys.exit("the rule takes no variant")
         from rule import system as answer_case
     else:
-        from system import make_system, usage, thinking  # needs mistralai, which the rule does not
-        answer_case = make_system(model, **variant_settings(variant))
+        from system import ModelSystem  # needs mistralai, which the rule does not
+        answer_case = ModelSystem(model, **variant_settings(variant))
 
     # One attempt: the model is called once per case and both lines grade that answer (system.py's cache),
     # so a second attempt would only grade the same answer again.
@@ -115,6 +115,7 @@ def main(argv):
     print(format_table(summarize(results)))
 
     if model != "rule":
+        usage, thinking = answer_case.usage, answer_case.thinking
         tokens_in = sum(prompt for prompt, _ in usage.values())
         tokens_out = sum(completion for _, completion in usage.values())
         print(f"\n{len(usage)} calls, {tokens_in} prompt tokens, {tokens_out} completion tokens")
@@ -122,11 +123,11 @@ def main(argv):
                 "code_commit": code_version(), "python": platform.python_version(),
                 "libraries": library_versions(), "settings": answer_case.settings,
                 "calls": len(usage), "prompt_tokens": tokens_in, "completion_tokens": tokens_out,
-                "tokens_per_case": {case: list(tokens) for (_, case), tokens in usage.items()}}
+                "tokens_per_case": {case: list(tokens) for case, tokens in usage.items()}}
         (results_dir / f"{run_name}.meta.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False))
         if thinking:  # the reasoning, next to the answers (Nov 11)
             (results_dir / f"{run_name}.thinking.json").write_text(
-                json.dumps({case: chunks for (_, case), chunks in thinking.items()}, indent=1, ensure_ascii=False))
+                json.dumps(thinking, indent=1, ensure_ascii=False))
 
     code = exit_code(results)
     print("exit", code)

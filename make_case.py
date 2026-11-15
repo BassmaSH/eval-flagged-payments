@@ -1,9 +1,5 @@
 """Turn one account of IBM's synthetic bank into a case file and its answer key.
 
-Boilerplate, written by Claude on Nov 7, 2026 (like fake_system.py in evals_kit): it only cuts and formats
-data. The eval itself (the alert text, what the model is asked, the expected answer, the graders, the run)
-is the author's.
-
     python make_case.py attempts                  # the 370 laundering attempts, one line each
     python make_case.py attempts --type CYCLE     # only one pattern type
     python make_case.py normal                    # normal accounts with 10 to 60 transactions
@@ -11,11 +7,15 @@ is the author's.
     python make_case.py blind 4                   # B01-B04: half laundering, shuffled, nothing printed about which
 
 Reads data/aml/ (gitignored; how it was made: prep/README.md). Standard library only.
+
+Written by Claude on Nov 7, 2026, reorganised on Nov 15: it only cuts and formats data. The eval itself (the
+alert text, what the model is asked, the expected answer, the graders, the run) is the author's.
 """
 import csv
 import json
+import random
 import sys
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -24,14 +24,25 @@ TRANS = DATA / "kept_transactions.csv"
 PATTERNS = DATA / "HI-Small_Patterns.txt"
 NORMAL = DATA / "kept_transactions.csv.normal_accounts.txt"
 
+# The columns of a transaction, in IBM's order. A row is a list of 11 strings.
+(TIME, FROM_BANK, FROM_ACCOUNT, TO_BANK, TO_ACCOUNT, AMOUNT_RECEIVED, RECEIVING_CURRENCY, AMOUNT_PAID,
+ PAYMENT_CURRENCY, PAYMENT_FORMAT, IS_LAUNDERING) = range(11)
+N_COLUMNS = 11
 
-def row_key(fields):
-    # time, from bank, from account, to bank, to account, amount paid: unique enough to match a row
-    return (fields[0], fields[1], fields[2], fields[3], fields[4], fields[7])
+Row = list[str]
 
 
-def load_attempts():
-    """Each attempt: its number (1 to 370), pattern type, and the keys of its rows."""
+def row_key(row: Row) -> tuple[str, ...]:
+    """What identifies a transaction in both files: time, the two bank/account pairs and the amount paid."""
+    return (row[TIME], row[FROM_BANK], row[FROM_ACCOUNT], row[TO_BANK], row[TO_ACCOUNT], row[AMOUNT_PAID])
+
+
+def load_attempts() -> list[dict]:
+    """The laundering attempts listed in IBM's pattern file.
+
+    Returns:
+        One dict per attempt: "n" (1 to 370, its position in the file), "type" (for example "CYCLE") and "rows".
+    """
     attempts, current = [], None
     for line in PATTERNS.read_text().splitlines():
         if line.startswith("BEGIN LAUNDERING ATTEMPT"):
@@ -40,126 +51,151 @@ def load_attempts():
         elif line.startswith("END LAUNDERING ATTEMPT"):
             attempts.append(current)
             current = None
-        elif current is not None and line.count(",") == 10:
+        elif current is not None and line.count(",") == N_COLUMNS - 1:
             current["rows"].append(line.split(","))
     return attempts
 
 
-def load_rows():
+def load_rows() -> list[Row]:
+    """Every kept transaction, without the header line."""
     with TRANS.open() as f:
         reader = csv.reader(f)
         next(reader)
-        return [r for r in reader if len(r) == 11]
+        return [row for row in reader if len(row) == N_COLUMNS]
 
 
-def cmd_attempts(only_type=None):
-    for a in load_attempts():
-        if only_type and a["type"] != only_type:
-            continue
-        accounts = Counter()
-        for r in a["rows"]:
-            accounts[r[2]] += 1
-            accounts[r[4]] += 1
-        main, hits = accounts.most_common(1)[0]
-        days = sorted({r[0][:10] for r in a["rows"]})
-        print(f"#{a['n']:>3}  {a['type']:<15} {len(a['rows']):>3} rows  {len(accounts):>3} accounts  "
-              f"{days[0]} to {days[-1]}  busiest account {main} ({hits} rows)")
+def accounts_in(attempt: dict) -> Counter:
+    """account -> the number of times it appears in the attempt's rows, as sender or receiver."""
+    accounts = Counter()
+    for row in attempt["rows"]:
+        accounts[row[FROM_ACCOUNT]] += 1
+        accounts[row[TO_ACCOUNT]] += 1
+    return accounts
 
 
-def clean_normal(lo=10, hi=60):
+def clean_normal(rows: list[Row], lo: int = 10, hi: int = 60) -> tuple[list[str], Counter, set[str]]:
+    """The sampled normal accounts that can serve as a "close" case.
+
+    Returns:
+        The accounts with lo to hi transactions that touch no laundering row; the transaction count of every
+        sampled account; and the sampled accounts that do touch a laundering row.
+    """
     normal = set(NORMAL.read_text().split())
     count, dirty = Counter(), set()
-    for r in load_rows():
-        for acct in (r[2], r[4]):
-            if acct in normal:
-                count[acct] += 1
-                if r[10] == "1":
-                    dirty.add(acct)  # touches a laundering row: never use it as a "close" case
+    for row in rows:
+        for account in (row[FROM_ACCOUNT], row[TO_ACCOUNT]):
+            if account in normal:
+                count[account] += 1
+                if row[IS_LAUNDERING] == "1":
+                    dirty.add(account)
     return sorted(a for a in normal if lo <= count[a] <= hi and a not in dirty), count, dirty
 
 
-def cmd_normal(lo=10, hi=60):
-    ok, count, dirty = clean_normal(lo, hi)
-    print(f"{len(ok)} normal accounts with {lo} to {hi} transactions (accounts touching a laundering row "
-          f"left out: {len(dirty)})")
-    for a in ok:
-        print(f"  {a}  {count[a]} transactions")
+def build_case(case_id: str, account: str, attempts: list[dict], rows: list[Row]) -> tuple[str, dict]:
+    """One account's transactions as the model sees them, and the answer key. Writes nothing.
 
-
-def cmd_blind(n):
-    """Half laundering, half normal, shuffled, built as B01… so you can work them without knowing which is which."""
-    import random
-    rng = random.SystemRandom()
-    busiest = []
-    for a in load_attempts():
-        accounts = Counter()
-        for r in a["rows"]:
-            accounts[r[2]] += 1
-            accounts[r[4]] += 1
-        busiest.append(accounts.most_common(1)[0][0])
-    picks = rng.sample(busiest, n // 2) + rng.sample(clean_normal()[0], n - n // 2)
-    rng.shuffle(picks)
-    import contextlib, io
-    for i, acct in enumerate(picks, 1):
-        with contextlib.redirect_stdout(io.StringIO()):  # build's message would say how many laundering rows
-            cmd_build(f"B{i:02d}", acct)
-    print(f"cases/B01.md to B{n:02d}.md written, about half laundering, in random order. Work them as the "
-          "analyst and write your answers down before opening keys/B*.json.")
-
-
-def cmd_build(case_id, account):
-    laundering = {}
-    for a in load_attempts():
-        for r in a["rows"]:
-            laundering[row_key(r)] = (a["n"], a["type"])
-    history = [r for r in load_rows() if account in (r[2], r[4])]
+    Returns:
+        The text of cases/<case_id>.md and the content of keys/<case_id>.json.
+    """
+    laundering = {row_key(row): (a["n"], a["type"]) for a in attempts for row in a["rows"]}
+    history = sorted((row for row in rows if account in (row[FROM_ACCOUNT], row[TO_ACCOUNT])),
+                     key=lambda row: row[TIME])
     if not history:
         sys.exit(f"no transactions for account {account}")
-    history.sort(key=lambda r: r[0])
 
     lines = [f"# Account {account}", "",
-             f"{len(history)} transactions, {history[0][0]} to {history[-1][0]}. "
+             f"{len(history)} transactions, {history[0][TIME]} to {history[-1][TIME]}. "
              "Amounts as paid by the sender. 'out' = this account paid, 'in' = it received.", "",
              "| id | time | direction | counterparty (bank / account) | amount | currency | format |",
              "|---|---|---|---|---|---|---|"]
     key_rows, key_attempts, other_rows = [], set(), []
-    for i, r in enumerate(history, 1):
-        tid = f"T{i:03d}"
-        if r[2] == r[4]:
-            direction, other = "self", "-"
-        elif r[2] == account:
-            direction, other = "out", f"{r[3]} / {r[4]}"
+    for i, row in enumerate(history, 1):
+        row_id = f"T{i:03d}"
+        if row[FROM_ACCOUNT] == row[TO_ACCOUNT]:
+            direction, counterparty = "self", "-"
+        elif row[FROM_ACCOUNT] == account:
+            direction, counterparty = "out", f"{row[TO_BANK]} / {row[TO_ACCOUNT]}"
         else:
-            direction, other = "in", f"{r[1]} / {r[2]}"
-        lines.append(f"| {tid} | {r[0]} | {direction} | {other} | {r[7]} | {r[8]} | {r[9]} |")
-        hit = laundering.get(row_key(r))
-        if hit:
-            key_rows.append(tid)
-            key_attempts.add(hit)
-        elif r[10] == "1":
-            other_rows.append(tid)  # labelled laundering but in no listed attempt (58 such rows in the data)
+            direction, counterparty = "in", f"{row[FROM_BANK]} / {row[FROM_ACCOUNT]}"
+        lines.append(f"| {row_id} | {row[TIME]} | {direction} | {counterparty} | {row[AMOUNT_PAID]} | "
+                     f"{row[PAYMENT_CURRENCY]} | {row[PAYMENT_FORMAT]} |")
+        attempt = laundering.get(row_key(row))
+        if attempt:
+            key_rows.append(row_id)
+            key_attempts.add(attempt)
+        elif row[IS_LAUNDERING] == "1":
+            other_rows.append(row_id)  # labelled laundering but in no listed attempt (58 such rows in the data)
 
-    (HERE / "cases").mkdir(exist_ok=True)
-    (HERE / "keys").mkdir(exist_ok=True)
-    (HERE / "cases" / f"{case_id}.md").write_text("\n".join(lines) + "\n")
     key = {"case": case_id, "account": account, "n_transactions": len(history),
            "laundering": bool(key_rows or other_rows), "laundering_rows": key_rows,
-           "attempts": [{"n": n, "type": t} for n, t in sorted(key_attempts)],
+           "attempts": [{"n": n, "type": kind} for n, kind in sorted(key_attempts)],
            "labelled_rows_outside_attempts": other_rows}
+    return "\n".join(lines) + "\n", key
+
+
+def write_case(case_id: str, text: str, key: dict) -> None:
+    for folder in ("cases", "keys"):
+        (HERE / folder).mkdir(exist_ok=True)
+    (HERE / "cases" / f"{case_id}.md").write_text(text)
     (HERE / "keys" / f"{case_id}.json").write_text(json.dumps(key, indent=2) + "\n")
-    print(f"cases/{case_id}.md written ({len(history)} transactions); keys/{case_id}.json written "
-          f"(laundering rows: {len(key_rows)}). Do not open the key until your expected answer is written.")
+
+
+def cmd_attempts(args: list[str]) -> None:
+    only_type = args[1] if args[:1] == ["--type"] and len(args) == 2 else None
+    for attempt in load_attempts():
+        if only_type and attempt["type"] != only_type:
+            continue
+        accounts = accounts_in(attempt)
+        busiest, hits = accounts.most_common(1)[0]
+        days = sorted({row[TIME][:10] for row in attempt["rows"]})
+        print(f"#{attempt['n']:>3}  {attempt['type']:<15} {len(attempt['rows']):>3} rows  "
+              f"{len(accounts):>3} accounts  {days[0]} to {days[-1]}  busiest account {busiest} ({hits} rows)")
+
+
+def cmd_normal(args: list[str]) -> None:
+    lo, hi = 10, 60
+    usable, count, dirty = clean_normal(load_rows(), lo, hi)
+    print(f"{len(usable)} normal accounts with {lo} to {hi} transactions (accounts touching a laundering row "
+          f"left out: {len(dirty)})")
+    for account in usable:
+        print(f"  {account}  {count[account]} transactions")
+
+
+def cmd_build(args: list[str]) -> None:
+    case_id, account = args
+    text, key = build_case(case_id, account, load_attempts(), load_rows())
+    write_case(case_id, text, key)
+    print(f"cases/{case_id}.md written ({key['n_transactions']} transactions); keys/{case_id}.json written "
+          f"(laundering rows: {len(key['laundering_rows'])}). Do not open the key until your expected answer "
+          "is written.")
+
+
+def cmd_blind(args: list[str]) -> None:
+    """Half laundering, half normal, shuffled, built as B01… to work them without knowing which is which."""
+    n = int(args[0])
+    attempts, rows = load_attempts(), load_rows()
+    rng = random.SystemRandom()  # not seeded on purpose: nobody can know the draw in advance
+    busiest = [accounts_in(attempt).most_common(1)[0][0] for attempt in attempts]
+    picks = rng.sample(busiest, n // 2) + rng.sample(clean_normal(rows)[0], n - n // 2)
+    rng.shuffle(picks)
+    for i, account in enumerate(picks, 1):
+        case_id = f"B{i:02d}"
+        write_case(case_id, *build_case(case_id, account, attempts, rows))  # silent: no count of laundering rows
+    print(f"cases/B01.md to B{n:02d}.md written, about half laundering, in random order. Work them as the "
+          "analyst and write your answers down before opening keys/B*.json.")
+
+
+# command -> (function, the numbers of arguments it accepts)
+COMMANDS = {"attempts": (cmd_attempts, (0, 2)), "normal": (cmd_normal, (0,)),
+            "build": (cmd_build, (2,)), "blind": (cmd_blind, (1,))}
+
+
+def main(argv: list[str]) -> None:
+    command, args = (argv[0], argv[1:]) if argv else ("", [])
+    if command not in COMMANDS or len(args) not in COMMANDS[command][1]:
+        sys.exit(__doc__)
+    COMMANDS[command][0](args)
 
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
-    if args[:1] == ["attempts"]:
-        cmd_attempts(args[2] if args[1:2] == ["--type"] else None)
-    elif args[:1] == ["normal"]:
-        cmd_normal()
-    elif args[:1] == ["blind"] and len(args) == 2:
-        cmd_blind(int(args[1]))
-    elif args[:1] == ["build"] and len(args) == 3:
-        cmd_build(args[1], args[2])
-    else:
-        sys.exit(__doc__)
+    main(sys.argv[1:])
