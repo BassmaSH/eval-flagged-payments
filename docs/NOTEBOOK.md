@@ -35,11 +35,11 @@ are quoted as she wrote them; Claude (Claude Code) kept this record. The README 
 - [Large 4 with the method and a neutral alert](#large-4-with-the-method-and-a-neutral-alert-nov-11)
 
 **Nov 15, reruns and direct questions**
-- [Where the checks of Nov 15 came from](#where-the-checks-of-nov-15-came-from-her-observations-in-her-words)
-- [Asking Large 4 to define the four patterns it did not name](#asking-large-4-to-define-the-four-patterns-it-did-not-name-nov-15-written-before-the-run)
 
 - [Claude Opus 5.5, three reruns](#claude-opus-55-three-reruns-nov-15-written-before-the-runs)
 - [Asking the models directly about laundering patterns](#asking-the-models-directly-about-laundering-patterns-nov-15-written-before-the-run)
+- [Where the checks of Nov 15 came from](#where-the-checks-of-nov-15-came-from-her-observations-in-her-words)
+- [Asking Large 4 to define the four patterns it did not name](#asking-large-4-to-define-the-four-patterns-it-did-not-name-nov-15-written-before-the-run)
 
 # Field notes
 
