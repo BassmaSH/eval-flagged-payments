@@ -275,9 +275,7 @@ We had planned a run B, giving Large 4 a summary of the account computed by code
 | rows cited on a typical normal account | 38 | 9 | 7 | 0 |
 
 The method took: "structuring" fell from 28 of the 32 accounts to 2, and the rows from 1,182 to 404. The decision
-did not move. Large 4's reasoning, saved for these runs, considered closing on 11 of the 16 normal accounts and
-turned back on the alert on 10: "But given the alert, we flag the large outgoing transactions as suspicious" (P18). With
-the alert gone, it leaned on the instruction instead, on 13 of 16: "But the prompt asks for suspicious rows. All are part of the scheme." (P21). Remove one cue that something is there to find, and it leans on the next. Claude got the same
+did not move. Large 4's reasoning, saved for these runs, brings up the alert while deciding on 11 of the 16 normal accounts: "But given the alert, we flag the large outgoing transactions as suspicious" (P18); "But the alert is triggered, so I must find something suspicious" (P26). It brings up the instruction to flag suspicious rows on 11 as well, with the alert still there: "However, the prompt asks me to flag suspicious rows" (P21). With "flagged" removed, the alert falls to 5 and the instruction rises to 15: "But the prompt asks for suspicious rows. All are part of the scheme." (P21). Two things in the request imply that something is there to find, and it uses both; removing one leaves the other. These are counts of patterns in the saved reasoning, printed by `python report.py`; an earlier count by reading, in the notebook, found 11 accounts where it considered closing and 10 where it turned back on the alert. Claude got the same
 alert and instruction and was not moved. The plan for these runs, written before them, is in [the notebook](NOTEBOOK.md#the-plan-for-the-method-run-as-written-before-it-nov-11).
 
 **Not tested:** an instruction without "flag the suspicious rows" (it would change the original prompt, and these
@@ -310,7 +308,7 @@ are the same 32 cases every change was tried on, so each further prompt fits thi
 
 ## 5. What next, and what it costs
 
-Each reading in the [README](../README.md#1-what-we-understood-about-the-mistral-models) names the test that would settle it. Beyond those:
+Each reading in the [README](../README.md#1-what-we-understood-about-mistral-large-4) names the test that would settle it. Beyond those:
 
 1. **Claude on accounts it has not seen.** Its result held on four runs of the same 32 cases; that measures luck,
    not memory. New accounts from another of IBM's datasets reduce the risk only partly (those are public too); only regenerated or real data removes it.

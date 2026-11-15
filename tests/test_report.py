@@ -39,6 +39,18 @@ def test_the_answers_page_has_every_account_and_every_run():
     assert page.count("- **Claude, three reruns:**") == 32
 
 
+def test_a_cue_counts_only_after_the_task_has_been_restated():
+    restated = "the prompt asks to flag the suspicious rows. " + "x " * 200
+    deciding = "x " * 200 + "but the alert is triggered, so i must find something."
+    assert not report.cited_while_deciding(restated, report.CUES["the alert"])
+    assert report.cited_while_deciding(deciding, report.CUES["the alert"])
+    instruction = report.CUES["the instruction to flag suspicious rows"]
+    assert not report.cited_while_deciding(restated, instruction), "at the start: not counted"
+    assert report.cited_while_deciding(
+        "x " * 200 + "however, the prompt asks me to flag suspicious rows", instruction
+    )
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     print(f"testing report.py: {len(tests)} checks")

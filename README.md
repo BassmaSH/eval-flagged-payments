@@ -18,24 +18,25 @@ transactions, it names seven of the eight patterns this data is built from, incl
 that literature; we cannot tell whether it has seen these accounts. The data is synthetic, and 32 cases can show a
 large gap, not a small one. Firm conclusions need more testing, on more realistic data.
 
-## 1. What we understood about the Mistral models
+## 1. What we understood about Mistral Large 4
 
-Five readings of how the models work. They are interpretations, not measurements: each
-says what it rests on, how sure we are, and what would test it.
+Four readings of how Large 4 works, the model we looked at most closely. They are interpretations, not
+measurements: each says what it rests on, how sure we are, and what would test it.
 
-| | what the model does | what we saw | how sure | what would test it |
+| | what Large 4 does | what we saw | how sure | what would test it |
 |---|---|---|---|---|
-| **1** | **It treats what a request presupposes as evidence.** | Large 4's saved reasoning considered closing 11 of the 16 normal accounts and turned back on 10 because the account was flagged. With "flagged" removed, it cited the instruction to find suspicious rows on 13 of 16. The same effect in [a second experiment](https://github.com/BassmaSH/the-data-cant-tell), where "why did X drop?" made models find a drop. | Medium to high. Another reading fits: it would escalate anyway, and the cue is a justification written afterwards. | A request with no cue at all, on new cases: no alert, and an instruction that does not ask it to flag rows. |
-| **2** | **The feature changes, the method doesn't.** A prompt changes which feature it decides from, not the habit of deciding from one. | Told that regular payments are normal, Small 4 called the same repetition "unusual for regular customer behavior". With that sentence and the objective to close false alarms, it closed 11 normal accounts and 10 laundering ones, escalating on very large amounts instead. | Medium: seen on Small 4; Large 3 did not move at all. | The same prompt changes on Large 4. |
-| **3** | **It applies what is generally true of laundering, without first working out what is normal for this account.** | Large 4 calls routine payments "structuring" on 28 of 32 accounts, and on P11 cites a real Saudi cash-declaration threshold that the case never mentions. Asked to describe the account's normal first, "structuring" falls to 2 of 32. We made the same mistake on four blind cases (0 of 4). | Medium to high: it can do the step when told, and does not do it unprompted. | Cases where a textbook red flag is present and benign, without the method. |
-| **4** | **Its analysis does not decide its answer.** | Given Claude's method, Large 4 describes the same routine and picks the same one-off row as Claude (P27), and cites a third of the rows it cited before. It still escalates 15 of the 16 normal accounts. | Medium: two runs. What a model writes while reasoning is not proof of what drove its answer ([Anthropic, 2025](https://www.anthropic.com/research/reasoning-models-dont-say-think)). | The decision with reasoning set low, against the default. |
-| **5** | **It has one frame for laundering, the cash framework, and keeps it whatever it is asked.** | On the cases, no Mistral run names fan-in, fan-out or any of the compound patterns in 13 runs; they say "structuring" and "layering", and "cycles" or "circular" on at most 4 accounts. Asked directly about transaction networks, Large 4 names 3 of the 8 patterns and the others 1; they describe the shapes in other words and still organise the answer by the stages of laundering cash. Claude gives the same cash answer to the general question, and switches to the network patterns (7 of 8) when asked about networks. | Medium: the direct question was asked once, in one wording. | Ask Large 4 to analyse the account as a network of counterparties, without the method, and see whether its decisions move. |
+| **1** | **It treats what a request presupposes as evidence.** | While deciding, its saved reasoning brings up the alert on 11 of the 16 normal accounts ("But the alert is triggered, so I must find something suspicious", P26) and the instruction to flag suspicious rows on 11. With "flagged" removed from the alert, the alert falls to 5 and the instruction rises to 15. The same effect in [a second experiment](https://github.com/BassmaSH/the-data-cant-tell), where "why did X drop?" made models find a drop. | Medium to high. Another reading fits: it would escalate anyway, and the cue is a justification written afterwards. | A request with no cue at all, on new cases: no alert, and an instruction that does not ask it to flag rows. |
+| **2** | **It applies what is generally true of laundering, without first working out what is normal for this account.** | It calls routine payments "structuring" on 28 of 32 accounts, and on P11 cites a real Saudi cash-declaration threshold that the case never mentions. Asked to describe the account's normal first, "structuring" falls to 2 of 32. We made the same mistake on four blind cases (0 of 4). | Medium to high: it can do the step when told, and does not do it unprompted. | Cases where a textbook red flag is present and benign, without the method. |
+| **3** | **For it, unusual is enough.** | Given Claude's method, it describes the account's routine and picks the same one-off row as Claude (P27), citing a third of the rows it cited before. It still escalates 15 of the 16 normal accounts: what departs from normal is treated as suspicious. Claude asks one more thing, whether the money moved on. | Low to medium: two accounts read closely (P27, P17); the totals fit. | Give it that one further test, without the method. |
+| **4** | **Its default frame for laundering is the cash framework, and it mostly keeps it when asked about networks.** | On the cases, it never names fan-in, fan-out or a compound pattern, in five runs; it says "structuring" and "layering". Asked directly about transaction networks, it names 3 of the 8 patterns, under headings that are still the stages of laundering cash. Claude gives the same cash answer to the general question, and switches to the network patterns (7 of 8) when asked about networks. | Medium: the direct question was asked once, in one wording. | Ask it to analyse the account as a network of counterparties, without the method, and see whether its decisions move. |
 
-Taken together: a model that decides from the request and from one salient feature, seen through a framework that
-does not fit this data. Its analysis can be correct and still not change the decision.
+Taken together: Large 4 decides from what the request implies and from what looks unusual, read through a
+framework that does not fit this data.
 
-The evidence for each reading is in the [full report](docs/REPORT.md): [what each model does](docs/REPORT.md#2-what-each-model-does) for
-readings 3 and 5, and [testing the cause](docs/REPORT.md#3-testing-the-cause) for readings 1, 2 and 4.
+The evidence is in the [full report](docs/REPORT.md): [what each model does](docs/REPORT.md#2-what-each-model-does) for readings 2, 3
+and 4, and [testing the cause](docs/REPORT.md#3-testing-the-cause) for reading 1. Small 4 and Large 3 fail the same way on
+the main result; on Small 4, prompt changes moved which feature it decides from and not its method
+([the report](docs/REPORT.md#3-testing-the-cause)).
 
 ## 2. What is measured, and what is not
 
@@ -118,7 +119,7 @@ The full list, with costs, is in [the report](docs/REPORT.md#4-limits).
 
 ```bash
 python report.py                        # the tables above, rebuilt from results/, no API call
-pytest -q                               # 50 checks, no API call (pip install pytest)
+pytest -q                               # 51 checks, no API call (pip install pytest)
 python run.py rule                      # the rule baseline, no API call, standard library only
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
 export MISTRAL_API_KEY=...              # and ANTHROPIC_API_KEY for a Claude model
@@ -136,7 +137,7 @@ case); the runs of Nov 8 to 12 were made before that. `benchmark/golden.jsonl` h
 `benchmark/keys/`. `src/aml_graders.py` does the scoring. The runner in `src/evals_kit/` is a copy of
 [evals-kit](https://github.com/BassmaSH/evals-kit).
 
-**Is the scoring itself right?** 50 tests, 21 of them on the two scoring rules; and `report.py` grades every saved
+**Is the scoring itself right?** 51 tests, 21 of them on the two scoring rules; and `report.py` grades every saved
 answer again before printing a table, so the numbers above follow from the answers and the scoring code as they are
 in the repo today. Conventions for changing the code are in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
@@ -156,7 +157,7 @@ CDLA-Sharing-1.0. Everything is simulated, no real person or real bank. The raw 
 | `src/` | what the commands are made of: the model under test and its prompt (`system.py`, `variants/`), the rule baseline, the two scoring rules (`aml_graders.py`), the statistics, and the runner, a copy of evals-kit |
 | `results/` | every saved answer, and the saved reasoning of the two method runs |
 | `prep/` | rebuilds the data and the cases |
-| `tests/` | 50 checks, no API call |
+| `tests/` | 51 checks, no API call |
 | `docs/` | the full report, the notebook, and the models' answers account by account |
 
 ### How this was built

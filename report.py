@@ -13,6 +13,7 @@ Code written by Claude Code on Nov 15, 2026, for the author.
 
 import functools
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -201,6 +202,61 @@ def print_probe() -> None:
     table(["model", "question", "network patterns named", "cash terms named"], rows)
 
 
+# What Large 4's saved reasoning brings up while it decides. A pattern counts only after the first
+# quarter of the reasoning, where the model is no longer restating the task.
+CUES = {
+    "the alert": r"\balert\b|(was|been|is) flagged|flagged for",
+    "the instruction to flag suspicious rows": (
+        r"flag the suspicious rows|prompt (asks|says|wants)[^.]{0,80}suspicious"
+        r"|(asks|asked|told) (us |me )?(to|for) (flag|identify|find)[^.]{0,40}suspicious"
+        r"|instruction[^.]{0,60}suspicious"
+    ),
+}
+REASONING_RUNS = [
+    ("with the alert", "mistral-large-4+method"),
+    ('"flagged" removed', "mistral-large-4+method-neutral"),
+]
+
+
+def reasoning_text(run_name: str) -> dict[str, str]:
+    """Returns case id -> the reasoning Large 4 wrote before its answer, as one lower-case text."""
+    saved = json.loads((paths.RESULTS / f"{run_name}.thinking.json").read_text())
+    texts = {}
+    for case_file, chunks in saved.items():
+        pieces = []
+        for chunk in chunks:
+            inner = chunk.get("thinking")
+            is_list = isinstance(inner, list)
+            pieces.append(
+                "".join(p.get("text", "") for p in inner) if is_list else str(inner or "")
+            )
+        texts[Path(case_file).stem] = " ".join(" ".join(pieces).split()).lower()
+    return texts
+
+
+def cited_while_deciding(reasoning: str, pattern: str) -> bool:
+    """Returns whether the pattern appears after the first quarter of the reasoning."""
+    return any(m.start() > len(reasoning) / 4 for m in re.finditer(pattern, reasoning))
+
+
+def print_cues() -> None:
+    """Prints on how many normal accounts Large 4's reasoning brings up each cue while deciding."""
+    normal = sorted(
+        line_id.split("-")[0]
+        for line_id, golden in GOLDEN.items()
+        if golden["slice"] == "decision-close"
+    )
+    rows = []
+    for cue, pattern in CUES.items():
+        row = [cue]
+        for _, run_name in REASONING_RUNS:
+            texts = reasoning_text(run_name)
+            row.append(sum(cited_while_deciding(texts[case], pattern) for case in normal))
+        rows.append(row)
+    print("## What Large 4's reasoning brings up while deciding (normal accounts, of 16)\n")
+    table(["its reasoning brings up", *(label for label, _ in REASONING_RUNS)], rows)
+
+
 KINDS = {
     "escalate-single": "laundering, single scheme",
     "escalate-hub": "laundering, hub account",
@@ -349,6 +405,7 @@ def main() -> None:
     print("## Claude Opus 5.5, the same request four times\n")
     print_repeats(CLAUDE_RUNS)
 
+    print_cues()
     print_probe()
 
     print("## The words each run uses (accounts of 32 whose reason contains the term)\n")
