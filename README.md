@@ -21,11 +21,11 @@ large gap, not a small one. Firm conclusions need more testing, on more realisti
 ## 1. What we understood about Mistral Large 4
 
 Four readings of how Large 4 works, the model we looked at most closely. They are interpretations, not
-measurements: each says what it rests on, how sure we are, and what would test it.
+measurements: each says what it rests on, how sure we are, and what would test it further.
 
-**Two weaknesses.** These would be errors on any data.
+**Two failure modes.** These would be errors on any data.
 
-| | what Large 4 does | what we saw | how sure | what would test it |
+| | what Large 4 does | what we saw | how sure | what would test it further |
 |---|---|---|---|---|
 | **1** | **It treats what a request presupposes as evidence.** | While deciding, its saved reasoning brings up the alert on 11 of the 16 normal accounts ("But the alert is triggered, so I must find something suspicious", P26) and the instruction to flag suspicious rows on 11. With "flagged" removed from the alert, the alert falls to 5 and the instruction rises to 15. The same effect in [a second experiment](https://github.com/BassmaSH/the-data-cant-tell), where "why did X drop?" made models find a drop. | Medium to high. Another reading fits: it would escalate anyway, and the cue is a justification written afterwards. | A request with no cue at all, on new cases: no alert, and an instruction that does not ask it to flag rows. |
 | **2** | **It applies what is generally true of laundering, without first working out what is normal for this account.** | It calls routine payments "structuring" on 28 of 32 accounts, and on P11 cites a real Saudi cash-declaration threshold that the case never mentions. Asked to describe the account's normal first, "structuring" falls to 2 of 32. Published guidance for analysts says to start from the customer's normal. We made the same mistake on four blind cases (0 of 4). | Medium to high: it can do the step when told, and does not do it unprompted. | Cases where a textbook red flag is present and benign, without the method. |
@@ -33,7 +33,7 @@ measurements: each says what it rests on, how sure we are, and what would test i
 **Two differences from Claude.** They cost Large 4 on this benchmark. Whether they would on other data is not
 shown: here the laundering is built as network patterns, and Claude knows the literature those patterns come from.
 
-| | what Large 4 does | what we saw | how sure | what would test it |
+| | what Large 4 does | what we saw | how sure | what would test it further |
 |---|---|---|---|---|
 | **3** | **For it, unusual is enough.** | Given Claude's method, it describes the account's routine and picks the same one-off row as Claude (P27), citing a third of the rows it cited before. It still escalates 15 of the 16 normal accounts: what departs from normal is treated as suspicious. Claude asks one more thing, whether the money moved on. The stricter test has a price: Claude misses 4 or 5 of the 16 laundering accounts, Large 4 none. | Low to medium: two accounts read closely (P27, P17); the totals fit. | Give it that one further test, without the method, and count both kinds of error. |
 | **4** | **Its default frame for laundering is the cash framework, and it mostly keeps it when asked about networks.** | On the cases, it never uses a network term (fan-in, fan-out), in five runs; it says "structuring" and "layering". Asked directly about transaction networks, it does name the three general ones (fan-in, fan-out, cycles), under headings that are still the stages of laundering cash. The names it does not give are the four particular to this data's literature, which Claude gives. | Medium: the direct question was asked once, in one wording. | Ask it to analyse the account as a network of counterparties, without the method, and see whether its decisions move. On data built around cash deposits, its frame may be the better one. |

@@ -35,6 +35,8 @@ are quoted as she wrote them; Claude (Claude Code) kept this record. The README 
 - [Large 4 with the method and a neutral alert](#large-4-with-the-method-and-a-neutral-alert-nov-11)
 
 **Nov 15, reruns and direct questions**
+- [Where the checks of Nov 15 came from](#where-the-checks-of-nov-15-came-from-her-observations-in-her-words)
+- [Asking Large 4 to define the four patterns it did not name](#asking-large-4-to-define-the-four-patterns-it-did-not-name-nov-15-written-before-the-run)
 
 - [Claude Opus 5.5, three reruns](#claude-opus-55-three-reruns-nov-15-written-before-the-runs)
 - [Asking the models directly about laundering patterns](#asking-the-models-directly-about-laundering-patterns-nov-15-written-before-the-run)
@@ -444,3 +446,50 @@ Figure 2 of the dataset's paper (Altman et al., 2023, arXiv:2306.16424). Its sec
 from: "In their AMLSim generator, Suzumura and Kanezashi introduced a set of 8 patterns often used in money
 laundering." So the eight, as a set and with these names, come from that line of work; fan-in, fan-out and cycle
 are also general terms.
+
+## Where the checks of Nov 15 came from (her observations, in her words)
+
+Each check run on Nov 15 started from something she noticed or questioned. Her words, as she wrote them.
+
+- **The vocabulary.** Reading the answers: "I noticed claude mentions terms like "fan-out" and the patterns I saw
+  while reading wikipedia and the article when I first started this case, large 4 mentions different terms like
+  "layering" and something else?" This led to the count of terms per run, then to asking the models directly.
+- **Not jumping to "Claude has seen the data".** On Claude's use of the pattern names: "that is a bold claim, we
+  have seen these terms outside of IBM's dataset". The check that followed separated the three general terms from
+  the four particular to the dataset's literature.
+- **Method is not knowledge.** When Claude wrote that giving Large 4 the method gave it the knowledge: "isn't it
+  giving it the reasoning? it still didn't name the laundering patterns (fan out, gather scatter, etc.)". And on
+  the cause as first written: "also the knowledge no? with today's finidngs?"
+- **The direct question.** "let's ask Large 4 directly to list laundering patterns in transaction networks then".
+- **Findings are not insights.** On a first list of results: "these are findings, good ones, not insights about
+  the models like the one about large giving emphasis to the framing or assumptions in the prompt". The section
+  of readings in the README comes from that distinction.
+- **Weakness, or a different approach.** On the readings: "I'd say some claims are about model "weakness" while
+  others are about different approach from claude, which I can't know if it's good in some other cases outside of
+  our benchmark". The readings are now split that way.
+- **The framing as evidence.** Her reading of Nov 14, "it treats what the request presupposes as evidence", was
+  tested on the saved reasoning: the alert is brought up while deciding on 11 of the 16 normal accounts, the
+  instruction on 11. Her words on seeing it: "the additional rows you found are very interesting and confirm my
+  instinct".
+- **The baseline rule.** ""paid 8 or more different accounts within 3 days" sounds a bit random". This led to
+  scoring the rule at other thresholds; it stays as it was, fixed before the runs.
+- **A run that stops.** While the reruns were going: "if we run out of tokens mid run, we lose everything". Runs
+  are now saved line by line and can be resumed.
+- **Still open, by her:** "but it could still be missing knowledge no? I don't know". The next entry tests it.
+
+## Asking Large 4 to define the four patterns it did not name (Nov 15, written before the run)
+
+Asked what laundering patterns can be seen in a network of transactions, Large 4 named fan-in, fan-out and cycles,
+and not scatter-gather, gather-scatter, bipartite or stack. Either it does not know those four, or it knows them
+and did not list them. The first question tested recall; this one tests recognition.
+**The questions** (`python probe.py definitions mistral-large-4`), one call each, temperature 0, no system message:
+"In money laundering through bank transactions, what is a scatter-gather pattern?", and the same for
+gather-scatter, bipartite and stack. A fifth question asks for a "hinge-loop" pattern, which does not exist: if
+Large 4 defines that one too, its other definitions show fluency, not knowledge.
+**What counts as a correct definition, fixed before the run,** from the dataset's paper (Altman et al., section
+3.2): scatter-gather, a fan-out from one account and a fan-in to another through the same intermediate accounts;
+gather-scatter, a fan-in and a fan-out at the same account; bipartite, funds moved from a set of input accounts to
+a set of output accounts; stack, a bipartite pattern with one more layer. AMLSim's own documentation gives the two
+compound patterns in the same shapes. An answer is correct if it describes that shape, whatever its wording.
+**Prediction (her words):** "I predict it defines them".
+

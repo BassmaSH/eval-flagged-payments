@@ -181,7 +181,7 @@ def print_repeats(runs: list[str]) -> None:
 
 def print_probe() -> None:
     """Prints which laundering terms each model names when asked directly, if probe.py was run."""
-    files = sorted((paths.RESULTS / "probe").glob("*.json"))
+    files = sorted(f for f in (paths.RESULTS / "probe").glob("*.json") if "+" not in f.name)
     if not files:
         return
     print("## Asked directly: which patterns does each model name?\n")
