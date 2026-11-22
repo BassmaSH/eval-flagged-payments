@@ -37,7 +37,7 @@ if TYPE_CHECKING:  # for the type hint only: importing system needs mistralai
 from runner import exit_code, format_table, load_golden, run_case, summarize  # noqa: E402
 
 import checkpoint  # noqa: E402
-from aml_graders import grade  # noqa: E402
+from aml_graders import GRADER_NAMES, grade  # noqa: E402
 from paths import GOLDEN, RESULTS, ROOT, VARIANTS_DIR  # noqa: E402
 
 # Every variant that was run: its name on the command line -> what it changes in the call.
@@ -202,7 +202,9 @@ def main(argv: list[str]) -> int:
 
         answer_case = ModelSystem(model, **variant_settings(variant))
 
-    results = run_and_save(load_golden(GOLDEN), answer_case, run_name)
+    # evals-kit refuses a golden line whose grader it does not know: this eval adds two of its own
+    cases = load_golden(GOLDEN, grader_names=GRADER_NAMES)
+    results = run_and_save(cases, answer_case, run_name)
     print(f"## {run_name}\n")
     print(format_table(summarize(results)))
 

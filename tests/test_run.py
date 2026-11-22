@@ -95,6 +95,22 @@ def test_the_table_only_uses_settings_the_system_accepts():
     assert accepted == set(inspect.signature(ModelSystem.__init__).parameters) - {"self", "model"}
 
 
+def test_the_golden_file_loads_with_this_evals_grader_names():
+    """evals-kit checks grader names before a run: this eval's two must be accepted."""
+    from runner import load_golden
+
+    from aml_graders import GRADER_NAMES
+    from paths import GOLDEN
+
+    assert len(load_golden(GOLDEN, grader_names=GRADER_NAMES)) == 64
+    assert {"decision", "rows", "exact"} <= GRADER_NAMES
+    try:
+        load_golden(GOLDEN)  # the kit's own five only: "decision" is unknown to it
+    except ValueError:
+        return
+    raise AssertionError("the kit alone should refuse this eval's grader names")
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     print(f"testing run.py: {len(tests)} checks")
