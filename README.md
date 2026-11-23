@@ -127,7 +127,7 @@ The full list, with costs, is in [the report](docs/REPORT.md#4-limits).
 
 ```bash
 python report.py                        # the tables above, rebuilt from results/, no API call
-pytest -q                               # 51 checks, no API call (pip install pytest)
+pytest -q                               # 52 checks, no API call (pip install pytest)
 python run.py rule                      # the rule baseline, no API call, standard library only
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
 export MISTRAL_API_KEY=...              # and ANTHROPIC_API_KEY for a Claude model
@@ -145,7 +145,7 @@ case); the runs of Nov 8 to 12 were made before that. `benchmark/golden.jsonl` h
 `benchmark/keys/`. `src/aml_graders.py` does the scoring. The runner in `src/evals_kit/` is a copy of
 [evals-kit](https://github.com/BassmaSH/evals-kit).
 
-**Is the scoring itself right?** 51 tests, 21 of them on the two scoring rules; and `report.py` grades every saved
+**Is the scoring itself right?** 52 tests, 21 of them on the two scoring rules; and `report.py` grades every saved
 answer again before printing a table, so the numbers above follow from the answers and the scoring code as they are
 in the repo today. Conventions for changing the code are in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
@@ -165,7 +165,7 @@ CDLA-Sharing-1.0. Everything is simulated, no real person or real bank. The raw 
 | `src/` | what the commands are made of: the model under test and its prompt (`system.py`, `variants/`), the rule baseline, the two scoring rules (`aml_graders.py`), the statistics, and the runner, a copy of evals-kit |
 | `results/` | every saved answer, and the saved reasoning of the two method runs |
 | `prep/` | rebuilds the data and the cases |
-| `tests/` | 51 checks, no API call |
+| `tests/` | 52 checks, no API call |
 | `docs/` | the full report, the notebook, and the models' answers account by account |
 
 ### How this was built

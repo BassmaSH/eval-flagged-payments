@@ -13,9 +13,8 @@ name raises. The output is the model's text, which JSON mode makes a JSON object
 import json
 import re
 
-from graders import (
-    grade as kit_grade,
-)  # evals-kit's five: exact, contains_all, contains_none, numeric, abstains
+from graders import GRADERS as KIT_GRADERS  # evals-kit's five
+from graders import grade as kit_grade
 
 Verdict = tuple[bool, str]  # (passed, the reason)
 
@@ -81,6 +80,8 @@ def grade_rows(answer: dict, expected: dict) -> Verdict:
 
 
 GRADERS = {"decision": grade_decision, "rows": grade_rows}
+# Every grader name a golden line may use: this eval's two and evals-kit's five.
+GRADER_NAMES = frozenset(GRADERS) | frozenset(KIT_GRADERS)
 
 
 def grade(output: str, expected: dict) -> Verdict:
